@@ -1,4 +1,5 @@
 .dmux/
+.omx/
 .DS_Store
 CLAUDE.md
 AGENTS.md
