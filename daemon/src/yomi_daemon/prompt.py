@@ -315,16 +315,10 @@ def _situation_summary(request: DecisionRequest) -> str:
             f"Ground-only attacks are unavailable. Use aerial moves or wait to land."
         )
 
-    # Hit prediction against opponent's CURRENT position.
-    # Both players act simultaneously, so "would hit" means "would connect if
-    # the opponent stays where they are right now" — not a guarantee.
+    # Range guidance with h_reach awareness
     range_guidance = _range_guidance(request, h_distance)
     if range_guidance:
         lines.append(range_guidance)
-        lines.append(
-            "  *(Hit predictions assume opponent stays at current position. "
-            "They may move, block, or dodge.)*"
-        )
 
     if repetition_warning:
         lines.append(repetition_warning)
@@ -332,41 +326,15 @@ def _situation_summary(request: DecisionRequest) -> str:
 
 
 def _range_guidance(request: DecisionRequest, h_distance: float) -> str:
-    """Generate hit prediction for each attack based on hitbox vs opponent's current position.
-
-    Computes whether each attack's hitbox would overlap the opponent's hurtbox
-    IF the opponent stays at their current position. This is a simultaneous-turn
-    game, so this is informational — not a guarantee the move will connect.
-    """
+    """Generate a compact note about which attacks can/cannot reach the opponent."""
     character = _resolve_active_character(request)
     catalog = _load_move_catalog()
     universal = cast(JsonObject, catalog.get("_universal", {}))
     char_moves = cast(JsonObject, catalog.get(character, {})) if character else {}
 
-    obs = request.observation
-    fighters = obs.fighters
-    if len(fighters) < 2:
-        return ""
-
-    me = next((f for f in fighters if f.id == request.player_id), fighters[0])
-    opp = next((f for f in fighters if f.id != request.player_id), fighters[1])
-
-    # Opponent's hurtbox AABB (from BaseChar.tscn defaults: y=-16, w=14, h=16)
-    # This gives an AABB from (opp_x - 14, opp_y - 32) to (opp_x + 14, opp_y + 0)
-    _HURTBOX_HALF_W = 14
-    _HURTBOX_Y_OFFSET = -16
-    _HURTBOX_HALF_H = 16
-
-    opp_hurtbox_x1 = opp.position.x - _HURTBOX_HALF_W
-    opp_hurtbox_x2 = opp.position.x + _HURTBOX_HALF_W
-    opp_hurtbox_y1 = opp.position.y + _HURTBOX_Y_OFFSET - _HURTBOX_HALF_H  # top (most negative)
-    opp_hurtbox_y2 = opp.position.y + _HURTBOX_Y_OFFSET + _HURTBOX_HALF_H  # bottom
-
-    # Determine if we're facing right or left toward the opponent
-    facing_sign = 1 if opp.position.x >= me.position.x else -1
-
-    would_hit: list[str] = []
-    would_miss: list[str] = []
+    # Collect h_reach data for legal actions
+    in_range: list[str] = []
+    out_of_range: list[str] = []
     for action in request.legal_actions:
         entry = cast(
             JsonObject,
@@ -380,80 +348,31 @@ def _range_guidance(request: DecisionRequest, h_distance: float) -> str:
         cat = entry.get("category", "")
         if cat in ("defense", "movement", "utility"):
             continue
-
         label = action.label or action.action
-        h_range_min = entry.get("h_range_min", 0)
-        if not isinstance(h_range_min, int | float):
-            h_range_min = 0
-        v_range = entry.get("v_range")
-        hitstun = entry.get("hitstun_ticks")
-
-        # Compute hitbox AABB in world space
-        # Horizontal: hitbox extends from (my_x + h_range_min * facing) to (my_x + h_reach * facing)
-        if facing_sign > 0:
-            hit_x1 = me.position.x + h_range_min
-            hit_x2 = me.position.x + h_reach
+        if h_reach >= h_distance:
+            in_range.append(f"{label}(~{int(h_reach)})")
         else:
-            hit_x1 = me.position.x - h_reach
-            hit_x2 = me.position.x - h_range_min
+            out_of_range.append(f"{label}(~{int(h_reach)})")
 
-        # Vertical: use v_range if available, otherwise assume full-height coverage
-        if isinstance(v_range, list) and len(v_range) == 2:
-            hit_y1 = me.position.y + v_range[0]  # top (most negative)
-            hit_y2 = me.position.y + v_range[1]  # bottom
-        else:
-            # No v_range data — assume it covers a generous vertical range
-            hit_y1 = me.position.y - 50
-            hit_y2 = me.position.y + 10
-
-        # AABB overlap check
-        h_overlaps = hit_x1 <= opp_hurtbox_x2 and hit_x2 >= opp_hurtbox_x1
-        v_overlaps = hit_y1 <= opp_hurtbox_y2 and hit_y2 >= opp_hurtbox_y1
-
-        # Target-type restriction check (hits_grounded/hits_aerial flags)
-        opp_is_airborne = abs(opp.position.y) > 30
-        target_ok = True
-        target_fail_reason = ""
-        if opp_is_airborne and entry.get("hits_aerial") is False:
-            target_ok = False
-            target_fail_reason = "can't hit airborne"
-        elif not opp_is_airborne and entry.get("hits_grounded") is False:
-            target_ok = False
-            target_fail_reason = "can't hit grounded"
-
-        # Build annotation string
-        hitstun_note = (
-            f", {int(hitstun)}t hitstun" if isinstance(hitstun, int | float) and hitstun > 0 else ""
-        )
-
-        if h_overlaps and v_overlaps and target_ok:
-            would_hit.append(f"{label}(reach {int(h_reach)}{hitstun_note})")
-        else:
-            miss_reason = ""
-            if not target_ok:
-                miss_reason = target_fail_reason
-            elif not h_overlaps:
-                miss_reason = "too far" if h_distance > h_reach else "deadzone"
-            elif not v_overlaps:
-                miss_reason = "wrong height"
-            would_miss.append(f"{label}({miss_reason})")
-
-    if not would_hit and not would_miss:
+    if not in_range and not out_of_range:
         return ""
 
+    # Find available movement options from the legal action set
     move_options = _available_movement_labels(request)
     move_hint = f" Use {', '.join(move_options)}." if move_options else ""
 
     parts: list[str] = []
-    if would_hit:
-        parts.append(f"**WOULD HIT at current position**: {', '.join(would_hit[:8])}")
-    if would_miss and h_distance > 100:
-        parts.append(f"Would miss: {', '.join(would_miss[:6])}.{move_hint}")
-    if not would_hit and would_miss:
+    if out_of_range and h_distance > 100:
         parts.append(
-            f"**NO attacks would hit at current position.** Close distance first.{move_hint}"
+            f"**OUT OF RANGE** at {int(h_distance)} units: {', '.join(out_of_range[:6])}. "
+            f"These will whiff — close distance first.{move_hint}"
         )
-
+    if in_range:
+        parts.append(f"In range: {', '.join(in_range[:8])}")
+    if not in_range and out_of_range:
+        parts.append(
+            f"**NO attacks in range.** You must use movement to close distance.{move_hint}"
+        )
     return "- " + " | ".join(parts) if parts else ""
 
 
@@ -869,34 +788,6 @@ def _legal_actions_payload(request: DecisionRequest) -> list[JsonObject]:
         )
         if total_damage is not None:
             entry["total_damage"] = total_damage
-        # For multi-hit moves, show the aggregate damage so the model
-        # doesn't undervalue moves like PistolWhip, 3Combo, Uppercut
-        multi_hit_dmg = (
-            catalog_entry.get("multi_hit_total_damage") if isinstance(catalog_entry, dict) else None
-        )
-        if multi_hit_dmg is not None:
-            entry["multi_hit_total_damage"] = multi_hit_dmg
-
-        # Hitbox enrichment: hitstun, deadzone, target restrictions
-        if isinstance(catalog_entry, dict):
-            hitstun = catalog_entry.get("hitstun_ticks")
-            if hitstun is not None:
-                entry["hitstun_ticks"] = hitstun
-            combo_hitstun = catalog_entry.get("combo_hitstun_ticks")
-            if combo_hitstun is not None:
-                entry["combo_hitstun_ticks"] = combo_hitstun
-            h_range_min = catalog_entry.get("h_range_min")
-            if isinstance(h_range_min, int | float) and h_range_min > 0:
-                entry["h_range_min"] = h_range_min
-            if catalog_entry.get("hits_grounded") is False:
-                entry["hits_grounded"] = False
-            if catalog_entry.get("hits_aerial") is False:
-                entry["hits_aerial"] = False
-            if catalog_entry.get("knockdown") is True:
-                entry["knockdown"] = True
-            plus_frames = catalog_entry.get("plus_frames")
-            if plus_frames is not None and plus_frames != 0:
-                entry["plus_frames"] = plus_frames
 
         # Only include non-trivial payload_specs (omit zero-range XY plots)
         if action.payload_spec and not _is_zero_range_payload(action.payload_spec):
