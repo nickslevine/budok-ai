@@ -44,6 +44,7 @@ BRIDGE_IP="192.168.139.3"
 ENV_FILE=".env"
 SKIP_MOD_PUSH=false
 DRY_RUN=false
+RUNS_ROOT=""
 
 # ─── Parse arguments ─────────────────────────────────────────────────────────
 
@@ -61,6 +62,10 @@ while [[ $# -gt 0 ]]; do
         --dry-run)         DRY_RUN=true; shift ;;
         --match-history)   EXTRA_DAEMON_ARGS+=("--match-history" "$2"); shift 2 ;;
         --match-history=*) EXTRA_DAEMON_ARGS+=("--match-history" "${1#*=}"); shift ;;
+        --runs-root)       EXTRA_DAEMON_ARGS+=("--runs-root" "$2"); RUNS_ROOT="$2"; shift 2 ;;
+        --runs-root=*)     EXTRA_DAEMON_ARGS+=("--runs-root" "${1#*=}"); RUNS_ROOT="${1#*=}"; shift ;;
+        --trace-seed)      EXTRA_DAEMON_ARGS+=("--trace-seed" "$2"); shift 2 ;;
+        --trace-seed=*)    EXTRA_DAEMON_ARGS+=("--trace-seed" "${1#*=}"); shift ;;
         -h|--help)         head -25 "$0" | tail -23; exit 0 ;;
         -*)                EXTRA_DAEMON_ARGS+=("$1"); shift ;;
         *)
@@ -357,8 +362,9 @@ while true; do
     fi
 
     # Look for a result.json in a run dir created AFTER this script started
+    POLL_DIR="${RUNS_ROOT:-runs}"
     LATEST_RUN=""
-    for d in $(ls -td runs/*/ 2>/dev/null); do
+    for d in $(ls -td "$POLL_DIR"/*/ 2>/dev/null); do
         dir_epoch=$(stat -f %m "$d" 2>/dev/null || stat -c %Y "$d" 2>/dev/null || echo 0)
         if [ "$dir_epoch" -ge "$MATCH_START_EPOCH" ]; then
             LATEST_RUN="$d"

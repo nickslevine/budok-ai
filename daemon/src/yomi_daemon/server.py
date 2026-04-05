@@ -9,6 +9,7 @@ import logging
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
 
 from websockets.asyncio.server import Server, ServerConnection, serve
@@ -76,12 +77,14 @@ class DaemonServer:
         auth_secret: str | None = None,
         replay_capture_config: ReplayCaptureConfig | None = None,
         match_history: dict[str, Any] | None = None,
+        runs_root: Path | None = None,
         logger: logging.Logger | None = None,
     ) -> None:
         self.host = host
         self.port = port
         self._runtime_config = runtime_config
         self._auth_secret = auth_secret
+        self._runs_root = runs_root
         self._replay_capture_config = replay_capture_config or ReplayCaptureConfig()
         self._match_history = match_history
         self.runtime_config = ServerRuntimeConfig(
@@ -273,6 +276,7 @@ class DaemonServer:
                         writer = MatchArtifactWriter.create(
                             match_id=match_id,
                             manifest=manifest.to_dict(),
+                            runs_root=self._runs_root,
                         )
                         self.logger.info(
                             "Match %s started for session %s, artifacts at %s",

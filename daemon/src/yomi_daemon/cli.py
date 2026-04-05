@@ -73,6 +73,12 @@ def build_argument_parser() -> argparse.ArgumentParser:
         default=None,
         help="JSON file with per-player match history for character selection context.",
     )
+    parser.add_argument(
+        "--runs-root",
+        type=Path,
+        default=None,
+        help="Override the directory where match artifacts are written (default: runs/).",
+    )
     return parser
 
 
@@ -129,6 +135,7 @@ async def _run_async(args: argparse.Namespace) -> int:
         auth_secret=runtime_config.transport.auth_secret,
         replay_capture_config=replay_capture_config,
         match_history=match_history,
+        runs_root=args.runs_root,
     )
     await server.start()
     try:
