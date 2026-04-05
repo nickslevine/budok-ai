@@ -58,7 +58,9 @@ fi
 
 RUNS_DIR="$REPO_ROOT/runs/rl_eval_$TAG"
 CONFIG_FILE="$REPO_ROOT/daemon/config/rl_eval_vs_gemini.json"
-TEMP_CONFIG=$(mktemp /tmp/rl_eval_XXXXXX.json)
+TEMP_CONFIG=$(mktemp /tmp/rl_eval_XXXXXXXX)
+mv "$TEMP_CONFIG" "${TEMP_CONFIG}.json"
+TEMP_CONFIG="${TEMP_CONFIG}.json"
 
 mkdir -p "$RUNS_DIR"
 
@@ -175,6 +177,27 @@ for run_dir in sorted(runs_dir.iterdir()):
         manifest = json.loads(manifest_file.read_text())
         opp_id = manifest.get('policy_mapping', {}).get('p2', '?')
 
+    # Collect fallback/malformed output counts from metrics
+    metrics_file = run_dir / 'metrics.json'
+    p1_fallbacks, p2_fallbacks = 0, 0
+    p1_decisions, p2_decisions = 0, 0
+    if decisions_file.exists():
+        for line in decisions_file.read_text().strip().split('\n'):
+            d = json.loads(line)
+            dp = d.get('decision_payload', {})
+            pid = dp.get('policy_id', '')
+            is_fallback = dp.get('fallback_reason') is not None
+            rp = d.get('request_payload', {})
+            player = rp.get('player_id', '')
+            if player == 'p1':
+                p1_decisions += 1
+                if is_fallback:
+                    p1_fallbacks += 1
+            elif player == 'p2':
+                p2_decisions += 1
+                if is_fallback:
+                    p2_fallbacks += 1
+
     results.append({
         'run_dir': str(run_dir.name),
         'opponent': opp_id,
@@ -185,6 +208,10 @@ for run_dir in sorted(runs_dir.iterdir()):
         'won': winner == 'p1',
         'turns': result.get('total_turns', 0),
         'end_reason': result.get('end_reason', '?'),
+        'p1_fallbacks': p1_fallbacks,
+        'p1_decisions': p1_decisions,
+        'p2_fallbacks': p2_fallbacks,
+        'p2_decisions': p2_decisions,
     })
 
 if not results:
@@ -212,6 +239,10 @@ for opp, games in sorted(by_opp.items()):
     avg_hp_diff = sum(g['hp_diff'] for g in games) / len(games)
     avg_turns = sum(g['turns'] for g in games) / len(games)
 
+    total_p1_fallbacks = sum(g['p1_fallbacks'] for g in games)
+    total_p1_decisions = sum(g['p1_decisions'] for g in games)
+    p1_fallback_rate = total_p1_fallbacks / total_p1_decisions if total_p1_decisions > 0 else 0
+
     summary['opponents'][opp] = {
         'games': len(games),
         'wins': wins,
@@ -220,6 +251,9 @@ for opp, games in sorted(by_opp.items()):
         'win_rate': wins / len(games),
         'avg_hp_diff': round(avg_hp_diff, 1),
         'avg_turns': round(avg_turns, 1),
+        'total_p1_fallbacks': total_p1_fallbacks,
+        'total_p1_decisions': total_p1_decisions,
+        'p1_fallback_rate': round(p1_fallback_rate, 3),
     }
 
 # Write JSON results
@@ -240,8 +274,10 @@ for opp, games in sorted(by_opp.items()):
     print(f'  Win rate: {s[\"win_rate\"]*100:.0f}%')
     print(f'  Avg HP diff: {s[\"avg_hp_diff\"]:+.0f} (positive = our model ahead)')
     print(f'  Avg turns: {s[\"avg_turns\"]:.0f}')
+    print(f'  Fallbacks (malformed output): {s[\"total_p1_fallbacks\"]}/{s[\"total_p1_decisions\"]} ({s[\"p1_fallback_rate\"]*100:.1f}%)')
     print(f'  Per-game:')
     for g in games:
         marker = 'W' if g['won'] else ('L' if g['winner'] == 'p2' else 'D')
-        print(f'    [{marker}] HP: {g[\"p1_hp\"]:>4d} vs {g[\"p2_hp\"]:>4d} (diff {g[\"hp_diff\"]:+d}, {g[\"turns\"]} turns)')
+        fb = f' fb={g[\"p1_fallbacks\"]}' if g['p1_fallbacks'] > 0 else ''
+        print(f'    [{marker}] HP: {g[\"p1_hp\"]:>4d} vs {g[\"p2_hp\"]:>4d} (diff {g[\"hp_diff\"]:+d}, {g[\"turns\"]} turns{fb})')
 " "$RUNS_DIR" "$MODEL_ID"
