@@ -3,6 +3,12 @@
 Parses Godot .tscn scene files for each character, extracts Hitbox node properties
 (geometry, hitstun, damage, frame data), and maps them back to their parent move state.
 
+Also parses projectile .tscn files to capture hitbox data for moves whose damage
+comes from spawned projectiles rather than inline hitboxes.
+
+Extracts state-level data (anim_length, iasa_at, selectable) and filters
+non-selectable internal states from the output.
+
 The AABB for a CollisionBox is:
     x1 = (x - width) + pos_x
     x2 = (x + width) + pos_x
@@ -33,6 +39,136 @@ CHARACTER_TSCN_FILES: dict[str, str] = {
 }
 
 BASE_CHAR_TSCN = "characters/BaseChar.tscn"
+
+# ---------------------------------------------------------------------------
+# Projectile mapping: (character, move_state) -> list of projectile tscn paths
+# relative to DECOMPILE_ROOT. When a move spawns a projectile whose hitbox is
+# not in the character's main .tscn, we parse these files instead.
+# ---------------------------------------------------------------------------
+PROJECTILE_MOVE_MAP: dict[tuple[str, str], list[str]] = {
+    # ── Cowboy ──
+    ("Cowboy", "1000Cuts"): [
+        "characters/swordandgun/projectiles/1000cuts/1000Cuts.tscn",
+    ],
+    ("Cowboy", "1000CutsEnd"): [
+        "characters/swordandgun/projectiles/1000cuts/1000Cuts.tscn",
+    ],
+    ("Cowboy", "GunThrow"): [
+        "characters/swordandgun/projectiles/Gun.tscn",
+    ],
+    ("Cowboy", "Shoot2"): [
+        "characters/swordandgun/projectiles/NewBullet.tscn",
+    ],
+    ("Cowboy", "ShootDodge2"): [
+        "characters/swordandgun/projectiles/NewBullet.tscn",
+    ],
+    ("Cowboy", "PointBlank"): [
+        "characters/swordandgun/projectiles/NewBullet.tscn",
+    ],
+    ("Cowboy", "TimeBullet"): [
+        "characters/swordandgun/projectiles/frozen_bullet.tscn",
+        "characters/swordandgun/projectiles/NewTimeBullet.tscn",
+    ],
+    ("Cowboy", "TimeSplitter"): [
+        "characters/swordandgun/projectiles/frozen_bullet.tscn",
+        "characters/swordandgun/projectiles/NewTimeBullet.tscn",
+    ],
+    ("Cowboy", "Lasso"): [
+        "characters/swordandgun/projectiles/Lasso.tscn",
+    ],
+    ("Cowboy", "Foresight"): [
+        "characters/swordandgun/projectiles/AfterImageExplosion.tscn",
+    ],
+    ("Cowboy", "ForesightNeutral"): [
+        "characters/swordandgun/projectiles/AfterImageExplosion.tscn",
+    ],
+    # ── Robot ──
+    ("Robot", "Grenade"): [
+        "characters/robo/projectiles/RobotGrenade.tscn",
+        "characters/robo/projectiles/NadeExplosion.tscn",
+    ],
+    ("Robot", "Missile"): [
+        "characters/robo/projectiles/Missile.tscn",
+    ],
+    ("Robot", "LOIC"): [
+        "characters/robo/projectiles/orbital_strike.tscn",
+    ],
+    ("Robot", "Flamethrower"): [
+        "characters/robo/projectiles/GroundFire.tscn",
+    ],
+    ("Robot", "Flamethrower2"): [
+        "characters/robo/projectiles/GroundFireLoic.tscn",
+    ],
+    # ── Ninja ──
+    ("Ninja", "Fireball"): [
+        "characters/stickman/projectiles/StickmanFireball.tscn",
+    ],
+    ("Ninja", "AirFireball"): [
+        "characters/stickman/projectiles/StickmanAirFireball.tscn",
+    ],
+    ("Ninja", "GrapplingHook"): [
+        "characters/stickman/projectiles/grappling_hook.tscn",
+    ],
+    ("Ninja", "StickyBomb"): [
+        "characters/stickman/projectiles/StickyBomb.tscn",
+    ],
+    ("Ninja", "StickyBombThrow"): [
+        "characters/stickman/projectiles/StickyBomb.tscn",
+    ],
+    ("Ninja", "Caltrops"): [
+        "characters/stickman/projectiles/Caltrops.tscn",
+    ],
+    ("Ninja", "Summon"): [
+        "characters/stickman/projectiles/Stackriken.tscn",
+    ],
+    ("Ninja", "WhipWave"): [
+        "characters/stickman/projectiles/WhipWave.tscn",
+    ],
+    # ── Wizard ──
+    ("Wizard", "FlameWave"): [
+        "characters/wizard/projectiles/FlameWave.tscn",
+    ],
+    ("Wizard", "MagicMissile"): [
+        "characters/wizard/projectiles/MagicMissile.tscn",
+    ],
+    ("Wizard", "SparkBomb"): [
+        "characters/wizard/projectiles/SparkBomb.tscn",
+    ],
+    ("Wizard", "VileClutch"): [
+        "characters/wizard/projectiles/VileClutch.tscn",
+    ],
+    ("Wizard", "Geyser"): [
+        "characters/wizard/projectiles/GeyserProjectile.tscn",
+    ],
+    ("Wizard", "Orb"): [
+        "characters/wizard/projectiles/orb/Orb.tscn",
+    ],
+    ("Wizard", "OrbPush"): [
+        "characters/wizard/projectiles/OrbDart.tscn",
+    ],
+    ("Wizard", "Launch"): [
+        "characters/wizard/projectiles/telekinesis/TelekinesisBoulder.tscn",
+    ],
+    ("Wizard", "SuperLaunch"): [
+        "characters/wizard/projectiles/telekinesis/TelekinesisBoulder.tscn",
+    ],
+    ("Wizard", "Telekinesis"): [
+        "characters/wizard/projectiles/telekinesis/TelekinesisBoulder.tscn",
+    ],
+    # ── Mutant ──
+    ("Mutant", "CausticSpike"): [
+        "characters/mutant/projectiles/CausticSpike.tscn",
+    ],
+    ("Mutant", "CausticBarrage"): [
+        "characters/mutant/projectiles/CausticThorn.tscn",
+    ],
+    ("Mutant", "CausticBarrageAir"): [
+        "characters/mutant/projectiles/CausticThorn.tscn",
+    ],
+    ("Mutant", "Shockwave"): [
+        "characters/mutant/projectiles/Shockwave.tscn",
+    ],
+}
 
 # Default values from Hitbox.gd and CollisionBox.gd
 HITBOX_DEFAULTS: dict[str, int | str] = {
@@ -88,6 +224,15 @@ EXTRACT_PROPS = {
     "hitbox_type",
 }
 
+# State-level properties to extract from move state nodes
+STATE_PROPS = {
+    "anim_length",
+    "iasa_at",
+    "type",
+    "title",
+    "selectable",
+}
+
 HIT_HEIGHT_MAP = {0: "high", 1: "mid", 2: "low"}
 
 # Moves where the .gd state script programmatically repositions hitboxes at runtime.
@@ -100,8 +245,192 @@ PROGRAMMATIC_OVERRIDES: dict[tuple[str, str], dict] = {
     ("Wizard", "ManaStrike"): {
         "h_range_min": 18,
         "h_range_max": 132,
-        "note": "Slider-controlled range (30-120 center). Deadzone at close range (<18 units).",
     },
+    # TimeSplitter: 12 hitboxes at (0,0) in .tscn — positions set dynamically
+    # by .gd at runtime spread across the stage. Effective fullscreen.
+    ("Cowboy", "TimeSplitter"): {
+        "h_range_min": 0,
+        "h_range_max": 550,
+    },
+    # Shoot2/PointBlank: bullet hitbox is a travelling projectile.
+    # Point-blank has barrel offset ~25-40 units, bullet travels fullscreen.
+    ("Cowboy", "Shoot2"): {
+        "h_range_min": 0,
+        "h_range_max": 550,
+    },
+    ("Cowboy", "ShootDodge2"): {
+        "h_range_min": 0,
+        "h_range_max": 550,
+    },
+    ("Cowboy", "PointBlank"): {
+        "h_range_min": 0,
+        "h_range_max": 80,
+    },
+    # TimeBullet: frozen bullet tracks to opponent, then fires. Effective fullscreen.
+    ("Cowboy", "TimeBullet"): {
+        "h_range_min": 0,
+        "h_range_max": 550,
+    },
+    # Lasso: projectile travels forward with gravity. ~200 unit effective range.
+    ("Cowboy", "Lasso"): {
+        "h_range_min": 0,
+        "h_range_max": 200,
+    },
+    # GunThrow: thrown gun arcs forward. ~250 unit effective range.
+    ("Cowboy", "GunThrow"): {
+        "h_range_min": 0,
+        "h_range_max": 250,
+    },
+    # Foresight/ForesightNeutral: places marker at current position, explodes later.
+    # Effective range is where the marker was placed (25 unit explosion radius).
+    ("Cowboy", "Foresight"): {
+        "h_range_min": 0,
+        "h_range_max": 25,
+    },
+    ("Cowboy", "ForesightNeutral"): {
+        "h_range_min": 0,
+        "h_range_max": 25,
+    },
+    # Robot Missile: homing projectile, effective fullscreen.
+    ("Robot", "Missile"): {
+        "h_range_min": 0,
+        "h_range_max": 550,
+    },
+    # Robot Grenade: thrown arc + explosion radius ~42. ~300 effective range.
+    ("Robot", "Grenade"): {
+        "h_range_min": 0,
+        "h_range_max": 300,
+    },
+    # Robot LOIC: full-height column laser. Fullscreen.
+    ("Robot", "LOIC"): {
+        "h_range_min": 0,
+        "h_range_max": 550,
+    },
+    # Robot Flamethrower: ground fire, ~100 unit width from character.
+    ("Robot", "Flamethrower"): {
+        "h_range_min": 0,
+        "h_range_max": 100,
+    },
+    ("Robot", "Flamethrower2"): {
+        "h_range_min": 0,
+        "h_range_max": 100,
+    },
+    # Ninja Fireball: travels fullscreen.
+    ("Ninja", "Fireball"): {
+        "h_range_min": 0,
+        "h_range_max": 550,
+    },
+    ("Ninja", "AirFireball"): {
+        "h_range_min": 0,
+        "h_range_max": 550,
+    },
+    # Ninja GrapplingHook: travels with gravity. ~300 range.
+    ("Ninja", "GrapplingHook"): {
+        "h_range_min": 0,
+        "h_range_max": 300,
+    },
+    # Ninja StickyBomb: thrown arc. ~250 range.
+    ("Ninja", "StickyBomb"): {
+        "h_range_min": 0,
+        "h_range_max": 250,
+    },
+    ("Ninja", "StickyBombThrow"): {
+        "h_range_min": 0,
+        "h_range_max": 250,
+    },
+    # Ninja Caltrops: trap placed near character. ~50 range.
+    ("Ninja", "Caltrops"): {
+        "h_range_min": 0,
+        "h_range_max": 50,
+    },
+    # Ninja Summon: orb that orbits and fires kunai. ~110 range (orb radius).
+    ("Ninja", "Summon"): {
+        "h_range_min": 0,
+        "h_range_max": 110,
+    },
+    # Wizard MagicMissile: homing dart, fullscreen.
+    ("Wizard", "MagicMissile"): {
+        "h_range_min": 0,
+        "h_range_max": 550,
+    },
+    # Wizard SparkBomb: placed trap. ~26 explosion radius.
+    ("Wizard", "SparkBomb"): {
+        "h_range_min": 0,
+        "h_range_max": 100,
+    },
+    # Wizard FlameWave: travels forward. ~200 range.
+    ("Wizard", "FlameWave"): {
+        "h_range_min": 0,
+        "h_range_max": 200,
+    },
+    # Wizard VileClutch: rising claw at set distance.
+    ("Wizard", "VileClutch"): {
+        "h_range_min": 0,
+        "h_range_max": 32,
+    },
+    # Wizard Geyser: ground eruption at medium range.
+    ("Wizard", "Geyser"): {
+        "h_range_min": 0,
+        "h_range_max": 150,
+    },
+    # Wizard Telekinesis/Launch/SuperLaunch: boulder, travels forward. ~300 range.
+    ("Wizard", "Telekinesis"): {
+        "h_range_min": 0,
+        "h_range_max": 300,
+    },
+    ("Wizard", "Launch"): {
+        "h_range_min": 0,
+        "h_range_max": 300,
+    },
+    ("Wizard", "SuperLaunch"): {
+        "h_range_min": 0,
+        "h_range_max": 300,
+    },
+    # Mutant CausticSpike: ground eruption spread.
+    ("Mutant", "CausticSpike"): {
+        "h_range_min": 0,
+        "h_range_max": 127,
+    },
+    # Mutant CausticBarrage: thorn projectile.
+    ("Mutant", "CausticBarrage"): {
+        "h_range_min": 0,
+        "h_range_max": 550,
+    },
+    ("Mutant", "CausticBarrageAir"): {
+        "h_range_min": 0,
+        "h_range_max": 550,
+    },
+    # Mutant Shockwave: ground wave, travels forward. ~300 range.
+    ("Mutant", "Shockwave"): {
+        "h_range_min": 0,
+        "h_range_max": 300,
+    },
+}
+
+# Moves that have no hitbox by design (stances, utility, movement, etc.)
+# but are in the catalog. We mark them explicitly so the prompt system knows
+# not to make range predictions for them.
+NO_HITBOX_MOVES: dict[tuple[str, str], str] = {
+    ("Cowboy", "Brandish"): "Quick Draw stance entry",
+    ("Cowboy", "QuickerDraw"): "Quick Draw follow-up stance",
+    ("Cowboy", "Holster"): "Exit Quick Draw stance",
+    ("Cowboy", "SlowHolster"): "Slow holster animation",
+    ("Cowboy", "GunReel"): "Pull thrown gun back (no damage)",
+    ("Cowboy", "FastTeleport"): "Teleport (invincible movement)",
+    ("Cowboy", "SpotDodge"): "Spot dodge (invincible)",
+    ("Cowboy", "LassoReel"): "Izuna Drop follow-up (grab, no hitbox)",
+    ("Robot", "DisableLoic"): "LOIC shutdown (no damage)",
+    ("Robot", "Magnetize"): "Magnetize pull (no damage hitbox)",
+    ("Robot", "Drive"): "Enter drive vehicle stance",
+    ("Ninja", "StoreMomentum"): "Store momentum resource",
+    ("Ninja", "BackSway"): "Backwards dodge",
+    ("Ninja", "Substitution"): "Counter/dodge",
+    ("Wizard", "OrbTeleport"): "Teleport to orb position",
+    ("Wizard", "OrbTether"): "Tether to orb (movement)",
+    ("Wizard", "Gust"): "Wind push (displacement, no damage)",
+    ("Mutant", "JukeCharge"): "Howl buff (no damage)",
+    ("Mutant", "WallTrick"): "Pounce to wall (no initial hitbox)",
+    ("Mutant", "BiteGrab"): "Envenom grab (grab, no hitbox)",
 }
 
 
@@ -112,6 +441,18 @@ class HitboxData:
     node_name: str
     move_state: str
     props: dict[str, int | float | str | bool] = field(default_factory=dict)
+
+
+@dataclass
+class StateData:
+    """State-level data extracted from a move state node."""
+
+    state_name: str
+    anim_length: int | None = None
+    iasa_at: int | None = None
+    move_type: int | None = None  # 1=normal, 2=special, 3=super, 4=dodge
+    title: str | None = None
+    selectable: bool = True  # defaults to true if not specified
 
 
 @dataclass
@@ -145,8 +486,17 @@ class MoveHitboxSummary:
     knockdown: bool
     # Frame advantage on block
     plus_frames: int
+    # State-level data
+    anim_length: int | None = None
+    iasa_at: int | None = None
+    move_type: int | None = None
+    title: str | None = None
+    selectable: bool = True
+    # Source of hitbox data
+    source: str = "character"  # "character", "projectile", "override", "no_hitbox"
+    source_note: str | None = None
     # Raw hitbox list for detailed inspection
-    hitboxes: list[dict]
+    hitboxes: list[dict] = field(default_factory=list)
 
 
 def parse_tscn_nodes(tscn_path: Path) -> list[dict]:
@@ -215,6 +565,45 @@ def _parse_value(raw: str) -> int | float | str | bool:
     return raw
 
 
+def extract_state_data_from_tscn(tscn_path: Path) -> dict[str, StateData]:
+    """Extract state-level data (anim_length, iasa_at, etc.) from move state nodes."""
+    nodes = parse_tscn_nodes(tscn_path)
+    states: dict[str, StateData] = {}
+
+    for node in nodes:
+        parent = node.get("_parent", "")
+        name = node.get("_name", "")
+
+        # State nodes are direct children of StateMachine
+        if parent != "StateMachine":
+            continue
+
+        sd = StateData(state_name=name)
+        if "anim_length" in node:
+            val = node["anim_length"]
+            if isinstance(val, int):
+                sd.anim_length = val
+        if "iasa_at" in node:
+            val = node["iasa_at"]
+            if isinstance(val, int):
+                sd.iasa_at = val
+        if "type" in node:
+            val = node["type"]
+            if isinstance(val, int):
+                sd.move_type = val
+        if "title" in node:
+            val = node["title"]
+            if isinstance(val, str):
+                sd.title = val
+        if "selectable" in node:
+            sd.selectable = bool(node["selectable"])
+        # default is true if not specified
+
+        states[name] = sd
+
+    return states
+
+
 def extract_hitboxes_from_tscn(tscn_path: Path) -> dict[str, list[HitboxData]]:
     """Extract hitbox data grouped by move state from a .tscn file.
 
@@ -268,6 +657,55 @@ def extract_hitboxes_from_tscn(tscn_path: Path) -> dict[str, list[HitboxData]]:
         move_hitboxes.setdefault(move_state, []).append(hb)
 
     return move_hitboxes
+
+
+def extract_hitboxes_from_projectile(tscn_path: Path) -> list[HitboxData]:
+    """Extract hitbox data from a projectile .tscn file.
+
+    Projectile files have a different structure: hitboxes can be at root level
+    or under state nodes (e.g., StateMachine/Default/Hitbox, or just Hitbox).
+    We collect all hitbox nodes regardless of parent path.
+    """
+    if not tscn_path.exists():
+        return []
+
+    nodes = parse_tscn_nodes(tscn_path)
+    hitboxes: list[HitboxData] = []
+
+    for node in nodes:
+        name = node.get("_name", "")
+
+        is_hitbox = (
+            "Hitbox" in name
+            or "damage" in node
+            or "hitstun_ticks" in node
+        )
+        is_excluded = any(
+            excl in name
+            for excl in ("ThrowBox", "WindBox", "HurtboxState", "CollisionBox")
+        )
+
+        if not is_hitbox or is_excluded:
+            continue
+
+        # Skip detect-type hitboxes
+        if node.get("hitbox_type") == 6:
+            continue
+
+        props: dict[str, int | float | str | bool] = {}
+        for key in EXTRACT_PROPS:
+            if key in node:
+                props[key] = node[key]
+            elif key in HITBOX_DEFAULTS:
+                props[key] = HITBOX_DEFAULTS[key]
+
+        hitboxes.append(HitboxData(
+            node_name=name,
+            move_state="projectile",
+            props=props,
+        ))
+
+    return hitboxes
 
 
 def summarize_move_hitboxes(
@@ -450,9 +888,18 @@ def extract_all_characters() -> dict[str, dict[str, MoveHitboxSummary]]:
     base_path = DECOMPILE_ROOT / BASE_CHAR_TSCN
     if base_path.exists():
         move_hitboxes = extract_hitboxes_from_tscn(base_path)
+        state_data = extract_state_data_from_tscn(base_path)
         summaries = {}
         for move_state, hitboxes in move_hitboxes.items():
-            summaries[move_state] = summarize_move_hitboxes(move_state, hitboxes)
+            summary = summarize_move_hitboxes(move_state, hitboxes)
+            sd = state_data.get(move_state)
+            if sd:
+                summary.anim_length = sd.anim_length
+                summary.iasa_at = sd.iasa_at
+                summary.move_type = sd.move_type
+                summary.title = sd.title
+                summary.selectable = sd.selectable
+            summaries[move_state] = summary
         result["_universal"] = summaries
 
     # Per-character moves
@@ -461,17 +908,101 @@ def extract_all_characters() -> dict[str, dict[str, MoveHitboxSummary]]:
         if not tscn_path.exists():
             print(f"WARNING: {tscn_path} not found, skipping {char_name}")
             continue
+
         move_hitboxes = extract_hitboxes_from_tscn(tscn_path)
+        state_data = extract_state_data_from_tscn(tscn_path)
         summaries = {}
+
+        # 1. Process character .tscn hitboxes
         for move_state, hitboxes in move_hitboxes.items():
             summary = summarize_move_hitboxes(move_state, hitboxes)
-            # Apply programmatic overrides from .gd state scripts
-            override = PROGRAMMATIC_OVERRIDES.get((char_name, move_state))
-            if override:
-                for key, val in override.items():
-                    if hasattr(summary, key):
-                        setattr(summary, key, val)
+            summary.source = "character"
+            sd = state_data.get(move_state)
+            if sd:
+                summary.anim_length = sd.anim_length
+                summary.iasa_at = sd.iasa_at
+                summary.move_type = sd.move_type
+                summary.title = sd.title
+                summary.selectable = sd.selectable
             summaries[move_state] = summary
+
+        # 2. Process projectile hitboxes for moves that spawn projectiles
+        for (proj_char, proj_move), proj_paths in PROJECTILE_MOVE_MAP.items():
+            if proj_char != char_name:
+                continue
+            if proj_move in summaries and summaries[proj_move].damage > 0:
+                # Already has hitbox data from character .tscn — keep it,
+                # but merge projectile data if it has higher damage/range
+                continue
+
+            all_proj_hitboxes: list[HitboxData] = []
+            for proj_rel in proj_paths:
+                proj_path = DECOMPILE_ROOT / proj_rel
+                all_proj_hitboxes.extend(extract_hitboxes_from_projectile(proj_path))
+
+            if all_proj_hitboxes:
+                summary = summarize_move_hitboxes(proj_move, all_proj_hitboxes)
+                summary.source = "projectile"
+                sd = state_data.get(proj_move)
+                if sd:
+                    summary.anim_length = sd.anim_length
+                    summary.iasa_at = sd.iasa_at
+                    summary.move_type = sd.move_type
+                    summary.title = sd.title
+                    summary.selectable = sd.selectable
+                summaries[proj_move] = summary
+
+        # 3. Add stub entries for known no-hitbox moves with state data
+        for (nh_char, nh_move), reason in NO_HITBOX_MOVES.items():
+            if nh_char != char_name:
+                continue
+            if nh_move in summaries:
+                continue
+            sd = state_data.get(nh_move)
+            summary = MoveHitboxSummary(
+                move_state=nh_move,
+                h_range_min=0,
+                h_range_max=0,
+                v_top=0,
+                v_bottom=0,
+                hit_height="none",
+                hits_aerial=False,
+                hits_grounded=False,
+                startup_ticks=0,
+                active_ticks=0,
+                total_active_ticks=0,
+                damage=0,
+                total_damage=0,
+                hitstun_ticks=0,
+                combo_hitstun_ticks=0,
+                knockback=0.0,
+                knockdown=False,
+                plus_frames=0,
+                hitboxes=[],
+                source="no_hitbox",
+                source_note=reason,
+            )
+            if sd:
+                summary.anim_length = sd.anim_length
+                summary.iasa_at = sd.iasa_at
+                summary.move_type = sd.move_type
+                summary.title = sd.title
+                summary.selectable = sd.selectable
+            summaries[nh_move] = summary
+
+        # 4. Apply programmatic overrides for dynamically-positioned hitboxes
+        for (ov_char, ov_move), override in PROGRAMMATIC_OVERRIDES.items():
+            if ov_char != char_name:
+                continue
+            if ov_move not in summaries:
+                continue
+            s = summaries[ov_move]
+            for key, val in override.items():
+                if hasattr(s, key):
+                    setattr(s, key, val)
+            if s.source == "character":
+                s.source = "override"
+
         result[char_name] = summaries
 
     return result
@@ -479,13 +1010,17 @@ def extract_all_characters() -> dict[str, dict[str, MoveHitboxSummary]]:
 
 def summaries_to_json(
     all_data: dict[str, dict[str, MoveHitboxSummary]],
+    *,
+    include_non_selectable: bool = False,
 ) -> dict:
     """Convert extraction results to a JSON-serializable dict."""
     output: dict = {}
     for char_name, moves in all_data.items():
         char_dict: dict = {}
         for move_name, summary in sorted(moves.items()):
-            char_dict[move_name] = {
+            if not include_non_selectable and not summary.selectable:
+                continue
+            entry: dict = {
                 "h_range_min": summary.h_range_min,
                 "h_range_max": summary.h_range_max,
                 "v_top": summary.v_top,
@@ -502,8 +1037,20 @@ def summaries_to_json(
                 "knockback": summary.knockback,
                 "knockdown": summary.knockdown,
                 "plus_frames": summary.plus_frames,
+                "source": summary.source,
                 "hitboxes": summary.hitboxes,
             }
+            if summary.anim_length is not None:
+                entry["anim_length"] = summary.anim_length
+            if summary.iasa_at is not None:
+                entry["iasa_at"] = summary.iasa_at
+            if summary.move_type is not None:
+                entry["move_type"] = summary.move_type
+            if summary.title is not None:
+                entry["title"] = summary.title
+            if summary.source_note:
+                entry["source_note"] = summary.source_note
+            char_dict[move_name] = entry
         output[char_name] = char_dict
     return output
 
@@ -526,15 +1073,18 @@ def enrich_move_catalog(
         char_catalog = catalog[char_name]
 
         for move_name, summary in moves.items():
+            # Skip non-selectable states
+            if not summary.selectable:
+                continue
+
             if move_name not in char_catalog:
                 missing_in_catalog.append(f"{char_name}/{move_name}")
                 continue
 
             entry = char_catalog[move_name]
 
-            # Update h_reach — but only if extracted value is LARGER than existing.
-            # Projectile moves (FlameWave, Shoot, etc.) have manually-set h_reach
-            # that reflects the projectile's travel distance, not the local hitbox.
+            # Update h_reach — use the larger of existing or extracted.
+            # Programmatic overrides already set correct h_range_max for projectiles.
             existing_h_reach = entry.get("h_reach")
             if summary.h_range_max > 0:
                 if existing_h_reach is None or summary.h_range_max > existing_h_reach:
@@ -552,7 +1102,6 @@ def enrich_move_catalog(
             if not summary.hits_grounded:
                 entry["hits_grounded"] = False
             elif "hits_grounded" in entry and entry["hits_grounded"] is False:
-                # Previously marked false but now true — remove the restriction
                 del entry["hits_grounded"]
 
             if not summary.hits_aerial:
@@ -565,6 +1114,12 @@ def enrich_move_catalog(
                 entry["startup_ticks"] = summary.startup_ticks
             if summary.active_ticks > 0:
                 entry["active_ticks"] = summary.active_ticks
+
+            # State-level frame data
+            if summary.anim_length is not None:
+                entry["anim_length"] = summary.anim_length
+            if summary.iasa_at is not None:
+                entry["iasa_at"] = summary.iasa_at
 
             # Damage
             if summary.damage > 0:
@@ -607,18 +1162,33 @@ def main() -> None:
 
     # Print summary
     for char_name, moves in all_data.items():
-        print(f"\n{'=' * 60}")
-        print(f"  {char_name}: {len(moves)} moves with hitboxes")
-        print(f"{'=' * 60}")
+        selectable_count = sum(1 for s in moves.values() if s.selectable)
+        non_selectable_count = sum(1 for s in moves.values() if not s.selectable)
+        proj_count = sum(1 for s in moves.values() if s.source == "projectile")
+        override_count = sum(1 for s in moves.values() if s.source == "override")
+        no_hitbox_count = sum(1 for s in moves.values() if s.source == "no_hitbox")
+
+        print(f"\n{'=' * 72}")
+        print(
+            f"  {char_name}: {selectable_count} selectable moves "
+            f"({non_selectable_count} non-selectable filtered)"
+        )
+        print(
+            f"  Sources: {selectable_count - proj_count - override_count - no_hitbox_count} character, "
+            f"{proj_count} projectile, {override_count} override, {no_hitbox_count} no_hitbox"
+        )
+        print(f"{'=' * 72}")
         for move_name, summary in sorted(moves.items()):
+            if not summary.selectable:
+                continue
             hb_count = len(summary.hitboxes)
             aerial = "aerial" if summary.hits_aerial else ""
             grounded = "grounded" if summary.hits_grounded else ""
             targets = "+".join(filter(None, [aerial, grounded])) or "none"
+            src = f"[{summary.source[:4]}]"
             print(
-                f"  {move_name:30s} | "
+                f"  {move_name:30s} {src:6s} | "
                 f"h_range: {summary.h_range_min:3d}-{summary.h_range_max:3d} | "
-                f"v: {summary.v_top:4d} to {summary.v_bottom:3d} | "
                 f"startup: {summary.startup_ticks:2d} | "
                 f"dmg: {summary.damage:3d} | "
                 f"hitstun: {summary.hitstun_ticks:2d} | "
@@ -626,11 +1196,11 @@ def main() -> None:
                 f"hitboxes: {hb_count}"
             )
 
-    # Write JSON output
+    # Write JSON output (selectable moves only)
     output_path = (
         Path(__file__).resolve().parent.parent / "prompts" / "hitbox_data.json"
     )
-    json_data = summaries_to_json(all_data)
+    json_data = summaries_to_json(all_data, include_non_selectable=False)
     output_path.write_text(json.dumps(json_data, indent=2) + "\n")
     print(f"\nWrote extracted hitbox data to {output_path}")
 

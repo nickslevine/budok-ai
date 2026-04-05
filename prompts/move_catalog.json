@@ -21,7 +21,8 @@
       "beats": "attacks, creates space",
       "weakness": "costs meter, loses to grabs",
       "hits_grounded": false,
-      "hits_aerial": false
+      "hits_aerial": false,
+      "anim_length": 20
     },
     "Roll": {
       "category": "defense",
@@ -50,7 +51,8 @@
       ],
       "startup_ticks": 2,
       "active_ticks": 1,
-      "hitstun_ticks": 23
+      "hitstun_ticks": 23,
+      "anim_length": 25
     },
     "OffensiveBurst": {
       "category": "offense",
@@ -65,7 +67,9 @@
       ],
       "startup_ticks": 1,
       "active_ticks": 1,
-      "hitstun_ticks": 24
+      "hitstun_ticks": 24,
+      "anim_length": 25,
+      "iasa_at": 15
     },
     "Grab": {
       "category": "grab",
@@ -212,7 +216,9 @@
         -18
       ],
       "multi_hit_total_damage": 200,
-      "hitstun_ticks": 13
+      "hitstun_ticks": 13,
+      "anim_length": 20,
+      "iasa_at": 15
     },
     "VSlash": {
       "category": "offense",
@@ -232,7 +238,9 @@
       "total_damage": 115,
       "h_range_min": 6,
       "hitstun_ticks": 34,
-      "plus_frames": 3
+      "plus_frames": 3,
+      "anim_length": 30,
+      "iasa_at": 18
     },
     "UpwardSwipe": {
       "category": "offense",
@@ -252,7 +260,9 @@
       "total_damage": 70,
       "h_range_min": 1,
       "hitstun_ticks": 29,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 32,
+      "iasa_at": 22
     },
     "UpwardSwipeAir": {
       "category": "offense",
@@ -270,7 +280,9 @@
       "total_damage": 70,
       "h_range_min": 1,
       "hitstun_ticks": 22,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 32,
+      "iasa_at": 22
     },
     "Stinger": {
       "category": "offense",
@@ -289,7 +301,9 @@
         -17
       ],
       "hitstun_ticks": 35,
-      "knockdown": true
+      "knockdown": true,
+      "anim_length": 30,
+      "iasa_at": 20
     },
     "DownwardCleave": {
       "category": "offense",
@@ -308,7 +322,8 @@
       ],
       "hitstun_ticks": 11,
       "knockdown": true,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 20
     },
     "DownwardCleaveGround": {
       "category": "offense",
@@ -327,7 +342,8 @@
       ],
       "hitstun_ticks": 8,
       "knockdown": true,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 20
     },
     "VAirSlash": {
       "category": "offense",
@@ -345,7 +361,8 @@
       "total_damage": 70,
       "h_range_min": 1,
       "hitstun_ticks": 14,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 18
     },
     "HAirSlash": {
       "category": "offense",
@@ -363,7 +380,8 @@
       "total_damage": 90,
       "h_range_min": 12,
       "hitstun_ticks": 17,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 19
     },
     "PistolWhip": {
       "category": "offense",
@@ -384,7 +402,8 @@
       "multi_hit_total_damage": 640,
       "hitstun_ticks": 22,
       "knockdown": true,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 24
     },
     "PistolWhipGround": {
       "category": "offense",
@@ -403,7 +422,8 @@
       "multi_hit_total_damage": 640,
       "hitstun_ticks": 22,
       "knockdown": true,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 18
     },
     "PistolWhipCombo": {
       "category": "offense",
@@ -422,7 +442,8 @@
       "multi_hit_total_damage": 640,
       "hitstun_ticks": 22,
       "knockdown": true,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 22
     },
     "AnkleCutter": {
       "category": "offense",
@@ -442,7 +463,8 @@
         -6
       ],
       "hitstun_ticks": 14,
-      "knockdown": true
+      "knockdown": true,
+      "anim_length": 18
     },
     "Pommel": {
       "category": "offense",
@@ -462,7 +484,8 @@
       "total_damage": 40,
       "h_range_min": 2,
       "hitstun_ticks": 12,
-      "plus_frames": -1
+      "plus_frames": -1,
+      "anim_length": 14
     },
     "Lasso": {
       "category": "grab",
@@ -472,7 +495,17 @@
       "range": "long",
       "beats": "blocking opponents at range",
       "weakness": "loses to attacks (can be hit during throw), slow",
-      "h_reach": 250
+      "h_reach": 250,
+      "v_range": [
+        -5,
+        5
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "anim_length": 45,
+      "iasa_at": 20,
+      "hitstun_ticks": 30,
+      "plus_frames": 1
     },
     "LassoPull": {
       "category": "grab",
@@ -488,7 +521,8 @@
       "active_ticks": 1,
       "total_damage": 70,
       "hitstun_ticks": 30,
-      "knockdown": true
+      "knockdown": true,
+      "anim_length": 20
     },
     "LassoReel": {
       "category": "grab",
@@ -496,7 +530,9 @@
       "speed": "fast",
       "damage": "high",
       "range": "long",
-      "h_reach": 250
+      "h_reach": 250,
+      "hits_grounded": false,
+      "hits_aerial": false
     },
     "IzunaDrop": {
       "category": "grab",
@@ -535,7 +571,8 @@
       "total_damage": 160,
       "multi_hit_total_damage": 520,
       "hitstun_ticks": 28,
-      "plus_frames": 3
+      "plus_frames": 3,
+      "anim_length": 38
     },
     "3ComboDown": {
       "category": "offense",
@@ -553,7 +590,8 @@
       "total_damage": 160,
       "multi_hit_total_damage": 520,
       "hitstun_ticks": 28,
-      "plus_frames": 3
+      "plus_frames": 3,
+      "anim_length": 38
     },
     "LightningSlice": {
       "category": "offense",
@@ -576,7 +614,9 @@
       "hitstun_ticks": 7,
       "combo_hitstun_ticks": 17,
       "knockdown": true,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 38,
+      "iasa_at": 21
     },
     "LightningSliceNeutral": {
       "category": "offense",
@@ -599,7 +639,9 @@
       "hitstun_ticks": 12,
       "combo_hitstun_ticks": 16,
       "knockdown": true,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 38,
+      "iasa_at": 21
     },
     "LightningSliceCancel": {
       "category": "offense",
@@ -620,7 +662,9 @@
       "h_range_min": 108,
       "hitstun_ticks": 7,
       "knockdown": true,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 38,
+      "iasa_at": 16
     },
     "BackSlash": {
       "category": "offense",
@@ -640,7 +684,8 @@
       "total_damage": 130,
       "multi_hit_total_damage": 240,
       "hitstun_ticks": 33,
-      "knockdown": true
+      "knockdown": true,
+      "anim_length": 35
     },
     "Impale": {
       "category": "grab",
@@ -661,7 +706,8 @@
       ],
       "multi_hit_total_damage": 300,
       "hitstun_ticks": 30,
-      "knockdown": true
+      "knockdown": true,
+      "anim_length": 45
     },
     "ImpaleTeleport": {
       "category": "offense",
@@ -680,7 +726,8 @@
       ],
       "hitstun_ticks": 30,
       "knockdown": true,
-      "plus_frames": -4
+      "plus_frames": -4,
+      "anim_length": 41
     },
     "GunThrow": {
       "category": "special",
@@ -689,14 +736,27 @@
       "damage": "medium",
       "range": "long",
       "weakness": "loses gun access, need GunReel to recover",
-      "h_reach": 400
+      "h_reach": 400,
+      "v_range": [
+        -7,
+        7
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "anim_length": 16,
+      "total_damage": 80,
+      "hitstun_ticks": 35,
+      "knockdown": true
     },
     "GunReel": {
       "category": "special",
       "description": "Pull thrown gun back with lasso.",
       "speed": "medium",
       "range": "long",
-      "h_reach": 250
+      "h_reach": 250,
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 14
     },
     "Shoot2": {
       "category": "offense",
@@ -706,7 +766,7 @@
       "range": "fullscreen",
       "beats": "opponents at any range",
       "weakness": "limited bullets, requires Brandish stance first",
-      "h_reach": 500,
+      "h_reach": 550,
       "startup_ticks": 4,
       "active_ticks": 1,
       "total_damage": 130,
@@ -714,7 +774,8 @@
         -5,
         5
       ],
-      "hitstun_ticks": 25
+      "hitstun_ticks": 25,
+      "anim_length": 10
     },
     "ShootDodge2": {
       "category": "offense",
@@ -724,7 +785,7 @@
       "range": "fullscreen",
       "beats": "attacks while also shooting",
       "weakness": "limited bullets, requires Brandish stance first",
-      "h_reach": 500,
+      "h_reach": 550,
       "startup_ticks": 4,
       "active_ticks": 1,
       "total_damage": 130,
@@ -732,7 +793,8 @@
         -5,
         5
       ],
-      "hitstun_ticks": 25
+      "hitstun_ticks": 25,
+      "anim_length": 10
     },
     "PointBlank": {
       "category": "offense",
@@ -742,7 +804,7 @@
       "range": "short",
       "beats": "close opponents, massive damage",
       "weakness": "very short range, requires Brandish stance first, costs bullet",
-      "h_reach": 10,
+      "h_reach": 80,
       "startup_ticks": 4,
       "active_ticks": 5,
       "total_damage": 140,
@@ -751,7 +813,8 @@
         10
       ],
       "hitstun_ticks": 25,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 12
     },
     "Brandish": {
       "category": "special",
@@ -764,7 +827,10 @@
         "PistolWhip"
       ],
       "beats": "sets up powerful gun options",
-      "weakness": "costs a turn to set up, does no damage itself"
+      "weakness": "costs a turn to set up, does no damage itself",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 12
     },
     "QuickerDraw": {
       "category": "special",
@@ -775,19 +841,44 @@
         "ShootDodge2",
         "PointBlank",
         "PistolWhip"
-      ]
+      ],
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 5
     },
     "Foresight": {
       "category": "special",
       "description": "Place temporal afterimage marker. Can teleport back to it later.",
       "speed": "fast",
       "beats": "creates escape option / mixup potential",
-      "weakness": "does no damage, costs a turn to set up"
+      "weakness": "does no damage, costs a turn to set up",
+      "h_reach": 25,
+      "v_range": [
+        -25,
+        25
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 1,
+      "anim_length": 7,
+      "total_damage": 80,
+      "hitstun_ticks": 8,
+      "knockdown": true
     },
     "ForesightNeutral": {
       "category": "special",
       "description": "Neutral Foresight placement.",
-      "speed": "fast"
+      "speed": "fast",
+      "h_reach": 25,
+      "v_range": [
+        -25,
+        25
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 1,
+      "anim_length": 14,
+      "total_damage": 80,
+      "hitstun_ticks": 8,
+      "knockdown": true
     },
     "1000Cuts": {
       "category": "super",
@@ -795,7 +886,19 @@
       "speed": "medium",
       "damage": "medium",
       "beats": "buffs your next attacks significantly",
-      "weakness": "costs meter, vulnerable during activation"
+      "weakness": "costs meter, vulnerable during activation",
+      "h_reach": 51,
+      "v_range": [
+        -22,
+        15
+      ],
+      "startup_ticks": 2,
+      "active_ticks": 18,
+      "anim_length": 13,
+      "total_damage": 50,
+      "multi_hit_total_damage": 150,
+      "hitstun_ticks": 14,
+      "plus_frames": 1
     },
     "TimeSplitter": {
       "category": "super",
@@ -804,7 +907,7 @@
       "damage": "very high",
       "beats": "massive damage if it connects",
       "weakness": "costs meter, punishable if blocked or whiffed",
-      "h_reach": 80,
+      "h_reach": 550,
       "v_range": [
         -20,
         20
@@ -814,7 +917,8 @@
       "multi_hit_total_damage": 2400,
       "hitstun_ticks": 50,
       "knockdown": true,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 76
     },
     "1000CutsEnd": {
       "category": "super",
@@ -832,7 +936,8 @@
       ],
       "hitstun_ticks": 25,
       "knockdown": true,
-      "plus_frames": -2
+      "plus_frames": -2,
+      "anim_length": 20
     },
     "FastTeleport": {
       "category": "super",
@@ -840,7 +945,11 @@
       "speed": "instant",
       "range": "long",
       "beats": "escapes pressure, repositions instantly",
-      "weakness": "costs meter, does no damage"
+      "weakness": "costs meter, does no damage",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 20,
+      "iasa_at": 9
     },
     "TimeBullet": {
       "category": "super",
@@ -848,14 +957,29 @@
       "speed": "medium",
       "damage": "medium",
       "range": "fullscreen",
-      "h_reach": 500
+      "h_reach": 550,
+      "v_range": [
+        -5000,
+        5000
+      ],
+      "active_ticks": 6,
+      "anim_length": 13,
+      "total_damage": 120,
+      "multi_hit_total_damage": 430,
+      "hitstun_ticks": 18,
+      "knockdown": true,
+      "plus_frames": 2
     },
     "SpotDodge": {
       "category": "defense",
       "description": "Spot Dodge \u2014 quick stationary dodge, fast recovery.",
       "speed": "fast",
       "beats": "avoids attacks without moving, fast recovery allows punish",
-      "weakness": "loses to grabs, loses to delayed attacks"
+      "weakness": "loses to grabs, loses to delayed attacks",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 30,
+      "iasa_at": 9
     },
     "Guntrick": {
       "category": "defense",
@@ -874,17 +998,24 @@
       "total_damage": 20,
       "h_range_min": 17,
       "hitstun_ticks": 34,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 61
     },
     "Holster": {
       "category": "special",
       "description": "Holster gun \u2014 exit Quick Draw stance.",
-      "speed": "medium"
+      "speed": "medium",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 4
     },
     "SlowHolster": {
       "category": "special",
       "description": "Slow holster.",
-      "speed": "slow"
+      "speed": "slow",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 13
     }
   },
   "Ninja": {
@@ -906,7 +1037,8 @@
         -15
       ],
       "hitstun_ticks": 23,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 19
     },
     "NunChukHeavy": {
       "category": "offense",
@@ -927,7 +1059,8 @@
       "h_range_min": 6,
       "multi_hit_total_damage": 85,
       "hitstun_ticks": 23,
-      "plus_frames": 3
+      "plus_frames": 3,
+      "anim_length": 16
     },
     "NunChukJump": {
       "category": "offense",
@@ -962,7 +1095,8 @@
       "total_damage": 70,
       "multi_hit_total_damage": 140,
       "hitstun_ticks": 23,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 40
     },
     "GroundedPunch": {
       "category": "offense",
@@ -981,7 +1115,8 @@
       "active_ticks": 2,
       "total_damage": 35,
       "h_range_min": 1,
-      "hitstun_ticks": 12
+      "hitstun_ticks": 12,
+      "anim_length": 14
     },
     "GroundedKick": {
       "category": "offense",
@@ -999,7 +1134,8 @@
         -14,
         0
       ],
-      "hitstun_ticks": 20
+      "hitstun_ticks": 20,
+      "anim_length": 18
     },
     "GroundedSweep": {
       "category": "offense",
@@ -1019,7 +1155,8 @@
         0
       ],
       "hitstun_ticks": 30,
-      "knockdown": true
+      "knockdown": true,
+      "anim_length": 29
     },
     "DropKick": {
       "category": "offense",
@@ -1076,7 +1213,8 @@
       "active_ticks": 5,
       "total_damage": 76,
       "hitstun_ticks": 18,
-      "plus_frames": 3
+      "plus_frames": 3,
+      "anim_length": 25
     },
     "AirUpwardPunch": {
       "category": "offense",
@@ -1096,7 +1234,8 @@
       "total_damage": 40,
       "h_range_min": 5,
       "hitstun_ticks": 20,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 16
     },
     "AirAttack": {
       "category": "offense",
@@ -1115,7 +1254,8 @@
       ],
       "hitstun_ticks": 20,
       "knockdown": true,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 22
     },
     "SlideKick": {
       "category": "offense",
@@ -1135,7 +1275,8 @@
       ],
       "hitstun_ticks": 17,
       "knockdown": true,
-      "plus_frames": -3
+      "plus_frames": -3,
+      "anim_length": 17
     },
     "SlideKickAir": {
       "category": "offense",
@@ -1152,7 +1293,8 @@
         0
       ],
       "hitstun_ticks": 17,
-      "knockdown": true
+      "knockdown": true,
+      "anim_length": 17
     },
     "Stomp": {
       "category": "offense",
@@ -1173,7 +1315,9 @@
         0
       ],
       "hits_aerial": false,
-      "hitstun_ticks": 31
+      "hitstun_ticks": 31,
+      "anim_length": 51,
+      "iasa_at": 22
     },
     "PalmStrike": {
       "category": "offense",
@@ -1192,7 +1336,8 @@
         -16
       ],
       "hitstun_ticks": 26,
-      "plus_frames": 4
+      "plus_frames": 4,
+      "anim_length": 29
     },
     "Fireball": {
       "category": "special",
@@ -1202,7 +1347,17 @@
       "range": "fullscreen",
       "beats": "safe chip at range, controls space",
       "weakness": "low damage, can be jumped over",
-      "h_reach": 500
+      "h_reach": 550,
+      "v_range": [
+        -6,
+        6
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "anim_length": 13,
+      "total_damage": 60,
+      "hitstun_ticks": 11,
+      "plus_frames": 2
     },
     "AirFireball": {
       "category": "special",
@@ -1210,7 +1365,14 @@
       "speed": "fast",
       "damage": "low",
       "range": "fullscreen",
-      "h_reach": 500
+      "h_reach": 550,
+      "v_range": [
+        -20,
+        20
+      ],
+      "active_ticks": 5,
+      "anim_length": 11,
+      "hitstun_ticks": 30
     },
     "GrapplingHook": {
       "category": "special",
@@ -1219,7 +1381,16 @@
       "range": "long",
       "beats": "repositions, closes distance from afar",
       "weakness": "does no damage, vulnerable during animation",
-      "h_reach": 200
+      "h_reach": 300,
+      "v_range": [
+        -4,
+        4
+      ],
+      "active_ticks": 5,
+      "anim_length": 14,
+      "total_damage": 20,
+      "hitstun_ticks": 14,
+      "combo_hitstun_ticks": 5
     },
     "Uppercut": {
       "category": "offense",
@@ -1239,7 +1410,8 @@
       "total_damage": 120,
       "multi_hit_total_damage": 180,
       "hitstun_ticks": 48,
-      "knockdown": true
+      "knockdown": true,
+      "anim_length": 90
     },
     "UppercutAir": {
       "category": "offense",
@@ -1257,7 +1429,8 @@
       "total_damage": 150,
       "multi_hit_total_damage": 240,
       "hitstun_ticks": 48,
-      "knockdown": true
+      "knockdown": true,
+      "anim_length": 90
     },
     "JumpKick": {
       "category": "offense",
@@ -1286,7 +1459,16 @@
       "range": "medium",
       "beats": "area denial, detonates for damage later",
       "weakness": "delayed payoff, costs a turn to place",
-      "h_reach": 100
+      "h_reach": 250,
+      "v_range": [
+        -16,
+        16
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 2,
+      "total_damage": 100,
+      "multi_hit_total_damage": 180,
+      "hitstun_ticks": 24
     },
     "StickyBombThrow": {
       "category": "special",
@@ -1294,7 +1476,17 @@
       "speed": "medium",
       "damage": "low",
       "range": "long",
-      "h_reach": 200
+      "h_reach": 250,
+      "v_range": [
+        -16,
+        16
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 2,
+      "anim_length": 45,
+      "total_damage": 100,
+      "multi_hit_total_damage": 180,
+      "hitstun_ticks": 24
     },
     "WhipWave": {
       "category": "special",
@@ -1315,7 +1507,8 @@
       ],
       "hitstun_ticks": 18,
       "knockdown": true,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 12
     },
     "HitGrab": {
       "category": "grab",
@@ -1333,7 +1526,8 @@
         -28,
         -8
       ],
-      "hitstun_ticks": 30
+      "hitstun_ticks": 30,
+      "anim_length": 26
     },
     "IzunaDrop": {
       "category": "grab",
@@ -1359,27 +1553,47 @@
       "description": "Substitution \u2014 ninja teleport escape. Instant invincibility.",
       "speed": "instant",
       "beats": "escapes any attack or combo",
-      "weakness": "limited uses, does no damage"
+      "weakness": "limited uses, does no damage",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 8
     },
     "BackSway": {
       "category": "defense",
       "description": "Backward sway dodge \u2014 avoids attacks while staying close.",
       "speed": "fast",
       "beats": "avoids close-range attacks",
-      "weakness": "loses to grabs, doesn't create much distance"
+      "weakness": "loses to grabs, doesn't create much distance",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 12
     },
     "Summon": {
       "category": "special",
       "description": "Summon kunai/additional projectile.",
       "speed": "medium",
-      "range": "medium"
+      "range": "medium",
+      "h_reach": 110,
+      "v_range": [
+        -16,
+        16
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "anim_length": 14,
+      "total_damage": 60,
+      "hitstun_ticks": 15,
+      "plus_frames": 1
     },
     "StoreMomentum": {
       "category": "super",
       "description": "Store current velocity for later release burst.",
       "speed": "fast",
       "beats": "stores speed for explosive later movement",
-      "weakness": "costs meter, no immediate effect"
+      "weakness": "costs meter, no immediate effect",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 13
     },
     "QuickSlash": {
       "category": "super",
@@ -1398,7 +1612,9 @@
       "active_ticks": 1,
       "total_damage": 120,
       "multi_hit_total_damage": 1440,
-      "hitstun_ticks": 20
+      "hitstun_ticks": 20,
+      "anim_length": 60,
+      "iasa_at": 20
     },
     "QuickSlashAir": {
       "category": "super",
@@ -1415,7 +1631,9 @@
       "active_ticks": 1,
       "total_damage": 110,
       "multi_hit_total_damage": 1320,
-      "hitstun_ticks": 20
+      "hitstun_ticks": 20,
+      "anim_length": 60,
+      "iasa_at": 20
     },
     "Caltrops": {
       "category": "super",
@@ -1424,7 +1642,17 @@
       "damage": "low",
       "range": "medium",
       "beats": "controls ground space",
-      "weakness": "low damage, costs meter"
+      "weakness": "low damage, costs meter",
+      "h_reach": 50,
+      "v_range": [
+        -7,
+        -1
+      ],
+      "startup_ticks": 10,
+      "active_ticks": 5,
+      "anim_length": 21,
+      "total_damage": 50,
+      "hitstun_ticks": 33
     }
   },
   "Robot": {
@@ -1447,7 +1675,9 @@
       "hitstun_ticks": 14,
       "combo_hitstun_ticks": 12,
       "knockdown": true,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 27,
+      "iasa_at": 14
     },
     "Punch": {
       "category": "offense",
@@ -1466,7 +1696,8 @@
         -19
       ],
       "multi_hit_total_damage": 165,
-      "hitstun_ticks": 30
+      "hitstun_ticks": 30,
+      "anim_length": 15
     },
     "EyeBeam": {
       "category": "offense",
@@ -1486,7 +1717,9 @@
       "total_damage": 80,
       "multi_hit_total_damage": 245,
       "hitstun_ticks": 30,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 24,
+      "iasa_at": 18
     },
     "EyeBeamAir": {
       "category": "offense",
@@ -1504,7 +1737,9 @@
       "total_damage": 80,
       "multi_hit_total_damage": 135,
       "hitstun_ticks": 23,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 31,
+      "iasa_at": 18
     },
     "SideKick": {
       "category": "offense",
@@ -1526,7 +1761,8 @@
       "multi_hit_total_damage": 190,
       "hitstun_ticks": 60,
       "knockdown": true,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 24
     },
     "SideKickAir": {
       "category": "offense",
@@ -1545,7 +1781,8 @@
       ],
       "hitstun_ticks": 60,
       "knockdown": true,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 24
     },
     "AirKick": {
       "category": "offense",
@@ -1564,7 +1801,9 @@
       "h_range_min": 15,
       "multi_hit_total_damage": 240,
       "hitstun_ticks": 20,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 34,
+      "iasa_at": 20
     },
     "SawBlade": {
       "category": "offense",
@@ -1586,7 +1825,9 @@
       "h_range_min": 7,
       "multi_hit_total_damage": 213,
       "hitstun_ticks": 20,
-      "plus_frames": 3
+      "plus_frames": 3,
+      "anim_length": 32,
+      "iasa_at": 26
     },
     "Blast": {
       "category": "offense",
@@ -1606,7 +1847,9 @@
       "total_damage": 70,
       "multi_hit_total_damage": 140,
       "hitstun_ticks": 20,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 32,
+      "iasa_at": 16
     },
     "Vacuum": {
       "category": "grab",
@@ -1626,7 +1869,8 @@
       ],
       "multi_hit_total_damage": 165,
       "hitstun_ticks": 19,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 24
     },
     "Plummet": {
       "category": "offense",
@@ -1645,7 +1889,8 @@
         4
       ],
       "hitstun_ticks": 18,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 40
     },
     "GroundPound": {
       "category": "offense",
@@ -1665,7 +1910,9 @@
       "total_damage": 80,
       "multi_hit_total_damage": 275,
       "hitstun_ticks": 24,
-      "knockdown": true
+      "knockdown": true,
+      "anim_length": 24,
+      "iasa_at": 23
     },
     "Lariat": {
       "category": "offense",
@@ -1684,7 +1931,9 @@
       "active_ticks": 12,
       "total_damage": 30,
       "multi_hit_total_damage": 60,
-      "hitstun_ticks": 26
+      "hitstun_ticks": 26,
+      "anim_length": 30,
+      "iasa_at": 19
     },
     "DriveJump": {
       "category": "offense",
@@ -1700,7 +1949,8 @@
       "active_ticks": 5,
       "total_damage": 50,
       "hitstun_ticks": 25,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 60
     },
     "DriveDrift": {
       "category": "offense",
@@ -1719,7 +1969,8 @@
       ],
       "hitstun_ticks": 30,
       "knockdown": true,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 20
     },
     "DriveWheelie": {
       "category": "offense",
@@ -1736,7 +1987,8 @@
       "total_damage": 80,
       "multi_hit_total_damage": 240,
       "hitstun_ticks": 14,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 24
     },
     "DriveWheelieGrab": {
       "category": "grab",
@@ -1763,7 +2015,8 @@
       "h_range_min": 6,
       "hitstun_ticks": 40,
       "knockdown": true,
-      "plus_frames": 3
+      "plus_frames": 3,
+      "anim_length": 24
     },
     "Flamethrower": {
       "category": "special",
@@ -1773,7 +2026,7 @@
       "range": "medium",
       "beats": "chips through block, multi-hit pressure",
       "weakness": "loses to invincible moves, predictable",
-      "h_reach": 37,
+      "h_reach": 100,
       "startup_ticks": 10,
       "active_ticks": 2,
       "total_damage": 50,
@@ -1783,7 +2036,8 @@
         0
       ],
       "hitstun_ticks": 25,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 16
     },
     "Chainsaw": {
       "category": "offense",
@@ -1804,7 +2058,8 @@
       ],
       "multi_hit_total_damage": 48,
       "hitstun_ticks": 12,
-      "plus_frames": 3
+      "plus_frames": 3,
+      "anim_length": 35
     },
     "CommandGrab": {
       "category": "grab",
@@ -1823,7 +2078,9 @@
       ],
       "startup_ticks": 6,
       "active_ticks": 8,
-      "hitstun_ticks": 30
+      "hitstun_ticks": 30,
+      "anim_length": 32,
+      "iasa_at": 20
     },
     "DisembowelHitGrab": {
       "category": "grab",
@@ -1840,7 +2097,9 @@
       ],
       "startup_ticks": 9,
       "active_ticks": 2,
-      "hitstun_ticks": 30
+      "hitstun_ticks": 30,
+      "anim_length": 39,
+      "iasa_at": 26
     },
     "DisembowelHitGrabNeutral": {
       "category": "grab",
@@ -1855,7 +2114,9 @@
       ],
       "startup_ticks": 9,
       "active_ticks": 2,
-      "hitstun_ticks": 30
+      "hitstun_ticks": 30,
+      "anim_length": 39,
+      "iasa_at": 26
     },
     "CornerCarryHitGrab": {
       "category": "grab",
@@ -1875,7 +2136,8 @@
       "h_range_min": 1,
       "hits_aerial": false,
       "hitstun_ticks": 30,
-      "plus_frames": -1
+      "plus_frames": -1,
+      "anim_length": 36
     },
     "CornerCarryHitGrabAir": {
       "category": "grab",
@@ -1892,7 +2154,8 @@
       "active_ticks": 13,
       "h_range_min": 1,
       "hitstun_ticks": 30,
-      "plus_frames": -1
+      "plus_frames": -1,
+      "anim_length": 36
     },
     "Grenade": {
       "category": "special",
@@ -1902,7 +2165,18 @@
       "range": "long",
       "beats": "area denial, detonates on command",
       "weakness": "delayed, can be avoided",
-      "h_reach": 250
+      "h_reach": 300,
+      "v_range": [
+        -42,
+        42
+      ],
+      "active_ticks": 7,
+      "anim_length": 13,
+      "total_damage": 120,
+      "multi_hit_total_damage": 400,
+      "hitstun_ticks": 14,
+      "knockdown": true,
+      "plus_frames": 3
     },
     "Magnetize": {
       "category": "special",
@@ -1910,7 +2184,10 @@
       "speed": "medium",
       "range": "medium",
       "beats": "pulls opponents in for grabs/attacks",
-      "weakness": "does no damage directly"
+      "weakness": "does no damage directly",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 16
     },
     "Drive": {
       "category": "special",
@@ -1924,7 +2201,11 @@
         "DriveBoost"
       ],
       "beats": "unlocks fast mobile attacks",
-      "weakness": "costs a turn to enter stance"
+      "weakness": "costs a turn to enter stance",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 20,
+      "iasa_at": 10
     },
     "OverflowGrab": {
       "category": "grab",
@@ -1941,7 +2222,8 @@
       "active_ticks": 2,
       "hits_aerial": false,
       "hitstun_ticks": 30,
-      "plus_frames": -1
+      "plus_frames": -1,
+      "anim_length": 23
     },
     "KillProcess": {
       "category": "super",
@@ -1958,7 +2240,8 @@
         -23
       ],
       "active_ticks": 5,
-      "hitstun_ticks": 30
+      "hitstun_ticks": 30,
+      "anim_length": 32
     },
     "Flamethrower2": {
       "category": "super",
@@ -1966,7 +2249,7 @@
       "speed": "medium",
       "damage": "medium",
       "range": "medium",
-      "h_reach": 37,
+      "h_reach": 100,
       "startup_ticks": 10,
       "active_ticks": 2,
       "total_damage": 50,
@@ -1976,7 +2259,8 @@
         0
       ],
       "hitstun_ticks": 25,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 20
     },
     "LOIC": {
       "category": "super",
@@ -1986,13 +2270,28 @@
       "range": "fullscreen",
       "beats": "unavoidable at certain timings, fullscreen damage",
       "weakness": "slow, costs meter, delay makes it readable",
-      "h_reach": 500,
-      "commitment": "high"
+      "h_reach": 550,
+      "commitment": "high",
+      "v_range": [
+        -400000,
+        0
+      ],
+      "startup_ticks": 2,
+      "active_ticks": 120,
+      "anim_length": 24,
+      "iasa_at": 12,
+      "total_damage": 215,
+      "hitstun_ticks": 30,
+      "knockdown": true,
+      "plus_frames": 2
     },
     "DisableLoic": {
       "category": "super",
       "description": "SHUTDOWN \u2014 cancel active LOIC.",
-      "speed": "instant"
+      "speed": "instant",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 13
     },
     "Missile": {
       "category": "super",
@@ -2002,7 +2301,16 @@
       "range": "fullscreen",
       "beats": "fullscreen damage, good at range",
       "weakness": "costs meter, can be dodged",
-      "h_reach": 500
+      "h_reach": 550,
+      "v_range": [
+        -4,
+        4
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "anim_length": 7,
+      "total_damage": 65,
+      "hitstun_ticks": 17
     },
     "DriveBoost": {
       "category": "super",
@@ -2018,7 +2326,8 @@
       "active_ticks": 10,
       "total_damage": 100,
       "multi_hit_total_damage": 200,
-      "hitstun_ticks": 20
+      "hitstun_ticks": 20,
+      "anim_length": 18
     }
   },
   "Wizard": {
@@ -2040,7 +2349,9 @@
         -16
       ],
       "hitstun_ticks": 17,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 12,
+      "iasa_at": 11
     },
     "Kick": {
       "category": "offense",
@@ -2059,7 +2370,9 @@
         -1
       ],
       "hitstun_ticks": 25,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 30,
+      "iasa_at": 24
     },
     "ManaStrike": {
       "category": "offense",
@@ -2068,7 +2381,7 @@
       "damage": "medium",
       "range": "medium",
       "beats": "mid-range opponents, good when opponent is between 18-132 units away",
-      "weakness": "deadzone at close range (<18 units) — whiffs at point blank, punishable on miss",
+      "weakness": "deadzone at close range (<18 units) \u2014 whiffs at point blank, punishable on miss",
       "h_reach": 132,
       "commitment": "high",
       "v_range": [
@@ -2080,7 +2393,9 @@
       "total_damage": 60,
       "h_range_min": 18,
       "hitstun_ticks": 25,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 26,
+      "iasa_at": 15
     },
     "BoltOfMagma": {
       "category": "offense",
@@ -2090,7 +2405,6 @@
       "range": "medium",
       "beats": "airborne opponents, opponents jumping or above you",
       "weakness": "whiffs against grounded opponents at most ranges, punishable on miss",
-      "hits_grounded": false,
       "h_reach": 75,
       "commitment": "medium",
       "v_range": [
@@ -2103,7 +2417,9 @@
       "h_range_min": 3,
       "multi_hit_total_damage": 280,
       "hitstun_ticks": 40,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 16,
+      "iasa_at": 12
     },
     "IceSpikeGround": {
       "category": "offense",
@@ -2122,7 +2438,9 @@
       "active_ticks": 3,
       "total_damage": 90,
       "h_range_min": 29,
-      "hitstun_ticks": 23
+      "hitstun_ticks": 23,
+      "anim_length": 26,
+      "iasa_at": 16
     },
     "IceSpikeAir": {
       "category": "offense",
@@ -2141,7 +2459,9 @@
       "h_range_min": 6,
       "multi_hit_total_damage": 180,
       "hitstun_ticks": 23,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 19,
+      "iasa_at": 14
     },
     "Combust": {
       "category": "offense",
@@ -2161,7 +2481,8 @@
       "total_damage": 100,
       "h_range_min": 22,
       "hitstun_ticks": 23,
-      "plus_frames": 3
+      "plus_frames": 3,
+      "anim_length": 20
     },
     "AirKick": {
       "category": "offense",
@@ -2179,7 +2500,8 @@
       "total_damage": 95,
       "multi_hit_total_damage": 135,
       "hitstun_ticks": 17,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 20
     },
     "ConjureWeapon": {
       "category": "offense",
@@ -2199,7 +2521,8 @@
         2
       ],
       "hitstun_ticks": 20,
-      "plus_frames": 3
+      "plus_frames": 3,
+      "anim_length": 22
     },
     "ConjureStorm": {
       "category": "offense",
@@ -2220,7 +2543,9 @@
       "total_damage": 90,
       "multi_hit_total_damage": 300,
       "hitstun_ticks": 30,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 30,
+      "iasa_at": 25
     },
     "ZephyrThrow": {
       "category": "grab",
@@ -2239,7 +2564,8 @@
       "active_ticks": 2,
       "total_damage": 140,
       "h_range_min": 44,
-      "hitstun_ticks": 30
+      "hitstun_ticks": 30,
+      "anim_length": 70
     },
     "FlameWave": {
       "category": "special",
@@ -2249,7 +2575,16 @@
       "range": "long",
       "beats": "zone control, safe at range",
       "weakness": "loses to jumping over, slow",
-      "h_reach": 250
+      "h_reach": 250,
+      "v_range": [
+        -20,
+        20
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "anim_length": 17,
+      "total_damage": 30,
+      "hitstun_ticks": 14
     },
     "Liftoff": {
       "category": "special",
@@ -2270,7 +2605,8 @@
       "multi_hit_total_damage": 205,
       "hitstun_ticks": 30,
       "knockdown": true,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 22
     },
     "MagicMissile": {
       "category": "special",
@@ -2280,7 +2616,17 @@
       "range": "fullscreen",
       "beats": "safe chip at any range, aimable",
       "weakness": "very low damage",
-      "h_reach": 500
+      "h_reach": 550,
+      "v_range": [
+        -6,
+        6
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "anim_length": 16,
+      "total_damage": 90,
+      "hitstun_ticks": 14,
+      "plus_frames": 1
     },
     "Sandstorm": {
       "category": "special",
@@ -2300,7 +2646,9 @@
       "total_damage": 70,
       "h_range_min": 5,
       "hits_aerial": false,
-      "hitstun_ticks": 20
+      "hitstun_ticks": 20,
+      "anim_length": 30,
+      "iasa_at": 20
     },
     "Gust": {
       "category": "special",
@@ -2309,7 +2657,11 @@
       "range": "medium",
       "beats": "pushes opponent away, creates space",
       "weakness": "does no damage",
-      "h_reach": 100
+      "h_reach": 100,
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 30,
+      "iasa_at": 17
     },
     "WindForce": {
       "category": "special",
@@ -2327,7 +2679,8 @@
       "total_damage": 20,
       "h_range_min": 24,
       "hitstun_ticks": 18,
-      "knockdown": true
+      "knockdown": true,
+      "anim_length": 35
     },
     "VileClutch": {
       "category": "grab",
@@ -2337,7 +2690,20 @@
       "range": "short",
       "beats": "catches blocking opponents quickly",
       "weakness": "short range, loses to attacks",
-      "h_reach": 40
+      "h_reach": 40,
+      "v_range": [
+        -64,
+        0
+      ],
+      "startup_ticks": 10,
+      "active_ticks": 12,
+      "anim_length": 18,
+      "iasa_at": 11,
+      "total_damage": 80,
+      "multi_hit_total_damage": 120,
+      "hitstun_ticks": 30,
+      "knockdown": true,
+      "plus_frames": 2
     },
     "ConfusingTouch": {
       "category": "special",
@@ -2355,7 +2721,8 @@
       ],
       "multi_hit_total_damage": 40,
       "hitstun_ticks": 30,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 24
     },
     "Geyser": {
       "category": "special",
@@ -2376,21 +2743,35 @@
       "total_damage": 170,
       "multi_hit_total_damage": 450,
       "hitstun_ticks": 18,
-      "plus_frames": 4
+      "plus_frames": 4,
+      "anim_length": 34,
+      "iasa_at": 22
     },
     "Orb": {
       "category": "super",
       "description": "Orb \u2014 create magic orb. Opens up many follow-up options (Launch, SparkBomb, Teleport). Costs meter.",
       "speed": "medium",
       "beats": "versatile setup tool",
-      "weakness": "costs meter, needs follow-up to be useful"
+      "weakness": "costs meter, needs follow-up to be useful",
+      "h_reach": 35,
+      "v_range": [
+        -35,
+        35
+      ],
+      "startup_ticks": 3,
+      "active_ticks": 12,
+      "anim_length": 11,
+      "total_damage": 60,
+      "multi_hit_total_damage": 170,
+      "hitstun_ticks": 18,
+      "plus_frames": 1
     },
     "Telekinesis": {
       "category": "super",
       "description": "Telekinesis \u2014 control orb position.",
       "speed": "medium",
       "damage": "medium",
-      "h_reach": 22,
+      "h_reach": 300,
       "startup_ticks": 5,
       "active_ticks": 2,
       "total_damage": 80,
@@ -2401,21 +2782,44 @@
       ],
       "hitstun_ticks": 18,
       "knockdown": true,
-      "plus_frames": -1
+      "plus_frames": -1,
+      "anim_length": 14
     },
     "Launch": {
       "category": "super",
       "description": "Launch orb forward \u2014 sends orb as projectile.",
       "speed": "fast",
       "range": "long",
-      "h_reach": 250
+      "h_reach": 300,
+      "v_range": [
+        -9,
+        9
+      ],
+      "active_ticks": 10,
+      "anim_length": 12,
+      "total_damage": 105,
+      "multi_hit_total_damage": 210,
+      "hitstun_ticks": 18,
+      "knockdown": true,
+      "plus_frames": 1
     },
     "SuperLaunch": {
       "category": "super",
       "description": "Redirect orb.",
       "speed": "fast",
       "range": "long",
-      "h_reach": 250
+      "h_reach": 300,
+      "v_range": [
+        -9,
+        9
+      ],
+      "active_ticks": 10,
+      "anim_length": 12,
+      "total_damage": 105,
+      "multi_hit_total_damage": 210,
+      "hitstun_ticks": 18,
+      "knockdown": true,
+      "plus_frames": 1
     },
     "SparkBomb": {
       "category": "super",
@@ -2425,18 +2829,43 @@
       "range": "medium",
       "beats": "high damage if orb is near opponent",
       "weakness": "requires orb positioned near opponent",
-      "h_reach": 100
+      "h_reach": 100,
+      "v_range": [
+        -26,
+        26
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 1,
+      "anim_length": 13,
+      "total_damage": 140,
+      "hitstun_ticks": 40,
+      "knockdown": true
     },
     "OrbPush": {
       "category": "super",
       "description": "Push orb away.",
       "speed": "fast",
-      "range": "medium"
+      "range": "medium",
+      "h_reach": 5,
+      "v_range": [
+        -5,
+        5
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "anim_length": 8,
+      "total_damage": 60,
+      "hitstun_ticks": 15,
+      "knockdown": true
     },
     "OrbTether": {
       "category": "super",
       "description": "Tether to orb \u2014 connect yourself to the orb.",
-      "speed": "fast"
+      "speed": "fast",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 40,
+      "iasa_at": 10
     },
     "OrbTeleport": {
       "category": "super",
@@ -2444,7 +2873,10 @@
       "speed": "instant",
       "range": "fullscreen",
       "beats": "instant repositioning to orb",
-      "weakness": "requires orb to be placed first"
+      "weakness": "requires orb to be placed first",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 10
     }
   },
   "Mutant": {
@@ -2465,7 +2897,8 @@
       "active_ticks": 3,
       "total_damage": 48,
       "multi_hit_total_damage": 128,
-      "hitstun_ticks": 30
+      "hitstun_ticks": 30,
+      "anim_length": 14
     },
     "Swipe2": {
       "category": "offense",
@@ -2484,7 +2917,8 @@
       "active_ticks": 3,
       "total_damage": 48,
       "multi_hit_total_damage": 128,
-      "hitstun_ticks": 30
+      "hitstun_ticks": 30,
+      "anim_length": 14
     },
     "SwipeDown": {
       "category": "offense",
@@ -2504,7 +2938,8 @@
         0
       ],
       "hitstun_ticks": 20,
-      "knockdown": true
+      "knockdown": true,
+      "anim_length": 17
     },
     "SwipeUp": {
       "category": "offense",
@@ -2523,7 +2958,8 @@
       "active_ticks": 3,
       "total_damage": 51,
       "multi_hit_total_damage": 102,
-      "hitstun_ticks": 30
+      "hitstun_ticks": 30,
+      "anim_length": 12
     },
     "Slash": {
       "category": "offense",
@@ -2543,7 +2979,8 @@
       "total_damage": 75,
       "h_range_min": 15,
       "hitstun_ticks": 13,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 18
     },
     "Kick": {
       "category": "offense",
@@ -2561,7 +2998,8 @@
       ],
       "hitstun_ticks": 22,
       "combo_hitstun_ticks": 18,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 24
     },
     "Sweep": {
       "category": "offense",
@@ -2582,7 +3020,8 @@
       ],
       "hitstun_ticks": 30,
       "knockdown": true,
-      "plus_frames": -3
+      "plus_frames": -3,
+      "anim_length": 25
     },
     "OverheadClaw": {
       "category": "offense",
@@ -2602,7 +3041,8 @@
       "total_damage": 100,
       "hitstun_ticks": 25,
       "knockdown": true,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 23
     },
     "GroundToAirSpin": {
       "category": "offense",
@@ -2623,7 +3063,8 @@
       "total_damage": 19,
       "multi_hit_total_damage": 171,
       "hitstun_ticks": 10,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 38
     },
     "AirSpin": {
       "category": "offense",
@@ -2641,7 +3082,8 @@
       "total_damage": 19,
       "multi_hit_total_damage": 114,
       "hitstun_ticks": 15,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 30
     },
     "AirSwipe": {
       "category": "offense",
@@ -2658,7 +3100,8 @@
         6
       ],
       "hitstun_ticks": 19,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 20
     },
     "AirKick": {
       "category": "offense",
@@ -2676,7 +3119,8 @@
       ],
       "hitstun_ticks": 22,
       "knockdown": true,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 15
     },
     "AcidSlashH": {
       "category": "special",
@@ -2696,7 +3140,8 @@
       ],
       "hitstun_ticks": 46,
       "combo_hitstun_ticks": 30,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 26
     },
     "AcidSlashJ": {
       "category": "special",
@@ -2716,7 +3161,8 @@
       "active_ticks": 7,
       "total_damage": 90,
       "multi_hit_total_damage": 450,
-      "hitstun_ticks": 30
+      "hitstun_ticks": 30,
+      "anim_length": 31
     },
     "AcidSlashV": {
       "category": "special",
@@ -2734,7 +3180,8 @@
       "total_damage": 87,
       "multi_hit_total_damage": 174,
       "hitstun_ticks": 17,
-      "plus_frames": 1
+      "plus_frames": 1,
+      "anim_length": 20
     },
     "CausticSpike": {
       "category": "special",
@@ -2744,7 +3191,19 @@
       "range": "long",
       "beats": "zoning at range",
       "weakness": "slow, can be jumped over",
-      "h_reach": 250
+      "h_reach": 250,
+      "v_range": [
+        -17,
+        17
+      ],
+      "startup_ticks": 21,
+      "active_ticks": 6,
+      "anim_length": 20,
+      "total_damage": 120,
+      "multi_hit_total_damage": 1080,
+      "hitstun_ticks": 21,
+      "combo_hitstun_ticks": 15,
+      "plus_frames": 2
     },
     "TwistAttack": {
       "category": "special",
@@ -2764,7 +3223,8 @@
       ],
       "multi_hit_total_damage": 34,
       "hitstun_ticks": 30,
-      "plus_frames": 2
+      "plus_frames": 2,
+      "anim_length": 40
     },
     "Shockwave": {
       "category": "offense",
@@ -2774,7 +3234,7 @@
       "range": "medium",
       "beats": "grounded opponents at range",
       "weakness": "loses to jumping",
-      "h_reach": 27,
+      "h_reach": 300,
       "v_range": [
         -38,
         6
@@ -2783,7 +3243,8 @@
       "active_ticks": 2,
       "total_damage": 70,
       "multi_hit_total_damage": 140,
-      "hitstun_ticks": 16
+      "hitstun_ticks": 16,
+      "anim_length": 22
     },
     "BiteGrab": {
       "category": "grab",
@@ -2794,7 +3255,10 @@
       "beats": "blocking opponents, poison DoT adds extra damage",
       "weakness": "very slow, loses to any attack",
       "h_reach": 40,
-      "commitment": "medium"
+      "commitment": "medium",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 30
     },
     "WallTrick": {
       "category": "special",
@@ -2804,7 +3268,10 @@
       "range": "long",
       "beats": "fast approach from range, multi-hit",
       "weakness": "requires wall nearby, punishable if read",
-      "h_reach": 200
+      "h_reach": 200,
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 9
     },
     "DashThroughAttack": {
       "category": "offense",
@@ -2823,7 +3290,8 @@
       "active_ticks": 4,
       "total_damage": 110,
       "multi_hit_total_damage": 220,
-      "hitstun_ticks": 30
+      "hitstun_ticks": 30,
+      "anim_length": 22
     },
     "ProjectileGrab": {
       "category": "special",
@@ -2837,7 +3305,8 @@
       "startup_ticks": 6,
       "active_ticks": 10,
       "hits_grounded": false,
-      "hits_aerial": false
+      "hits_aerial": false,
+      "anim_length": 40
     },
     "CausticBarrage": {
       "category": "super",
@@ -2847,7 +3316,17 @@
       "range": "long",
       "beats": "massive ranged damage",
       "weakness": "costs meter, dodgeable",
-      "h_reach": 250
+      "h_reach": 550,
+      "v_range": [
+        -3,
+        3
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "anim_length": 18,
+      "total_damage": 50,
+      "hitstun_ticks": 14,
+      "plus_frames": 2
     },
     "CausticBarrageAir": {
       "category": "super",
@@ -2855,14 +3334,27 @@
       "speed": "medium",
       "damage": "high",
       "range": "long",
-      "h_reach": 250
+      "h_reach": 550,
+      "v_range": [
+        -3,
+        3
+      ],
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "anim_length": 18,
+      "total_damage": 50,
+      "hitstun_ticks": 14,
+      "plus_frames": 2
     },
     "JukeCharge": {
       "category": "super",
       "description": "Howl \u2014 charges juke pips (defense resource). Costs meter.",
       "speed": "medium",
       "beats": "builds defense resource for dodges",
-      "weakness": "costs meter, does no damage"
+      "weakness": "costs meter, does no damage",
+      "hits_grounded": false,
+      "hits_aerial": false,
+      "anim_length": 45
     },
     "Rebirth": {
       "category": "super",
@@ -2882,7 +3374,8 @@
       "active_ticks": 3,
       "total_damage": 145,
       "hitstun_ticks": 20,
-      "plus_frames": -1
+      "plus_frames": -1,
+      "anim_length": 26
     }
   }
 }

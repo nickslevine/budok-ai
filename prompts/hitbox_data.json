@@ -17,6 +17,7 @@
       "knockback": 14.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -33,7 +34,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 25,
+      "move_type": 3
     },
     "DefensiveBurst": {
       "h_range_min": 0,
@@ -52,6 +55,7 @@
       "knockback": 14.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -68,7 +72,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 25,
+      "move_type": 3,
+      "title": "Burst"
     },
     "OffensiveBurst": {
       "h_range_min": 0,
@@ -87,6 +94,7 @@
       "knockback": 4.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -103,7 +111,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 25,
+      "iasa_at": 15,
+      "move_type": 3,
+      "title": "Burst Cancel"
     },
     "ParrySuper": {
       "h_range_min": 0,
@@ -122,7 +134,11 @@
       "knockback": 0.0,
       "knockdown": false,
       "plus_frames": 0,
-      "hitboxes": []
+      "source": "character",
+      "hitboxes": [],
+      "anim_length": 20,
+      "move_type": 4,
+      "title": "Push Block"
     }
   },
   "Wizard": {
@@ -143,6 +159,7 @@
       "knockback": 7.2,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox2",
@@ -174,7 +191,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 20,
+      "move_type": 1,
+      "title": "Mana Kick"
     },
     "BoltOfMagma": {
       "h_range_min": 3,
@@ -193,6 +213,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -254,7 +275,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 16,
+      "iasa_at": 12,
+      "move_type": 1,
+      "title": "Bolt of Magma"
     },
     "Combust": {
       "h_range_min": 22,
@@ -273,6 +298,7 @@
       "knockback": 8.0,
       "knockdown": false,
       "plus_frames": 3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -289,7 +315,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 20,
+      "move_type": 1,
+      "title": "Combustion"
     },
     "ConfusingTouch": {
       "h_range_min": 2,
@@ -308,6 +337,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -339,7 +369,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 24,
+      "move_type": 2,
+      "title": "Confusing Touch"
     },
     "ConfusingTouch2": {
       "h_range_min": 3,
@@ -358,6 +391,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -389,7 +423,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 24,
+      "move_type": 2,
+      "title": "Confusing Touch"
     },
     "ConjureStorm": {
       "h_range_min": 0,
@@ -408,6 +445,7 @@
       "knockback": 18.0,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -469,7 +507,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 30,
+      "iasa_at": 25,
+      "move_type": 1,
+      "title": "Conjure Storm"
     },
     "ConjureWeapon": {
       "h_range_min": 15,
@@ -488,6 +530,7 @@
       "knockback": 16.0,
       "knockdown": false,
       "plus_frames": 3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -504,11 +547,53 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 22,
+      "move_type": 1,
+      "title": "Conjure Weapon"
+    },
+    "FlameWave": {
+      "h_range_min": 0,
+      "h_range_max": 200,
+      "v_top": -20,
+      "v_bottom": 20,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "damage": 30,
+      "total_damage": 30,
+      "hitstun_ticks": 14,
+      "combo_hitstun_ticks": 14,
+      "knockback": 10.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": -6,
+          "y": 0,
+          "w": 26,
+          "h": 20,
+          "damage": 30,
+          "hitstun_ticks": 14,
+          "combo_hitstun_ticks": 14,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 17,
+      "move_type": 2,
+      "title": "Flame Wave"
     },
     "Geyser": {
       "h_range_min": 0,
-      "h_range_max": 18,
+      "h_range_max": 150,
       "v_top": -34,
       "v_bottom": 2,
       "hit_height": "mid",
@@ -523,6 +608,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 4,
+      "source": "override",
       "hitboxes": [
         {
           "name": "Hitbox1",
@@ -569,7 +655,34 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 34,
+      "iasa_at": 22,
+      "move_type": 2
+    },
+    "Gust": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 30,
+      "iasa_at": 17,
+      "move_type": 2,
+      "source_note": "Wind push (displacement, no damage)"
     },
     "IceSpikeAir": {
       "h_range_min": 6,
@@ -588,6 +701,7 @@
       "knockback": 7.5,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -619,7 +733,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 19,
+      "iasa_at": 14,
+      "move_type": 1,
+      "title": "Icicle"
     },
     "IceSpikeAir2": {
       "h_range_min": 6,
@@ -638,6 +756,7 @@
       "knockback": 7.5,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -669,7 +788,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 24,
+      "move_type": 1,
+      "title": "Icicle"
     },
     "IceSpikeGround": {
       "h_range_min": 29,
@@ -688,6 +810,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -704,7 +827,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 26,
+      "iasa_at": 16,
+      "move_type": 1,
+      "title": "Icicle"
     },
     "Kick": {
       "h_range_min": 0,
@@ -723,6 +850,7 @@
       "knockback": 7.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -739,7 +867,64 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 30,
+      "iasa_at": 24,
+      "move_type": 1,
+      "title": "Kick"
+    },
+    "Launch": {
+      "h_range_min": 0,
+      "h_range_max": 300,
+      "v_top": -9,
+      "v_bottom": 9,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": -1,
+      "active_ticks": 10,
+      "damage": 105,
+      "total_damage": 210,
+      "hitstun_ticks": 18,
+      "combo_hitstun_ticks": 18,
+      "knockback": 7.0,
+      "knockdown": true,
+      "plus_frames": 1,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 9,
+          "h": 9,
+          "damage": 105,
+          "hitstun_ticks": 18,
+          "combo_hitstun_ticks": 18,
+          "start_tick": 4,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 9,
+          "h": 9,
+          "damage": 105,
+          "hitstun_ticks": 18,
+          "combo_hitstun_ticks": 18,
+          "start_tick": -1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 12,
+      "move_type": 3
     },
     "Liftoff": {
       "h_range_min": 0,
@@ -758,6 +943,7 @@
       "knockback": 18.5,
       "knockdown": true,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -789,7 +975,49 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 22,
+      "move_type": 2,
+      "title": "Missile Form"
+    },
+    "MagicMissile": {
+      "h_range_min": 0,
+      "h_range_max": 550,
+      "v_top": -6,
+      "v_bottom": 6,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "damage": 90,
+      "total_damage": 90,
+      "hitstun_ticks": 14,
+      "combo_hitstun_ticks": 14,
+      "knockback": 3.0,
+      "knockdown": false,
+      "plus_frames": 1,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 6,
+          "h": 6,
+          "damage": 90,
+          "hitstun_ticks": 14,
+          "combo_hitstun_ticks": 14,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 16,
+      "move_type": 2,
+      "title": "Magic Dart"
     },
     "ManaStrike": {
       "h_range_min": 18,
@@ -808,6 +1036,7 @@
       "knockback": 12.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "override",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -824,7 +1053,167 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 26,
+      "iasa_at": 15,
+      "move_type": 1,
+      "title": "Mana Strike"
+    },
+    "Orb": {
+      "h_range_min": 0,
+      "h_range_max": 35,
+      "v_top": -35,
+      "v_bottom": 35,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 3,
+      "active_ticks": 12,
+      "damage": 60,
+      "total_damage": 170,
+      "hitstun_ticks": 18,
+      "combo_hitstun_ticks": 18,
+      "knockback": 4.0,
+      "knockdown": false,
+      "plus_frames": 1,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox2",
+          "x": 0,
+          "y": 0,
+          "w": 30,
+          "h": 30,
+          "damage": 50,
+          "hitstun_ticks": 18,
+          "combo_hitstun_ticks": 18,
+          "start_tick": 3,
+          "active_ticks": 3,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 35,
+          "h": 35,
+          "damage": 60,
+          "hitstun_ticks": 18,
+          "combo_hitstun_ticks": 18,
+          "start_tick": 11,
+          "active_ticks": 2,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox3",
+          "x": 0,
+          "y": 0,
+          "w": 35,
+          "h": 35,
+          "damage": 60,
+          "hitstun_ticks": 18,
+          "combo_hitstun_ticks": 18,
+          "start_tick": 13,
+          "active_ticks": 2,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 11,
+      "move_type": 3
+    },
+    "OrbPush": {
+      "h_range_min": 0,
+      "h_range_max": 5,
+      "v_top": -5,
+      "v_bottom": 5,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "damage": 60,
+      "total_damage": 60,
+      "hitstun_ticks": 15,
+      "combo_hitstun_ticks": 15,
+      "knockback": 5.0,
+      "knockdown": true,
+      "plus_frames": 0,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 5,
+          "h": 5,
+          "damage": 60,
+          "hitstun_ticks": 15,
+          "combo_hitstun_ticks": 15,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 8,
+      "move_type": 3,
+      "title": "Push Orb"
+    },
+    "OrbTeleport": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 10,
+      "move_type": 3,
+      "title": "Orb Portal",
+      "source_note": "Teleport to orb position"
+    },
+    "OrbTether": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 40,
+      "iasa_at": 10,
+      "move_type": 3,
+      "title": "Orb Tether",
+      "source_note": "Tether to orb (movement)"
     },
     "Sandstorm": {
       "h_range_min": 5,
@@ -843,6 +1232,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -859,11 +1249,107 @@
           "hits_aerial": false,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 30,
+      "iasa_at": 20,
+      "move_type": 2
+    },
+    "SparkBomb": {
+      "h_range_min": 0,
+      "h_range_max": 100,
+      "v_top": -26,
+      "v_bottom": 26,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 1,
+      "damage": 140,
+      "total_damage": 140,
+      "hitstun_ticks": 40,
+      "combo_hitstun_ticks": 40,
+      "knockback": 10.0,
+      "knockdown": true,
+      "plus_frames": 0,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 26,
+          "h": 26,
+          "damage": 140,
+          "hitstun_ticks": 40,
+          "combo_hitstun_ticks": 40,
+          "start_tick": 1,
+          "active_ticks": 1,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 13,
+      "move_type": 3,
+      "title": "Spark Bomb"
+    },
+    "SuperLaunch": {
+      "h_range_min": 0,
+      "h_range_max": 300,
+      "v_top": -9,
+      "v_bottom": 9,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": -1,
+      "active_ticks": 10,
+      "damage": 105,
+      "total_damage": 210,
+      "hitstun_ticks": 18,
+      "combo_hitstun_ticks": 18,
+      "knockback": 7.0,
+      "knockdown": true,
+      "plus_frames": 1,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 9,
+          "h": 9,
+          "damage": 105,
+          "hitstun_ticks": 18,
+          "combo_hitstun_ticks": 18,
+          "start_tick": 4,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 9,
+          "h": 9,
+          "damage": 105,
+          "hitstun_ticks": 18,
+          "combo_hitstun_ticks": 18,
+          "start_tick": -1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 12,
+      "move_type": 3,
+      "title": "Redirect"
     },
     "Telekinesis": {
-      "h_range_min": 2,
-      "h_range_max": 22,
+      "h_range_min": 0,
+      "h_range_max": 300,
       "v_top": -10,
       "v_bottom": 0,
       "hit_height": "low",
@@ -878,6 +1364,7 @@
       "knockback": 5.0,
       "knockdown": true,
       "plus_frames": -1,
+      "source": "override",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -894,7 +1381,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 14,
+      "move_type": 3,
+      "title": "Telekinesis"
     },
     "TomeSlap": {
       "h_range_min": 2,
@@ -913,6 +1403,7 @@
       "knockback": 5.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -929,7 +1420,66 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 12,
+      "iasa_at": 11,
+      "move_type": 1,
+      "title": "Tome Slap"
+    },
+    "VileClutch": {
+      "h_range_min": 0,
+      "h_range_max": 32,
+      "v_top": -64,
+      "v_bottom": 0,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 10,
+      "active_ticks": 12,
+      "damage": 80,
+      "total_damage": 120,
+      "hitstun_ticks": 30,
+      "combo_hitstun_ticks": 30,
+      "knockback": 5.0,
+      "knockdown": true,
+      "plus_frames": 2,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": -2,
+          "w": 26,
+          "h": 2,
+          "damage": 80,
+          "hitstun_ticks": 30,
+          "combo_hitstun_ticks": 30,
+          "start_tick": 10,
+          "active_ticks": 5,
+          "hit_height": "low",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox2",
+          "x": 6,
+          "y": -40,
+          "w": 20,
+          "h": 24,
+          "damage": 40,
+          "hitstun_ticks": 10,
+          "combo_hitstun_ticks": 10,
+          "start_tick": 19,
+          "active_ticks": 3,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 18,
+      "iasa_at": 11,
+      "move_type": 2,
+      "title": "Vile Clutch"
     },
     "WindForce": {
       "h_range_min": 24,
@@ -948,6 +1498,7 @@
       "knockback": 2.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -964,7 +1515,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 35,
+      "move_type": 2,
+      "title": "Zephyr"
     },
     "ZephyrThrow": {
       "h_range_min": 44,
@@ -983,6 +1537,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -999,10 +1554,81 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 70,
+      "move_type": 1
     }
   },
   "Cowboy": {
+    "1000Cuts": {
+      "h_range_min": 0,
+      "h_range_max": 51,
+      "v_top": -22,
+      "v_bottom": 15,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 2,
+      "active_ticks": 18,
+      "damage": 50,
+      "total_damage": 150,
+      "hitstun_ticks": 14,
+      "combo_hitstun_ticks": 14,
+      "knockback": 2.0,
+      "knockdown": false,
+      "plus_frames": 1,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 34,
+          "y": 8,
+          "w": 15,
+          "h": 7,
+          "damage": 50,
+          "hitstun_ticks": 14,
+          "combo_hitstun_ticks": 14,
+          "start_tick": 2,
+          "active_ticks": 2,
+          "hit_height": "low",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox2",
+          "x": 31,
+          "y": -11,
+          "w": 10,
+          "h": 11,
+          "damage": 50,
+          "hitstun_ticks": 14,
+          "combo_hitstun_ticks": 14,
+          "start_tick": 10,
+          "active_ticks": 2,
+          "hit_height": "high",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox3",
+          "x": 25,
+          "y": -3,
+          "w": 26,
+          "h": 6,
+          "damage": 50,
+          "hitstun_ticks": 14,
+          "combo_hitstun_ticks": 14,
+          "start_tick": 18,
+          "active_ticks": 2,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 13,
+      "move_type": 3,
+      "title": "1000 Cuts"
+    },
     "1000CutsEnd": {
       "h_range_min": 9,
       "h_range_max": 95,
@@ -1020,6 +1646,7 @@
       "knockback": 13.0,
       "knockdown": true,
       "plus_frames": -2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1036,7 +1663,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 20,
+      "move_type": 3,
+      "title": "Fatal Cut"
     },
     "3Combo": {
       "h_range_min": 0,
@@ -1055,6 +1685,7 @@
       "knockback": 12.0,
       "knockdown": false,
       "plus_frames": 3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1161,7 +1792,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 38,
+      "move_type": 2,
+      "title": "3 Combo"
     },
     "3ComboDown": {
       "h_range_min": 0,
@@ -1180,6 +1814,7 @@
       "knockback": 12.0,
       "knockdown": false,
       "plus_frames": 3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1286,7 +1921,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 38,
+      "move_type": 2,
+      "title": "3 Combo Down"
     },
     "AnkleCutter": {
       "h_range_min": 16,
@@ -1305,6 +1943,7 @@
       "knockback": 8.5,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1321,7 +1960,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 18,
+      "move_type": 1,
+      "title": "Ankle Cutter"
     },
     "BackSlash": {
       "h_range_min": 0,
@@ -1340,6 +1982,7 @@
       "knockback": 14.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1386,7 +2029,34 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 35,
+      "move_type": 2,
+      "title": "Back Slash"
+    },
+    "Brandish": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 12,
+      "move_type": 2,
+      "title": "Quick Draw",
+      "source_note": "Quick Draw stance entry"
     },
     "DownwardCleave": {
       "h_range_min": 22,
@@ -1405,6 +2075,7 @@
       "knockback": 12.0,
       "knockdown": true,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1421,7 +2092,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 20,
+      "move_type": 1,
+      "title": "Downward Cleave"
     },
     "DownwardCleaveGround": {
       "h_range_min": 22,
@@ -1440,6 +2114,7 @@
       "knockback": 12.0,
       "knockdown": true,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1456,7 +2131,175 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 20,
+      "move_type": 1,
+      "title": "Downward Cleave"
+    },
+    "FastTeleport": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 20,
+      "iasa_at": 9,
+      "move_type": 3,
+      "title": "Teleport",
+      "source_note": "Teleport (invincible movement)"
+    },
+    "Foresight": {
+      "h_range_min": 0,
+      "h_range_max": 25,
+      "v_top": -25,
+      "v_bottom": 25,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 1,
+      "damage": 80,
+      "total_damage": 80,
+      "hitstun_ticks": 8,
+      "combo_hitstun_ticks": 8,
+      "knockback": 10.0,
+      "knockdown": true,
+      "plus_frames": 0,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 25,
+          "h": 25,
+          "damage": 80,
+          "hitstun_ticks": 8,
+          "combo_hitstun_ticks": 8,
+          "start_tick": 1,
+          "active_ticks": 1,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 7,
+      "move_type": 2
+    },
+    "ForesightNeutral": {
+      "h_range_min": 0,
+      "h_range_max": 25,
+      "v_top": -25,
+      "v_bottom": 25,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 1,
+      "damage": 80,
+      "total_damage": 80,
+      "hitstun_ticks": 8,
+      "combo_hitstun_ticks": 8,
+      "knockback": 10.0,
+      "knockdown": true,
+      "plus_frames": 0,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 25,
+          "h": 25,
+          "damage": 80,
+          "hitstun_ticks": 8,
+          "combo_hitstun_ticks": 8,
+          "start_tick": 1,
+          "active_ticks": 1,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 14,
+      "move_type": 2,
+      "title": "Foresight"
+    },
+    "GunReel": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 14,
+      "move_type": 2,
+      "title": "Gun Pull",
+      "source_note": "Pull thrown gun back (no damage)"
+    },
+    "GunThrow": {
+      "h_range_min": 0,
+      "h_range_max": 250,
+      "v_top": -7,
+      "v_bottom": 7,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "damage": 80,
+      "total_damage": 80,
+      "hitstun_ticks": 35,
+      "combo_hitstun_ticks": 35,
+      "knockback": 10.0,
+      "knockdown": true,
+      "plus_frames": 0,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 7,
+          "h": 7,
+          "damage": 80,
+          "hitstun_ticks": 35,
+          "combo_hitstun_ticks": 35,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 16,
+      "move_type": 2,
+      "title": "Gun Throw"
     },
     "Guntrick": {
       "h_range_min": 17,
@@ -1475,6 +2318,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1491,7 +2335,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 61,
+      "move_type": 4,
+      "title": "Gun Trick"
     },
     "HAirSlash": {
       "h_range_min": 12,
@@ -1510,6 +2357,7 @@
       "knockback": 8.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1526,57 +2374,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
-    },
-    "HSlash": {
-      "h_range_min": 6,
-      "h_range_max": 109,
-      "v_top": -26,
-      "v_bottom": -18,
-      "hit_height": "high",
-      "hits_aerial": true,
-      "hits_grounded": true,
-      "startup_ticks": 6,
-      "active_ticks": 4,
-      "damage": 100,
-      "total_damage": 200,
-      "hitstun_ticks": 13,
-      "combo_hitstun_ticks": 13,
-      "knockback": 10.0,
-      "knockdown": false,
-      "plus_frames": 0,
-      "hitboxes": [
-        {
-          "name": "Hitbox",
-          "x": 45,
-          "y": -22,
-          "w": 39,
-          "h": 4,
-          "damage": 100,
-          "hitstun_ticks": 13,
-          "combo_hitstun_ticks": 13,
-          "start_tick": 6,
-          "active_ticks": 2,
-          "hit_height": "high",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "Hitbox2",
-          "x": 81,
-          "y": -22,
-          "w": 28,
-          "h": 4,
-          "damage": 100,
-          "hitstun_ticks": 13,
-          "combo_hitstun_ticks": 13,
-          "start_tick": 8,
-          "active_ticks": 2,
-          "hit_height": "high",
-          "hits_aerial": true,
-          "hits_grounded": true
-        }
-      ]
+      ],
+      "anim_length": 19,
+      "move_type": 1,
+      "title": "Horiz. Slash"
     },
     "HSlash2": {
       "h_range_min": 6,
@@ -1595,6 +2396,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1626,7 +2428,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 20,
+      "iasa_at": 15,
+      "move_type": 1,
+      "title": "Horiz. Slash"
     },
     "HSlashUp": {
       "h_range_min": 20,
@@ -1645,6 +2451,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1706,7 +2513,34 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 20,
+      "iasa_at": 15,
+      "move_type": 1,
+      "title": "Horiz. Slash"
+    },
+    "Holster": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 4,
+      "move_type": 2,
+      "source_note": "Exit Quick Draw stance"
     },
     "HurtAerial": {
       "h_range_min": 0,
@@ -1725,6 +2559,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1760,6 +2595,7 @@
       "knockback": 90.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1791,7 +2627,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 45,
+      "move_type": 2,
+      "title": "Impale"
     },
     "ImpaleFollowup": {
       "h_range_min": 0,
@@ -1810,6 +2649,7 @@
       "knockback": 90.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox2",
@@ -1826,7 +2666,8 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 42
     },
     "ImpaleFollowupCombo": {
       "h_range_min": 0,
@@ -1845,6 +2686,7 @@
       "knockback": 90.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox2",
@@ -1861,7 +2703,8 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 42
     },
     "ImpaleFollowupHKD": {
       "h_range_min": 0,
@@ -1880,6 +2723,7 @@
       "knockback": 90.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox2",
@@ -1896,7 +2740,8 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 42
     },
     "ImpaleTeleport": {
       "h_range_min": 4,
@@ -1915,6 +2760,7 @@
       "knockback": 2.0,
       "knockdown": true,
       "plus_frames": -4,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1931,7 +2777,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 41,
+      "move_type": 2,
+      "title": "Impale"
     },
     "IzunaDrop": {
       "h_range_min": 0,
@@ -1950,6 +2799,7 @@
       "knockback": 13.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -1966,7 +2816,48 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "move_type": 2,
+      "title": "Izuna Drop"
+    },
+    "Lasso": {
+      "h_range_min": 0,
+      "h_range_max": 200,
+      "v_top": -5,
+      "v_bottom": 5,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 30,
+      "combo_hitstun_ticks": 30,
+      "knockback": 10.0,
+      "knockdown": false,
+      "plus_frames": 1,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 15,
+          "h": 5,
+          "damage": 0,
+          "hitstun_ticks": 30,
+          "combo_hitstun_ticks": 30,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 45,
+      "iasa_at": 20,
+      "move_type": 2
     },
     "LassoPull": {
       "h_range_min": 0,
@@ -1985,6 +2876,7 @@
       "knockback": 8.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2001,7 +2893,33 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 20,
+      "move_type": 2,
+      "title": "Pull"
+    },
+    "LassoReel": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "move_type": 2,
+      "title": "Izuna Drop",
+      "source_note": "Izuna Drop follow-up (grab, no hitbox)"
     },
     "LightningSlice": {
       "h_range_min": 109,
@@ -2020,6 +2938,7 @@
       "knockback": 8.0,
       "knockdown": true,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2036,7 +2955,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 38,
+      "iasa_at": 21,
+      "move_type": 2,
+      "title": "Lightning Slice"
     },
     "LightningSliceCancel": {
       "h_range_min": 108,
@@ -2055,6 +2978,7 @@
       "knockback": 4.0,
       "knockdown": true,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2071,7 +2995,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 38,
+      "iasa_at": 16,
+      "move_type": 2,
+      "title": "Lightning Slice"
     },
     "LightningSliceNeutral": {
       "h_range_min": 109,
@@ -2090,6 +3018,7 @@
       "knockback": 8.0,
       "knockdown": true,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2106,7 +3035,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 38,
+      "iasa_at": 21,
+      "move_type": 2,
+      "title": "Lightning Slice"
     },
     "PistolWhip": {
       "h_range_min": 0,
@@ -2125,6 +3058,7 @@
       "knockback": 10.0,
       "knockdown": true,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2201,7 +3135,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 24,
+      "move_type": 1,
+      "title": "Pistol Whip"
     },
     "PistolWhipCombo": {
       "h_range_min": 0,
@@ -2220,6 +3157,7 @@
       "knockback": 10.0,
       "knockdown": true,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2296,7 +3234,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 22,
+      "move_type": 1,
+      "title": "Pistol Whip"
     },
     "PistolWhipGround": {
       "h_range_min": 0,
@@ -2315,6 +3256,7 @@
       "knockback": 10.0,
       "knockdown": true,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2391,7 +3333,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 18,
+      "move_type": 1,
+      "title": "Pistol Whip"
     },
     "PistolWhipGroundCombo": {
       "h_range_min": 0,
@@ -2410,6 +3355,7 @@
       "knockback": 10.0,
       "knockdown": true,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2486,11 +3432,14 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 18,
+      "move_type": 1,
+      "title": "Pistol Whip"
     },
     "PointBlank": {
       "h_range_min": 0,
-      "h_range_max": 10,
+      "h_range_max": 80,
       "v_top": -10,
       "v_bottom": 10,
       "hit_height": "high",
@@ -2505,6 +3454,7 @@
       "knockback": 2.0,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "override",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2521,7 +3471,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 12,
+      "move_type": 2,
+      "title": "Point Blank"
     },
     "Pommel": {
       "h_range_min": 2,
@@ -2540,6 +3493,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": -1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2556,11 +3510,37 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 14,
+      "move_type": 1
+    },
+    "QuickerDraw": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 5,
+      "move_type": 2,
+      "title": "Quick Draw",
+      "source_note": "Quick Draw follow-up stance"
     },
     "Shoot2": {
       "h_range_min": 0,
-      "h_range_max": 5,
+      "h_range_max": 550,
       "v_top": -5,
       "v_bottom": 5,
       "hit_height": "high",
@@ -2575,6 +3555,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "override",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2591,11 +3572,14 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 10,
+      "move_type": 2,
+      "title": "Shoot"
     },
     "ShootDodge2": {
       "h_range_min": 0,
-      "h_range_max": 5,
+      "h_range_max": 550,
       "v_top": -5,
       "v_bottom": 5,
       "hit_height": "high",
@@ -2610,6 +3594,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "override",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2626,7 +3611,59 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 10,
+      "move_type": 2,
+      "title": "Shoot Dodge"
+    },
+    "SlowHolster": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 13,
+      "move_type": 2,
+      "title": "Holster",
+      "source_note": "Slow holster animation"
+    },
+    "SpotDodge": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 30,
+      "iasa_at": 9,
+      "move_type": 4,
+      "title": "Spot Dodge",
+      "source_note": "Spot dodge (invincible)"
     },
     "Stinger": {
       "h_range_min": 0,
@@ -2645,6 +3682,7 @@
       "knockback": 13.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2661,7 +3699,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 30,
+      "iasa_at": 20,
+      "move_type": 1,
+      "title": "Stinger"
     },
     "Taunt": {
       "h_range_min": 17,
@@ -2680,6 +3722,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2696,11 +3739,96 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 61
+    },
+    "TimeBullet": {
+      "h_range_min": 0,
+      "h_range_max": 550,
+      "v_top": -5000,
+      "v_bottom": 5000,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 0,
+      "active_ticks": 6,
+      "damage": 120,
+      "total_damage": 430,
+      "hitstun_ticks": 18,
+      "combo_hitstun_ticks": 18,
+      "knockback": 12.0,
+      "knockdown": true,
+      "plus_frames": 2,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 5000,
+          "h": 5000,
+          "damage": 70,
+          "hitstun_ticks": 18,
+          "combo_hitstun_ticks": 18,
+          "start_tick": 0,
+          "active_ticks": 2,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 4,
+          "h": 4,
+          "damage": 120,
+          "hitstun_ticks": 18,
+          "combo_hitstun_ticks": 18,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox3",
+          "x": 0,
+          "y": 0,
+          "w": 4,
+          "h": 4,
+          "damage": 120,
+          "hitstun_ticks": 18,
+          "combo_hitstun_ticks": 18,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox2",
+          "x": 0,
+          "y": 0,
+          "w": 4,
+          "h": 4,
+          "damage": 120,
+          "hitstun_ticks": 18,
+          "combo_hitstun_ticks": 18,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 13,
+      "move_type": 3,
+      "title": "Temporal Round"
     },
     "TimeSplitter": {
       "h_range_min": 0,
-      "h_range_max": 20,
+      "h_range_max": 550,
       "v_top": -20,
       "v_bottom": 20,
       "hit_height": "mid",
@@ -2715,6 +3843,7 @@
       "knockback": 40.0,
       "knockdown": true,
       "plus_frames": 2,
+      "source": "override",
       "hitboxes": [
         {
           "name": "H1",
@@ -2896,7 +4025,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 76,
+      "move_type": 3,
+      "title": "Time Splitter"
     },
     "UpwardSwipe": {
       "h_range_min": 1,
@@ -2915,6 +4047,7 @@
       "knockback": 12.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2931,7 +4064,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 32,
+      "iasa_at": 22,
+      "move_type": 1,
+      "title": "Upward Swipe"
     },
     "UpwardSwipeAir": {
       "h_range_min": 1,
@@ -2950,6 +4087,7 @@
       "knockback": 9.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -2966,7 +4104,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 32,
+      "iasa_at": 22,
+      "move_type": 1,
+      "title": "Upward Swipe"
     },
     "VAirSlash": {
       "h_range_min": 1,
@@ -2985,6 +4127,7 @@
       "knockback": 4.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3001,7 +4144,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 18,
+      "move_type": 1,
+      "title": "Vert. Slash"
     },
     "VSlash": {
       "h_range_min": 6,
@@ -3020,6 +4166,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3036,7 +4183,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 30,
+      "iasa_at": 18,
+      "move_type": 1,
+      "title": "Vert. Slash"
     }
   },
   "Robot": {
@@ -3057,6 +4208,7 @@
       "knockback": 12.0,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3118,7 +4270,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 34,
+      "iasa_at": 20,
+      "move_type": 1,
+      "title": "BOOT"
     },
     "Blast": {
       "h_range_min": 0,
@@ -3137,6 +4293,7 @@
       "knockback": 3.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3168,7 +4325,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 32,
+      "iasa_at": 16,
+      "move_type": 1,
+      "title": "CONCUSSIVE BLAST"
     },
     "Burst": {
       "h_range_min": 0,
@@ -3187,6 +4348,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3222,6 +4384,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3253,7 +4416,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 35,
+      "move_type": 2,
+      "title": "CHAIN SAW"
     },
     "ChargedStep": {
       "h_range_min": 0,
@@ -3272,6 +4438,7 @@
       "knockback": 4.0,
       "knockdown": true,
       "plus_frames": -1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox2",
@@ -3303,7 +4470,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 13,
+      "iasa_at": 7,
+      "title": "STEP"
     },
     "ClapJump": {
       "h_range_min": 6,
@@ -3322,6 +4492,7 @@
       "knockback": 7.0,
       "knockdown": true,
       "plus_frames": 3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3338,7 +4509,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 24,
+      "move_type": 2,
+      "title": "THUNDER CLAP"
     },
     "ClapLand": {
       "h_range_min": 6,
@@ -3357,6 +4531,7 @@
       "knockback": 7.0,
       "knockdown": false,
       "plus_frames": 3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3373,7 +4548,8 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 13
     },
     "CommandGrab": {
       "h_range_min": 7,
@@ -3392,6 +4568,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "LimbHurtbox",
@@ -3423,7 +4600,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 32,
+      "iasa_at": 20,
+      "move_type": 2,
+      "title": "COMMAND: GRAB"
     },
     "CornerCarryHitGrab": {
       "h_range_min": 1,
@@ -3442,6 +4623,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": -1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3458,7 +4640,10 @@
           "hits_aerial": false,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 36,
+      "move_type": 2,
+      "title": "BOUNDS CHECK"
     },
     "CornerCarryHitGrabAir": {
       "h_range_min": 1,
@@ -3477,6 +4662,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": -1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3493,87 +4679,34 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 36,
+      "move_type": 2,
+      "title": "BOUNDS CHECK"
     },
-    "DisembowelGrab": {
+    "DisableLoic": {
       "h_range_min": 0,
-      "h_range_max": 122,
-      "v_top": -96,
-      "v_bottom": -4,
-      "hit_height": "high",
-      "hits_aerial": true,
-      "hits_grounded": true,
-      "startup_ticks": 9,
-      "active_ticks": 2,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
       "damage": 0,
       "total_damage": 0,
-      "hitstun_ticks": 30,
-      "combo_hitstun_ticks": 30,
-      "knockback": 10.0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
       "knockdown": false,
       "plus_frames": 0,
-      "hitboxes": [
-        {
-          "name": "Hitbox",
-          "x": 106,
-          "y": -79,
-          "w": 16,
-          "h": 17,
-          "damage": 0,
-          "hitstun_ticks": 30,
-          "combo_hitstun_ticks": 30,
-          "start_tick": 9,
-          "active_ticks": 2,
-          "hit_height": "high",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "Hitbox2",
-          "x": 73,
-          "y": -62,
-          "w": 16,
-          "h": 17,
-          "damage": 0,
-          "hitstun_ticks": 30,
-          "combo_hitstun_ticks": 30,
-          "start_tick": 9,
-          "active_ticks": 2,
-          "hit_height": "high",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "Hitbox3",
-          "x": 40,
-          "y": -36,
-          "w": 16,
-          "h": 26,
-          "damage": 0,
-          "hitstun_ticks": 30,
-          "combo_hitstun_ticks": 30,
-          "start_tick": 9,
-          "active_ticks": 2,
-          "hit_height": "high",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "Hitbox4",
-          "x": 13,
-          "y": -22,
-          "w": 18,
-          "h": 18,
-          "damage": 0,
-          "hitstun_ticks": 30,
-          "combo_hitstun_ticks": 30,
-          "start_tick": 9,
-          "active_ticks": 2,
-          "hit_height": "high",
-          "hits_aerial": true,
-          "hits_grounded": true
-        }
-      ]
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 13,
+      "move_type": 3,
+      "title": "SHUTDOWN",
+      "source_note": "LOIC shutdown (no damage)"
     },
     "DisembowelGrabFollowup": {
       "h_range_min": 16,
@@ -3592,6 +4725,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3638,7 +4772,8 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 52
     },
     "DisembowelHitGrab": {
       "h_range_min": 0,
@@ -3657,6 +4792,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3718,7 +4854,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 39,
+      "iasa_at": 26,
+      "move_type": 2,
+      "title": "TRY-CATCH"
     },
     "DisembowelHitGrabNeutral": {
       "h_range_min": 0,
@@ -3737,6 +4877,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3798,7 +4939,36 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 39,
+      "iasa_at": 26,
+      "move_type": 2,
+      "title": "TRY-CATCH"
+    },
+    "Drive": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 20,
+      "iasa_at": 10,
+      "move_type": 2,
+      "title": "DRIVE",
+      "source_note": "Enter drive vehicle stance"
     },
     "DriveBoost": {
       "h_range_min": 0,
@@ -3817,6 +4987,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3848,7 +5019,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 18,
+      "move_type": 3,
+      "title": "BOOST"
     },
     "DriveDrift": {
       "h_range_min": 0,
@@ -3867,6 +5041,7 @@
       "knockback": 8.0,
       "knockdown": true,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3883,7 +5058,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 20,
+      "move_type": 1,
+      "title": "DRIFT"
     },
     "DriveForward": {
       "h_range_min": 9,
@@ -3902,6 +5080,7 @@
       "knockback": 5.0,
       "knockdown": true,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3918,7 +5097,9 @@
           "hits_aerial": false,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 12,
+      "title": "FORWARD"
     },
     "DriveJump": {
       "h_range_min": 0,
@@ -3937,6 +5118,7 @@
       "knockback": 9.0,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -3953,7 +5135,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 60,
+      "move_type": 1,
+      "title": "JUMPSTART"
     },
     "DriveWheelie": {
       "h_range_min": 0,
@@ -3972,6 +5157,7 @@
       "knockback": 8.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4018,7 +5204,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 24,
+      "move_type": 1,
+      "title": "WHEELIE"
     },
     "EyeBeam": {
       "h_range_min": 0,
@@ -4037,6 +5226,7 @@
       "knockback": 7.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4098,7 +5288,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 24,
+      "iasa_at": 18,
+      "move_type": 1,
+      "title": "OPTICAL BEAM"
     },
     "EyeBeamAir": {
       "h_range_min": 0,
@@ -4117,6 +5311,7 @@
       "knockback": 7.5,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4148,11 +5343,15 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 31,
+      "iasa_at": 18,
+      "move_type": 1,
+      "title": "OPTICAL BEAM"
     },
     "Flamethrower": {
-      "h_range_min": 17,
-      "h_range_max": 37,
+      "h_range_min": 0,
+      "h_range_max": 100,
       "v_top": -18,
       "v_bottom": 0,
       "hit_height": "low",
@@ -4167,6 +5366,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "override",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4183,11 +5383,14 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 16,
+      "move_type": 2,
+      "title": "FLAME THROWER"
     },
     "Flamethrower2": {
-      "h_range_min": 17,
-      "h_range_max": 37,
+      "h_range_min": 0,
+      "h_range_max": 100,
       "v_top": -18,
       "v_bottom": 0,
       "hit_height": "mid",
@@ -4202,6 +5405,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "override",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4218,7 +5422,94 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 20,
+      "move_type": 3,
+      "title": "FLAME THROWER"
+    },
+    "Grenade": {
+      "h_range_min": 0,
+      "h_range_max": 300,
+      "v_top": -42,
+      "v_bottom": 42,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": -1,
+      "active_ticks": 7,
+      "damage": 120,
+      "total_damage": 400,
+      "hitstun_ticks": 14,
+      "combo_hitstun_ticks": 14,
+      "knockback": 9.0,
+      "knockdown": true,
+      "plus_frames": 3,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": -8,
+          "w": 7,
+          "h": 7,
+          "damage": 80,
+          "hitstun_ticks": 14,
+          "combo_hitstun_ticks": 5,
+          "start_tick": -1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": -8,
+          "w": 7,
+          "h": 7,
+          "damage": 80,
+          "hitstun_ticks": 14,
+          "combo_hitstun_ticks": 5,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 35,
+          "h": 42,
+          "damage": 120,
+          "hitstun_ticks": 14,
+          "combo_hitstun_ticks": 14,
+          "start_tick": 1,
+          "active_ticks": 1,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox2",
+          "x": 0,
+          "y": 0,
+          "w": 42,
+          "h": 35,
+          "damage": 120,
+          "hitstun_ticks": 14,
+          "combo_hitstun_ticks": 14,
+          "start_tick": 1,
+          "active_ticks": 1,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 13,
+      "move_type": 2,
+      "title": "REMOTE BOMB"
     },
     "GroundPound": {
       "h_range_min": 0,
@@ -4237,6 +5528,7 @@
       "knockback": 7.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox4",
@@ -4298,7 +5590,11 @@
           "hits_aerial": false,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 24,
+      "iasa_at": 23,
+      "move_type": 1,
+      "title": "EARTHQUAKE"
     },
     "GroundSlam": {
       "h_range_min": 0,
@@ -4317,6 +5613,7 @@
       "knockback": 10.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "NoComboHitbox",
@@ -4348,7 +5645,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 60,
+      "iasa_at": 49
     },
     "KillProcess": {
       "h_range_min": 0,
@@ -4367,6 +5666,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4383,7 +5683,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 32,
+      "move_type": 3,
+      "title": "KILL PROCESS"
     },
     "KillProcessLanding": {
       "h_range_min": 0,
@@ -4402,6 +5705,7 @@
       "knockback": 8.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4418,7 +5722,47 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 24
+    },
+    "LOIC": {
+      "h_range_min": 0,
+      "h_range_max": 550,
+      "v_top": -400000,
+      "v_bottom": 0,
+      "hit_height": "high",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 2,
+      "active_ticks": 120,
+      "damage": 215,
+      "total_damage": 215,
+      "hitstun_ticks": 30,
+      "combo_hitstun_ticks": 30,
+      "knockback": 8.0,
+      "knockdown": true,
+      "plus_frames": 2,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": -200000,
+          "w": 29,
+          "h": 200000,
+          "damage": 215,
+          "hitstun_ticks": 30,
+          "combo_hitstun_ticks": 30,
+          "start_tick": 2,
+          "active_ticks": 120,
+          "hit_height": "high",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 24,
+      "iasa_at": 12,
+      "move_type": 3
     },
     "Landing": {
       "h_range_min": 0,
@@ -4437,6 +5781,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4472,6 +5817,7 @@
       "knockback": 6.5,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4503,7 +5849,74 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 30,
+      "iasa_at": 19,
+      "move_type": 1,
+      "title": "SPIN CYCLE"
+    },
+    "Magnetize": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 16,
+      "move_type": 2,
+      "title": "MAGNETIZE",
+      "source_note": "Magnetize pull (no damage hitbox)"
+    },
+    "Missile": {
+      "h_range_min": 0,
+      "h_range_max": 550,
+      "v_top": -4,
+      "v_bottom": 4,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "damage": 65,
+      "total_damage": 65,
+      "hitstun_ticks": 17,
+      "combo_hitstun_ticks": 17,
+      "knockback": 12.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 9,
+          "h": 4,
+          "damage": 65,
+          "hitstun_ticks": 17,
+          "combo_hitstun_ticks": 17,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 7,
+      "move_type": 3,
+      "title": "LAUNCH"
     },
     "OffensiveBurst": {
       "h_range_min": 0,
@@ -4522,6 +5935,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4557,6 +5971,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": -1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4573,7 +5988,10 @@
           "hits_aerial": false,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 23,
+      "move_type": 2,
+      "title": "OVERFLOW"
     },
     "Plummet": {
       "h_range_min": 0,
@@ -4592,6 +6010,7 @@
       "knockback": 13.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4608,7 +6027,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 40,
+      "move_type": 1,
+      "title": "CRASH"
     },
     "Punch": {
       "h_range_min": 0,
@@ -4627,6 +6049,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4688,7 +6111,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 15,
+      "move_type": 1,
+      "title": "KEYPUNCH"
     },
     "SawBlade": {
       "h_range_min": 7,
@@ -4707,6 +6133,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4768,7 +6195,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 32,
+      "iasa_at": 26,
+      "move_type": 1,
+      "title": "SAW BLADE"
     },
     "SideKick": {
       "h_range_min": 5,
@@ -4787,6 +6218,7 @@
       "knockback": 12.0,
       "knockdown": true,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4818,7 +6250,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 24,
+      "move_type": 1,
+      "title": "KICK USER"
     },
     "SideKickAir": {
       "h_range_min": 10,
@@ -4837,6 +6272,7 @@
       "knockback": 12.0,
       "knockdown": true,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4853,7 +6289,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 24,
+      "move_type": 1,
+      "title": "KICK USER"
     },
     "Slap": {
       "h_range_min": 0,
@@ -4872,6 +6311,7 @@
       "knockback": 7.0,
       "knockdown": true,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4888,7 +6328,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 27,
+      "iasa_at": 14,
+      "move_type": 1,
+      "title": "PING"
     },
     "Step": {
       "h_range_min": 0,
@@ -4907,6 +6351,7 @@
       "knockback": 4.0,
       "knockdown": true,
       "plus_frames": -1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -4938,7 +6383,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 18,
+      "iasa_at": 7,
+      "title": "STEP"
     },
     "TryCatchGroundSlam": {
       "h_range_min": 0,
@@ -4957,6 +6405,7 @@
       "knockback": 10.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "NoComboHitbox",
@@ -4988,7 +6437,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 60,
+      "iasa_at": 56
     },
     "Vacuum": {
       "h_range_min": 0,
@@ -5007,6 +6458,7 @@
       "knockback": 12.0,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5038,7 +6490,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 24,
+      "move_type": 1,
+      "title": "VACUUM"
     }
   },
   "Ninja": {
@@ -5059,6 +6514,7 @@
       "knockback": 8.0,
       "knockdown": true,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5075,42 +6531,49 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 22,
+      "move_type": 1,
+      "title": "Kick"
     },
-    "AirAttackQS": {
-      "h_range_min": 5,
-      "h_range_max": 35,
-      "v_top": -18,
-      "v_bottom": -4,
-      "hit_height": "high",
+    "AirFireball": {
+      "h_range_min": 0,
+      "h_range_max": 550,
+      "v_top": -20,
+      "v_bottom": 20,
+      "hit_height": "mid",
       "hits_aerial": true,
       "hits_grounded": true,
-      "startup_ticks": 5,
-      "active_ticks": 7,
-      "damage": 70,
-      "total_damage": 70,
-      "hitstun_ticks": 20,
-      "combo_hitstun_ticks": 20,
-      "knockback": 8.0,
-      "knockdown": true,
-      "plus_frames": 2,
+      "startup_ticks": 0,
+      "active_ticks": 5,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 30,
+      "combo_hitstun_ticks": 30,
+      "knockback": 10.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "projectile",
       "hitboxes": [
         {
           "name": "Hitbox",
-          "x": 20,
-          "y": -11,
-          "w": 15,
-          "h": 7,
-          "damage": 70,
-          "hitstun_ticks": 20,
-          "combo_hitstun_ticks": 20,
-          "start_tick": 5,
-          "active_ticks": 7,
-          "hit_height": "high",
+          "x": -2,
+          "y": 0,
+          "w": 20,
+          "h": 20,
+          "damage": 0,
+          "hitstun_ticks": 30,
+          "combo_hitstun_ticks": 30,
+          "start_tick": 0,
+          "active_ticks": 5,
+          "hit_height": "mid",
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 11,
+      "move_type": 2,
+      "title": "Shuriken"
     },
     "AirUpwardPunch": {
       "h_range_min": 5,
@@ -5129,6 +6592,7 @@
       "knockback": 5.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5145,42 +6609,33 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 16,
+      "move_type": 1,
+      "title": "Punch"
     },
-    "AirUpwardPunchQS": {
-      "h_range_min": 5,
-      "h_range_max": 29,
-      "v_top": -43,
-      "v_bottom": -15,
-      "hit_height": "high",
-      "hits_aerial": true,
-      "hits_grounded": true,
-      "startup_ticks": 5,
-      "active_ticks": 2,
-      "damage": 40,
-      "total_damage": 40,
-      "hitstun_ticks": 20,
-      "combo_hitstun_ticks": 20,
-      "knockback": 5.0,
+    "BackSway": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
       "knockdown": false,
-      "plus_frames": 1,
-      "hitboxes": [
-        {
-          "name": "Hitbox",
-          "x": 17,
-          "y": -29,
-          "w": 12,
-          "h": 14,
-          "damage": 40,
-          "hitstun_ticks": 20,
-          "combo_hitstun_ticks": 20,
-          "start_tick": 5,
-          "active_ticks": 2,
-          "hit_height": "high",
-          "hits_aerial": true,
-          "hits_grounded": true
-        }
-      ]
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 12,
+      "move_type": 2,
+      "source_note": "Backwards dodge"
     },
     "BackThrow": {
       "h_range_min": 2,
@@ -5199,6 +6654,7 @@
       "knockback": 10.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5215,7 +6671,8 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 19
     },
     "Burst": {
       "h_range_min": 0,
@@ -5234,6 +6691,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5251,6 +6709,44 @@
           "hits_grounded": true
         }
       ]
+    },
+    "Caltrops": {
+      "h_range_min": 0,
+      "h_range_max": 50,
+      "v_top": -7,
+      "v_bottom": -1,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 10,
+      "active_ticks": 5,
+      "damage": 50,
+      "total_damage": 50,
+      "hitstun_ticks": 33,
+      "combo_hitstun_ticks": 33,
+      "knockback": 3.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": -4,
+          "w": 3,
+          "h": 3,
+          "damage": 50,
+          "hitstun_ticks": 33,
+          "combo_hitstun_ticks": 33,
+          "start_tick": 10,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 21,
+      "move_type": 3
     },
     "DiveKick": {
       "h_range_min": 0,
@@ -5269,6 +6765,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5285,7 +6782,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "move_type": 1,
+      "title": "Dive Kick"
     },
     "DiveKick2": {
       "h_range_min": 0,
@@ -5304,6 +6803,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5320,7 +6820,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 25,
+      "move_type": 1,
+      "title": "Dive Kick"
     },
     "DropKick": {
       "h_range_min": 0,
@@ -5339,6 +6842,7 @@
       "knockback": 13.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5370,7 +6874,48 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "move_type": 1,
+      "title": "Drop Kick"
+    },
+    "Fireball": {
+      "h_range_min": 0,
+      "h_range_max": 550,
+      "v_top": -6,
+      "v_bottom": 6,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "damage": 60,
+      "total_damage": 60,
+      "hitstun_ticks": 11,
+      "combo_hitstun_ticks": 11,
+      "knockback": 10.0,
+      "knockdown": false,
+      "plus_frames": 2,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 6,
+          "h": 6,
+          "damage": 60,
+          "hitstun_ticks": 11,
+          "combo_hitstun_ticks": 11,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 13,
+      "move_type": 2,
+      "title": "Shuriken"
     },
     "ForwardThrow": {
       "h_range_min": 2,
@@ -5389,6 +6934,7 @@
       "knockback": 10.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5405,7 +6951,47 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 19
+    },
+    "GrapplingHook": {
+      "h_range_min": 0,
+      "h_range_max": 300,
+      "v_top": -4,
+      "v_bottom": 4,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 0,
+      "active_ticks": 5,
+      "damage": 20,
+      "total_damage": 20,
+      "hitstun_ticks": 14,
+      "combo_hitstun_ticks": 5,
+      "knockback": 6.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 4,
+          "h": 4,
+          "damage": 20,
+          "hitstun_ticks": 14,
+          "combo_hitstun_ticks": 5,
+          "start_tick": 0,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 14,
+      "move_type": 2,
+      "title": "Grappling Hook"
     },
     "GroundedKick": {
       "h_range_min": 0,
@@ -5424,6 +7010,7 @@
       "knockback": 5.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5440,7 +7027,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 18,
+      "move_type": 1,
+      "title": "Kick"
     },
     "GroundedPunch": {
       "h_range_min": 1,
@@ -5459,6 +7049,7 @@
       "knockback": 2.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5475,42 +7066,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
-    },
-    "GroundedPunchQS": {
-      "h_range_min": 1,
-      "h_range_max": 33,
-      "v_top": -32,
-      "v_bottom": -16,
-      "hit_height": "mid",
-      "hits_aerial": true,
-      "hits_grounded": true,
-      "startup_ticks": 4,
-      "active_ticks": 2,
-      "damage": 30,
-      "total_damage": 30,
-      "hitstun_ticks": 12,
-      "combo_hitstun_ticks": 12,
-      "knockback": 2.0,
-      "knockdown": false,
-      "plus_frames": 0,
-      "hitboxes": [
-        {
-          "name": "Hitbox",
-          "x": 17,
-          "y": -24,
-          "w": 16,
-          "h": 8,
-          "damage": 30,
-          "hitstun_ticks": 12,
-          "combo_hitstun_ticks": 12,
-          "start_tick": 4,
-          "active_ticks": 2,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        }
-      ]
+      ],
+      "anim_length": 14,
+      "move_type": 1,
+      "title": "Punch"
     },
     "GroundedSweep": {
       "h_range_min": 4,
@@ -5529,6 +7088,7 @@
       "knockback": 6.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5545,42 +7105,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
-    },
-    "GroundedSweepQS": {
-      "h_range_min": 4,
-      "h_range_max": 48,
-      "v_top": -10,
-      "v_bottom": 0,
-      "hit_height": "low",
-      "hits_aerial": true,
-      "hits_grounded": true,
-      "startup_ticks": 7,
-      "active_ticks": 2,
-      "damage": 120,
-      "total_damage": 120,
-      "hitstun_ticks": 30,
-      "combo_hitstun_ticks": 30,
-      "knockback": 6.0,
-      "knockdown": true,
-      "plus_frames": 0,
-      "hitboxes": [
-        {
-          "name": "Hitbox",
-          "x": 26,
-          "y": -5,
-          "w": 22,
-          "h": 5,
-          "damage": 120,
-          "hitstun_ticks": 30,
-          "combo_hitstun_ticks": 30,
-          "start_tick": 7,
-          "active_ticks": 2,
-          "hit_height": "low",
-          "hits_aerial": true,
-          "hits_grounded": true
-        }
-      ]
+      ],
+      "anim_length": 29,
+      "move_type": 1,
+      "title": "Sweep"
     },
     "HitGrab": {
       "h_range_min": 4,
@@ -5599,6 +7127,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5615,7 +7144,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 26,
+      "move_type": 2,
+      "title": "Skull Shaker"
     },
     "HitGrab2": {
       "h_range_min": 4,
@@ -5634,6 +7166,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5650,7 +7183,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 26,
+      "move_type": 2,
+      "title": "Skull Shaker"
     },
     "HitGrabFollowup": {
       "h_range_min": 5,
@@ -5669,6 +7205,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5685,7 +7222,8 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 33
     },
     "IzunaDrop": {
       "h_range_min": 0,
@@ -5704,6 +7242,7 @@
       "knockback": 13.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5720,7 +7259,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "move_type": 2,
+      "title": "Izuna Drop"
     },
     "JumpKick": {
       "h_range_min": 0,
@@ -5739,6 +7280,7 @@
       "knockback": 11.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5755,7 +7297,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "move_type": 2,
+      "title": "Jump Kick"
     },
     "NunChukHeavy": {
       "h_range_min": 6,
@@ -5774,6 +7318,7 @@
       "knockback": 4.0,
       "knockdown": false,
       "plus_frames": 3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5805,57 +7350,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
-    },
-    "NunChukHeavyQS": {
-      "h_range_min": 6,
-      "h_range_max": 48,
-      "v_top": -47,
-      "v_bottom": -7,
-      "hit_height": "mid",
-      "hits_aerial": true,
-      "hits_grounded": true,
-      "startup_ticks": 6,
-      "active_ticks": 8,
-      "damage": 50,
-      "total_damage": 85,
-      "hitstun_ticks": 23,
-      "combo_hitstun_ticks": 23,
-      "knockback": 4.0,
-      "knockdown": false,
-      "plus_frames": 3,
-      "hitboxes": [
-        {
-          "name": "Hitbox",
-          "x": 27,
-          "y": -27,
-          "w": 19,
-          "h": 18,
-          "damage": 35,
-          "hitstun_ticks": 23,
-          "combo_hitstun_ticks": 23,
-          "start_tick": 6,
-          "active_ticks": 6,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "Hitbox2",
-          "x": 27,
-          "y": -27,
-          "w": 21,
-          "h": 20,
-          "damage": 50,
-          "hitstun_ticks": 23,
-          "combo_hitstun_ticks": 23,
-          "start_tick": 12,
-          "active_ticks": 2,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        }
-      ]
+      ],
+      "anim_length": 16,
+      "move_type": 1,
+      "title": "Chuk Heavy"
     },
     "NunChukJump": {
       "h_range_min": 0,
@@ -5874,6 +7372,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5890,7 +7389,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "move_type": 1,
+      "title": "Chuk Jump"
     },
     "NunChukJumpFollowup": {
       "h_range_min": 0,
@@ -5909,6 +7410,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5925,7 +7427,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "move_type": 1,
+      "title": "Chuk Jump"
     },
     "NunChukLight": {
       "h_range_min": 13,
@@ -5944,6 +7448,7 @@
       "knockback": 8.0,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -5960,7 +7465,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 19,
+      "move_type": 1,
+      "title": "NunChuk"
     },
     "NunChukLightHigh": {
       "h_range_min": 4,
@@ -5979,6 +7487,7 @@
       "knockback": 6.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -6025,7 +7534,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 19,
+      "move_type": 1
     },
     "NunChukSpin": {
       "h_range_min": 0,
@@ -6044,6 +7555,7 @@
       "knockback": 5.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -6075,57 +7587,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
-    },
-    "NunChukSpinQS": {
-      "h_range_min": 0,
-      "h_range_max": 50,
-      "v_top": -37,
-      "v_bottom": 0,
-      "hit_height": "high",
-      "hits_aerial": true,
-      "hits_grounded": true,
-      "startup_ticks": 6,
-      "active_ticks": 17,
-      "damage": 70,
-      "total_damage": 140,
-      "hitstun_ticks": 23,
-      "combo_hitstun_ticks": 23,
-      "knockback": 5.0,
-      "knockdown": false,
-      "plus_frames": 1,
-      "hitboxes": [
-        {
-          "name": "Hitbox",
-          "x": 3,
-          "y": -29,
-          "w": 19,
-          "h": 8,
-          "damage": 70,
-          "hitstun_ticks": 23,
-          "combo_hitstun_ticks": 23,
-          "start_tick": 6,
-          "active_ticks": 17,
-          "hit_height": "high",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "Hitbox2",
-          "x": 25,
-          "y": -9,
-          "w": 25,
-          "h": 9,
-          "damage": 70,
-          "hitstun_ticks": 23,
-          "combo_hitstun_ticks": 23,
-          "start_tick": 6,
-          "active_ticks": 17,
-          "hit_height": "high",
-          "hits_aerial": true,
-          "hits_grounded": true
-        }
-      ]
+      ],
+      "anim_length": 40,
+      "move_type": 1,
+      "title": "Chuk Spin"
     },
     "OffensiveBurst": {
       "h_range_min": 0,
@@ -6144,6 +7609,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -6179,6 +7645,7 @@
       "knockback": 20.0,
       "knockdown": false,
       "plus_frames": 4,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -6195,7 +7662,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 29,
+      "move_type": 1
     },
     "QuickSlash": {
       "h_range_min": 0,
@@ -6214,6 +7683,7 @@
       "knockback": 5.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "H1",
@@ -6395,7 +7865,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 60,
+      "iasa_at": 20,
+      "move_type": 3,
+      "title": "Quick Slash"
     },
     "QuickSlashAir": {
       "h_range_min": 0,
@@ -6414,6 +7888,7 @@
       "knockback": 5.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "H1",
@@ -6595,407 +8070,11 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
-    },
-    "QuickSlashAirNeutral": {
-      "h_range_min": 0,
-      "h_range_max": 5,
-      "v_top": -5,
-      "v_bottom": 5,
-      "hit_height": "mid",
-      "hits_aerial": true,
-      "hits_grounded": true,
-      "startup_ticks": -1,
-      "active_ticks": 1,
-      "damage": 100,
-      "total_damage": 1200,
-      "hitstun_ticks": 10,
-      "combo_hitstun_ticks": 20,
-      "knockback": 5.0,
-      "knockdown": false,
-      "plus_frames": 0,
-      "hitboxes": [
-        {
-          "name": "H1",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H2",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H3",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H4",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H5",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H6",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H7",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H8",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H9",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H10",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H11",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H12",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        }
-      ]
-    },
-    "QuickSlashNeutral": {
-      "h_range_min": 0,
-      "h_range_max": 5,
-      "v_top": -5,
-      "v_bottom": 5,
-      "hit_height": "mid",
-      "hits_aerial": true,
-      "hits_grounded": true,
-      "startup_ticks": -1,
-      "active_ticks": 1,
-      "damage": 100,
-      "total_damage": 1200,
-      "hitstun_ticks": 10,
-      "combo_hitstun_ticks": 20,
-      "knockback": 5.0,
-      "knockdown": false,
-      "plus_frames": 0,
-      "hitboxes": [
-        {
-          "name": "H1",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H2",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H3",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H4",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H5",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H6",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H7",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H8",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H9",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H10",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H11",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "H12",
-          "x": 0,
-          "y": 0,
-          "w": 5,
-          "h": 5,
-          "damage": 100,
-          "hitstun_ticks": 10,
-          "combo_hitstun_ticks": 20,
-          "start_tick": -1,
-          "active_ticks": 1,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        }
-      ]
+      ],
+      "anim_length": 60,
+      "iasa_at": 20,
+      "move_type": 3,
+      "title": "Quick Slash"
     },
     "SlideKick": {
       "h_range_min": 0,
@@ -7014,6 +8093,7 @@
       "knockback": 7.0,
       "knockdown": true,
       "plus_frames": -3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7030,7 +8110,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 17,
+      "move_type": 1,
+      "title": "Slide Kick"
     },
     "SlideKick2": {
       "h_range_min": 0,
@@ -7049,6 +8132,7 @@
       "knockback": 7.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7065,7 +8149,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 31,
+      "move_type": 1
     },
     "SlideKickAir": {
       "h_range_min": 0,
@@ -7084,6 +8170,7 @@
       "knockback": 7.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7100,42 +8187,116 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 17,
+      "move_type": 1,
+      "title": "Slide Kick"
     },
-    "SlideKickOld": {
+    "StickyBomb": {
       "h_range_min": 0,
-      "h_range_max": 34,
-      "v_top": -8,
-      "v_bottom": 0,
-      "hit_height": "low",
+      "h_range_max": 250,
+      "v_top": -16,
+      "v_bottom": 16,
+      "hit_height": "mid",
       "hits_aerial": true,
       "hits_grounded": true,
-      "startup_ticks": 7,
-      "active_ticks": 8,
-      "damage": 70,
-      "total_damage": 70,
-      "hitstun_ticks": 17,
-      "combo_hitstun_ticks": 17,
-      "knockback": 7.0,
-      "knockdown": true,
+      "startup_ticks": 1,
+      "active_ticks": 2,
+      "damage": 100,
+      "total_damage": 180,
+      "hitstun_ticks": 24,
+      "combo_hitstun_ticks": 24,
+      "knockback": 11.0,
+      "knockdown": false,
       "plus_frames": 0,
+      "source": "projectile",
       "hitboxes": [
         {
           "name": "Hitbox",
-          "x": 15,
-          "y": -4,
-          "w": 19,
-          "h": 4,
-          "damage": 70,
-          "hitstun_ticks": 17,
-          "combo_hitstun_ticks": 17,
-          "start_tick": 7,
-          "active_ticks": 8,
-          "hit_height": "low",
+          "x": 0,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "damage": 80,
+          "hitstun_ticks": 24,
+          "combo_hitstun_ticks": 24,
+          "start_tick": 1,
+          "active_ticks": 2,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "damage": 100,
+          "hitstun_ticks": 24,
+          "combo_hitstun_ticks": 24,
+          "start_tick": 1,
+          "active_ticks": 2,
+          "hit_height": "mid",
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "move_type": 2,
+      "title": "Sticky Bomb"
+    },
+    "StickyBombThrow": {
+      "h_range_min": 0,
+      "h_range_max": 250,
+      "v_top": -16,
+      "v_bottom": 16,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 2,
+      "damage": 100,
+      "total_damage": 180,
+      "hitstun_ticks": 24,
+      "combo_hitstun_ticks": 24,
+      "knockback": 11.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "damage": 80,
+          "hitstun_ticks": 24,
+          "combo_hitstun_ticks": 24,
+          "start_tick": 1,
+          "active_ticks": 2,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "damage": 100,
+          "hitstun_ticks": 24,
+          "combo_hitstun_ticks": 24,
+          "start_tick": 1,
+          "active_ticks": 2,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 45,
+      "move_type": 2
     },
     "Stomp": {
       "h_range_min": 8,
@@ -7154,6 +8315,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7170,7 +8332,97 @@
           "hits_aerial": false,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 51,
+      "iasa_at": 22,
+      "move_type": 1
+    },
+    "StoreMomentum": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 13,
+      "move_type": 3,
+      "title": "Store Momentum",
+      "source_note": "Store momentum resource"
+    },
+    "Substitution": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 8,
+      "move_type": 2,
+      "title": "Substitution",
+      "source_note": "Counter/dodge"
+    },
+    "Summon": {
+      "h_range_min": 0,
+      "h_range_max": 110,
+      "v_top": -16,
+      "v_bottom": 16,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "damage": 60,
+      "total_damage": 60,
+      "hitstun_ticks": 15,
+      "combo_hitstun_ticks": 15,
+      "knockback": 10.0,
+      "knockdown": false,
+      "plus_frames": 1,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "Hitbox",
+          "x": 0,
+          "y": 0,
+          "w": 21,
+          "h": 16,
+          "damage": 60,
+          "hitstun_ticks": 15,
+          "combo_hitstun_ticks": 15,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 14,
+      "move_type": 2,
+      "title": "Summon"
     },
     "Uppercut": {
       "h_range_min": 0,
@@ -7189,6 +8441,7 @@
       "knockback": 11.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7220,7 +8473,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 90,
+      "move_type": 2,
+      "title": "Uppercut"
     },
     "UppercutAir": {
       "h_range_min": 0,
@@ -7239,6 +8495,7 @@
       "knockback": 11.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7270,7 +8527,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 90,
+      "move_type": 2,
+      "title": "Uppercut"
     },
     "WhipWave": {
       "h_range_min": 12,
@@ -7289,6 +8549,7 @@
       "knockback": 10.0,
       "knockdown": true,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7305,7 +8566,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 12,
+      "move_type": 2,
+      "title": "Whip Wave"
     }
   },
   "Mutant": {
@@ -7326,6 +8590,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "LimbHurtbox",
@@ -7357,7 +8622,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 26,
+      "move_type": 2,
+      "title": "H. Acid Slash"
     },
     "AcidSlashJ": {
       "h_range_min": 0,
@@ -7376,6 +8644,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7512,117 +8781,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
-    },
-    "AcidSlashJUp": {
-      "h_range_min": 0,
-      "h_range_max": 35,
-      "v_top": -91,
-      "v_bottom": -11,
-      "hit_height": "mid",
-      "hits_aerial": true,
-      "hits_grounded": true,
-      "startup_ticks": 9,
-      "active_ticks": 7,
-      "damage": 90,
-      "total_damage": 450,
-      "hitstun_ticks": 30,
-      "combo_hitstun_ticks": 30,
-      "knockback": 10.0,
-      "knockdown": false,
-      "plus_frames": 0,
-      "hitboxes": [
-        {
-          "name": "Hitbox",
-          "x": -2,
-          "y": -20,
-          "w": 11,
-          "h": 9,
-          "damage": 90,
-          "hitstun_ticks": 16,
-          "combo_hitstun_ticks": 16,
-          "start_tick": 10,
-          "active_ticks": 6,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "Hitbox2",
-          "x": 5,
-          "y": -37,
-          "w": 11,
-          "h": 9,
-          "damage": 90,
-          "hitstun_ticks": 16,
-          "combo_hitstun_ticks": 16,
-          "start_tick": 10,
-          "active_ticks": 6,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "Hitbox3",
-          "x": 11,
-          "y": -54,
-          "w": 11,
-          "h": 9,
-          "damage": 90,
-          "hitstun_ticks": 16,
-          "combo_hitstun_ticks": 16,
-          "start_tick": 10,
-          "active_ticks": 6,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "Hitbox4",
-          "x": 19,
-          "y": -71,
-          "w": 11,
-          "h": 9,
-          "damage": 90,
-          "hitstun_ticks": 16,
-          "combo_hitstun_ticks": 16,
-          "start_tick": 10,
-          "active_ticks": 6,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "Hitbox5",
-          "x": 23,
-          "y": -80,
-          "w": 12,
-          "h": 11,
-          "damage": 90,
-          "hitstun_ticks": 16,
-          "combo_hitstun_ticks": 16,
-          "start_tick": 10,
-          "active_ticks": 6,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        },
-        {
-          "name": "LimbHurtbox",
-          "x": 6,
-          "y": -39,
-          "w": 14,
-          "h": 18,
-          "damage": 0,
-          "hitstun_ticks": 30,
-          "combo_hitstun_ticks": 30,
-          "start_tick": 9,
-          "active_ticks": 5,
-          "hit_height": "mid",
-          "hits_aerial": true,
-          "hits_grounded": true
-        }
-      ]
+      ],
+      "anim_length": 31,
+      "move_type": 2,
+      "title": "Leap Slash"
     },
     "AcidSlashV": {
       "h_range_min": 0,
@@ -7641,6 +8803,7 @@
       "knockback": 12.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7672,7 +8835,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 20,
+      "move_type": 2,
+      "title": "V. Acid Slash"
     },
     "AirKick": {
       "h_range_min": 0,
@@ -7691,6 +8857,7 @@
       "knockback": 7.5,
       "knockdown": true,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7707,7 +8874,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 15,
+      "move_type": 1,
+      "title": "Kick"
     },
     "AirSpin": {
       "h_range_min": 0,
@@ -7726,6 +8896,7 @@
       "knockback": 8.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7817,7 +8988,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 30,
+      "move_type": 1,
+      "title": "Shred"
     },
     "AirSwipe": {
       "h_range_min": 0,
@@ -7836,6 +9010,7 @@
       "knockback": 8.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7852,7 +9027,33 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 20,
+      "move_type": 1
+    },
+    "BiteGrab": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 30,
+      "move_type": 2,
+      "title": "Envenom",
+      "source_note": "Envenom grab (grab, no hitbox)"
     },
     "BiteThrow": {
       "h_range_min": 0,
@@ -7871,6 +9072,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7887,7 +9089,8 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 39
     },
     "Burst": {
       "h_range_min": 0,
@@ -7906,6 +9109,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7924,6 +9128,243 @@
         }
       ]
     },
+    "CausticBarrage": {
+      "h_range_min": 0,
+      "h_range_max": 550,
+      "v_top": -3,
+      "v_bottom": 3,
+      "hit_height": "high",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "damage": 50,
+      "total_damage": 50,
+      "hitstun_ticks": 14,
+      "combo_hitstun_ticks": 14,
+      "knockback": 6.0,
+      "knockdown": false,
+      "plus_frames": 2,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "SweptHitbox",
+          "x": 0,
+          "y": 0,
+          "w": 3,
+          "h": 3,
+          "damage": 50,
+          "hitstun_ticks": 14,
+          "combo_hitstun_ticks": 14,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "high",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 18,
+      "move_type": 3,
+      "title": "Caustic Barrage"
+    },
+    "CausticBarrageAir": {
+      "h_range_min": 0,
+      "h_range_max": 550,
+      "v_top": -3,
+      "v_bottom": 3,
+      "hit_height": "high",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 1,
+      "active_ticks": 5,
+      "damage": 50,
+      "total_damage": 50,
+      "hitstun_ticks": 14,
+      "combo_hitstun_ticks": 14,
+      "knockback": 6.0,
+      "knockdown": false,
+      "plus_frames": 2,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "SweptHitbox",
+          "x": 0,
+          "y": 0,
+          "w": 3,
+          "h": 3,
+          "damage": 50,
+          "hitstun_ticks": 14,
+          "combo_hitstun_ticks": 14,
+          "start_tick": 1,
+          "active_ticks": 5,
+          "hit_height": "high",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 18,
+      "move_type": 3,
+      "title": "Caustic Barrage Lo"
+    },
+    "CausticSpike": {
+      "h_range_min": 0,
+      "h_range_max": 127,
+      "v_top": -17,
+      "v_bottom": 17,
+      "hit_height": "mid",
+      "hits_aerial": true,
+      "hits_grounded": true,
+      "startup_ticks": 21,
+      "active_ticks": 6,
+      "damage": 120,
+      "total_damage": 1080,
+      "hitstun_ticks": 21,
+      "combo_hitstun_ticks": 15,
+      "knockback": 10.0,
+      "knockdown": false,
+      "plus_frames": 2,
+      "source": "projectile",
+      "hitboxes": [
+        {
+          "name": "CenterHitbox",
+          "x": 0,
+          "y": 0,
+          "w": 17,
+          "h": 17,
+          "damage": 120,
+          "hitstun_ticks": 21,
+          "combo_hitstun_ticks": 15,
+          "start_tick": 21,
+          "active_ticks": 6,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "LeftHitbox1",
+          "x": -35,
+          "y": 0,
+          "w": 7,
+          "h": 7,
+          "damage": 120,
+          "hitstun_ticks": 21,
+          "combo_hitstun_ticks": 15,
+          "start_tick": 21,
+          "active_ticks": 6,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "LeftHitbox2",
+          "x": -60,
+          "y": 0,
+          "w": 7,
+          "h": 7,
+          "damage": 120,
+          "hitstun_ticks": 21,
+          "combo_hitstun_ticks": 15,
+          "start_tick": 21,
+          "active_ticks": 6,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "LeftHitbox3",
+          "x": -85,
+          "y": 0,
+          "w": 7,
+          "h": 7,
+          "damage": 120,
+          "hitstun_ticks": 21,
+          "combo_hitstun_ticks": 15,
+          "start_tick": 21,
+          "active_ticks": 6,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "LeftHitbox4",
+          "x": -110,
+          "y": 0,
+          "w": 7,
+          "h": 7,
+          "damage": 120,
+          "hitstun_ticks": 21,
+          "combo_hitstun_ticks": 15,
+          "start_tick": 21,
+          "active_ticks": 6,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "RightHitbox1",
+          "x": 35,
+          "y": 0,
+          "w": 7,
+          "h": 7,
+          "damage": 120,
+          "hitstun_ticks": 21,
+          "combo_hitstun_ticks": 15,
+          "start_tick": 21,
+          "active_ticks": 6,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "RightHitbox2",
+          "x": 60,
+          "y": 0,
+          "w": 7,
+          "h": 7,
+          "damage": 120,
+          "hitstun_ticks": 21,
+          "combo_hitstun_ticks": 15,
+          "start_tick": 21,
+          "active_ticks": 6,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "RightHitbox3",
+          "x": 85,
+          "y": 0,
+          "w": 7,
+          "h": 7,
+          "damage": 120,
+          "hitstun_ticks": 21,
+          "combo_hitstun_ticks": 15,
+          "start_tick": 21,
+          "active_ticks": 6,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        },
+        {
+          "name": "RightHitbox4",
+          "x": 110,
+          "y": 0,
+          "w": 7,
+          "h": 7,
+          "damage": 120,
+          "hitstun_ticks": 21,
+          "combo_hitstun_ticks": 15,
+          "start_tick": 21,
+          "active_ticks": 6,
+          "hit_height": "mid",
+          "hits_aerial": true,
+          "hits_grounded": true
+        }
+      ],
+      "anim_length": 20,
+      "move_type": 2,
+      "title": "Caustic Spike"
+    },
     "DashThroughAttack": {
       "h_range_min": 0,
       "h_range_max": 42,
@@ -7941,6 +9382,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -7987,42 +9429,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
-    },
-    "ForwardDashBackFollowup": {
-      "h_range_min": 0,
-      "h_range_max": 27,
-      "v_top": -18,
-      "v_bottom": 6,
-      "hit_height": "high",
-      "hits_aerial": true,
-      "hits_grounded": true,
-      "startup_ticks": 8,
-      "active_ticks": 2,
-      "damage": 65,
-      "total_damage": 65,
-      "hitstun_ticks": 24,
-      "combo_hitstun_ticks": 24,
-      "knockback": 8.0,
-      "knockdown": false,
-      "plus_frames": 1,
-      "hitboxes": [
-        {
-          "name": "Hitbox",
-          "x": 4,
-          "y": -6,
-          "w": 23,
-          "h": 12,
-          "damage": 65,
-          "hitstun_ticks": 24,
-          "combo_hitstun_ticks": 24,
-          "start_tick": 8,
-          "active_ticks": 2,
-          "hit_height": "high",
-          "hits_aerial": true,
-          "hits_grounded": true
-        }
-      ]
+      ],
+      "anim_length": 22,
+      "move_type": 2,
+      "title": "Sneak Attack"
     },
     "ForwardDashFollowup": {
       "h_range_min": 0,
@@ -8041,6 +9451,7 @@
       "knockback": 16.0,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -8117,7 +9528,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 34,
+      "move_type": 1,
+      "title": "Dash Attack"
     },
     "GroundToAirSpin": {
       "h_range_min": 0,
@@ -8136,6 +9550,7 @@
       "knockback": 8.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox7",
@@ -8272,7 +9687,34 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 38,
+      "move_type": 1,
+      "title": "Shred"
+    },
+    "JukeCharge": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 45,
+      "move_type": 3,
+      "title": "Howl",
+      "source_note": "Howl buff (no damage)"
     },
     "Kick": {
       "h_range_min": 0,
@@ -8291,6 +9733,7 @@
       "knockback": 7.5,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -8307,7 +9750,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 24,
+      "move_type": 1
     },
     "OffensiveBurst": {
       "h_range_min": 0,
@@ -8326,6 +9771,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -8361,6 +9807,7 @@
       "knockback": 10.0,
       "knockdown": true,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -8377,7 +9824,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 23,
+      "move_type": 1,
+      "title": "Overhead Claw"
     },
     "ProjectileGrab": {
       "h_range_min": 0,
@@ -8396,7 +9846,11 @@
       "knockback": 0.0,
       "knockdown": false,
       "plus_frames": 0,
-      "hitboxes": []
+      "source": "character",
+      "hitboxes": [],
+      "anim_length": 40,
+      "move_type": 2,
+      "title": "Vault"
     },
     "ProjectileGrabJump": {
       "h_range_min": 0,
@@ -8415,6 +9869,7 @@
       "knockback": 9.0,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -8446,7 +9901,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 12,
+      "title": "BounceJump"
     },
     "Rebirth": {
       "h_range_min": 0,
@@ -8465,6 +9922,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": -1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -8481,11 +9939,13 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 26,
+      "move_type": 3
     },
     "Shockwave": {
       "h_range_min": 0,
-      "h_range_max": 27,
+      "h_range_max": 300,
       "v_top": -38,
       "v_bottom": 6,
       "hit_height": "mid",
@@ -8500,6 +9960,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "override",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -8531,7 +9992,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 22,
+      "move_type": 2,
+      "title": "Shockwave"
     },
     "ShredLandCancel": {
       "h_range_min": 0,
@@ -8550,6 +10014,7 @@
       "knockback": 7.0,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -8566,7 +10031,8 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "move_type": 5
     },
     "Slash": {
       "h_range_min": 15,
@@ -8585,6 +10051,7 @@
       "knockback": 11.5,
       "knockdown": false,
       "plus_frames": 1,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -8601,7 +10068,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 18,
+      "move_type": 1
     },
     "Sweep": {
       "h_range_min": 1,
@@ -8620,6 +10089,7 @@
       "knockback": 10.0,
       "knockdown": true,
       "plus_frames": -3,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -8636,7 +10106,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 25,
+      "move_type": 1
     },
     "Swipe": {
       "h_range_min": 0,
@@ -8655,6 +10127,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox3",
@@ -8746,7 +10219,9 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 14,
+      "move_type": 1
     },
     "Swipe2": {
       "h_range_min": 0,
@@ -8765,6 +10240,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox3",
@@ -8856,7 +10332,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 14,
+      "move_type": 1,
+      "title": "Swipe"
     },
     "SwipeDown": {
       "h_range_min": 5,
@@ -8875,6 +10354,7 @@
       "knockback": 7.0,
       "knockdown": true,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -8891,7 +10371,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 17,
+      "move_type": 1,
+      "title": "Low Swipe"
     },
     "SwipeUp": {
       "h_range_min": 0,
@@ -8910,6 +10393,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 0,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -8971,7 +10455,10 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 12,
+      "move_type": 1,
+      "title": "Swipe Up"
     },
     "TwistAttack": {
       "h_range_min": 0,
@@ -8990,6 +10477,7 @@
       "knockback": 10.0,
       "knockdown": false,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -9036,7 +10524,34 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 40,
+      "move_type": 2,
+      "title": "Corkscrew"
+    },
+    "WallTrick": {
+      "h_range_min": 0,
+      "h_range_max": 0,
+      "v_top": 0,
+      "v_bottom": 0,
+      "hit_height": "none",
+      "hits_aerial": false,
+      "hits_grounded": false,
+      "startup_ticks": 0,
+      "active_ticks": 0,
+      "damage": 0,
+      "total_damage": 0,
+      "hitstun_ticks": 0,
+      "combo_hitstun_ticks": 0,
+      "knockback": 0.0,
+      "knockdown": false,
+      "plus_frames": 0,
+      "source": "no_hitbox",
+      "hitboxes": [],
+      "anim_length": 9,
+      "move_type": 2,
+      "title": "Pounce",
+      "source_note": "Pounce to wall (no initial hitbox)"
     },
     "WallTrickFollowup": {
       "h_range_min": 0,
@@ -9055,6 +10570,7 @@
       "knockback": 12.0,
       "knockdown": true,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "LimbHurtbox",
@@ -9146,7 +10662,8 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 23
     },
     "WallTrickFollowup2": {
       "h_range_min": 0,
@@ -9165,6 +10682,7 @@
       "knockback": 12.0,
       "knockdown": true,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -9256,7 +10774,8 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 23
     },
     "WallTrickFollowup3": {
       "h_range_min": 0,
@@ -9275,6 +10794,7 @@
       "knockback": 12.0,
       "knockdown": true,
       "plus_frames": 2,
+      "source": "character",
       "hitboxes": [
         {
           "name": "Hitbox",
@@ -9306,7 +10826,8 @@
           "hits_aerial": true,
           "hits_grounded": true
         }
-      ]
+      ],
+      "anim_length": 23
     }
   }
 }
