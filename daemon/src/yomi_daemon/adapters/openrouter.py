@@ -76,7 +76,7 @@ class _ProviderCallResult:
 
 class DefaultOpenRouterTransport:
     def __init__(self) -> None:
-        self._client_by_key_and_headers: dict[tuple[str, str | None, str | None], AsyncOpenAI] = {}
+        self._client_by_key_and_headers: dict[tuple[str, ...], AsyncOpenAI] = {}
 
     async def create_completion(
         self,
@@ -87,6 +87,7 @@ class DefaultOpenRouterTransport:
         http_referer: str | None,
         title: str | None,
         categories: str | None = None,
+        base_url: str | None = None,
     ) -> JsonObject:
         try:
             response = await self._client_for_config(
@@ -94,6 +95,7 @@ class DefaultOpenRouterTransport:
                 http_referer=http_referer,
                 title=title,
                 categories=categories,
+                base_url=base_url,
             ).chat.completions.create(
                 **cast(Any, payload),
                 timeout=timeout_ms / 1000,
@@ -122,8 +124,10 @@ class DefaultOpenRouterTransport:
         http_referer: str | None,
         title: str | None,
         categories: str | None = None,
+        base_url: str | None = None,
     ) -> AsyncOpenAI:
-        cache_key = (api_key, http_referer, title, categories)
+        resolved_base_url = base_url or _OPENROUTER_BASE_URL
+        cache_key = (api_key, http_referer, title, categories, resolved_base_url)
         client = self._client_by_key_and_headers.get(cache_key)
         if client is None:
             default_headers: dict[str, str] = {}
@@ -135,7 +139,7 @@ class DefaultOpenRouterTransport:
                 default_headers["X-OpenRouter-Categories"] = categories
             client = AsyncOpenAI(
                 api_key=api_key,
-                base_url=_OPENROUTER_BASE_URL,
+                base_url=resolved_base_url,
                 default_headers=default_headers or None,
                 max_retries=0,
             )
@@ -158,6 +162,7 @@ class OpenRouterAdapter(BasePolicyAdapter):
         title: str | None,
         categories: str | None = None,
         reasoning_effort: str | None = None,
+        base_url: str | None = None,
         transport: OpenRouterTransport | None = None,
         default_trace_seed: int = 0,
     ) -> None:
@@ -172,6 +177,7 @@ class OpenRouterAdapter(BasePolicyAdapter):
         self._title = title
         self._categories = categories
         self._reasoning_effort = reasoning_effort
+        self._base_url = base_url
         self._transport = transport or DefaultOpenRouterTransport()
 
     async def decide(self, request: DecisionRequest) -> ActionDecision:
@@ -268,6 +274,7 @@ class OpenRouterAdapter(BasePolicyAdapter):
             http_referer=self._http_referer,
             title=self._title,
             categories=self._categories,
+            base_url=self._base_url,
         )
         try:
             output = _extract_response_output(provider_response)
@@ -344,6 +351,7 @@ def build_openrouter_adapter(
         title=_optional_string_option(options, "title"),
         categories=_optional_string_option(options, "categories"),
         reasoning_effort=_optional_string_option(options, "reasoning_effort"),
+        base_url=_optional_string_option(options, "base_url"),
         transport=transport,
         default_trace_seed=default_trace_seed,
     )
