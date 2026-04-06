@@ -193,6 +193,16 @@ Results saved: `runs/rl_eval_sft_v1/eval_results.json`
 4. **Only 20 matches of training data needed:** 1,672 examples from GPT-5.4 self-play was sufficient.
 5. **Cheap:** ~$30 for data collection + ~$11 for training = **~$41 total**.
 
+### Tactical analysis
+
+The SFT didn't just fix format compliance -- it fundamentally changed how the model plays. See **[Tactical Analysis: Baseline vs SFT v1](rl_tactical_analysis.md)** for the full breakdown. Key shifts:
+
+- **Learned to defend:** Baseline never intentionally blocked (<3% defensive). SFT uses ParryHigh (8.3%) and Roll (4.9%) as deliberate choices.
+- **Learned range-specific tools:** GunThrow at long range (30% of long-range decisions), LightningSlice at mid (15%), Grab at close (10%). Baseline spammed Lasso at every range (19%).
+- **Learned the RPS dynamic:** Responds to blocks with grabs, grabs with attacks, attacks with blocks. Baseline showed no counter-adaptation.
+- **Learned meaningful DI:** 88% non-zero directional influence with 34+ unique values. Baseline was mostly (0,0) from the fallback handler.
+- **Coverage gap:** Both models use ~28 of ~53 available moves. Moves like 3Combo, SpotDodge, and 1000Cuts are never used (inherited from GPT-5.4's preferences).
+
 ---
 
 ## Phase 2: Rejection Sampling / Expert Iteration [NOT STARTED]
