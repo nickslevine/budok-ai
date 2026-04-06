@@ -2,193 +2,219 @@
 
 ## Goal
 
-Train a small LLM (7-8B) via SFT and RL to consistently beat Gemini 3.1 Pro at YOMI Hustle in Cowboy mirror matches.
+Train a small LLM (8B) via SFT and RL to consistently beat Gemini 3.1 Pro at YOMI Hustle in Cowboy mirror matches.
+
+## Results Summary
+
+**SFT alone took Qwen3-8B from 0% to 67% win rate against frontier models.**
+
+| Metric | Baseline (Qwen3-8B) | SFT v1 |
+|---|---|---|
+| vs Gemini 3.1 Pro | 0W-3L (0%) | **2W-1L (67%)** |
+| vs GPT-5.4 | 0W-3L (0%) | **2W-1L (67%)** |
+| Avg HP diff vs Gemini | -377 | **+232** |
+| Avg HP diff vs GPT-5.4 | -244 | **-12** |
+| Fallback rate | 42% | **0%** |
+| Training cost | -- | **~$11** |
+| Training data | -- | 1,672 examples from 20 GPT-5.4 mirrors |
+
+---
 
 ## Architecture Overview
 
-The existing system already frames the game as a text-based decision problem. Each turn, the model receives a structured game state prompt and selects a named action from a variable legal action set. This is a single-turn architecture -- each prompt is independent with selected context from previous rounds -- which maps directly to GRPO/SFT training without multi-turn credit assignment.
+The existing system frames the game as a text-based decision problem. Each turn, the model receives a structured game state prompt and selects a named action from a variable legal action set. This is a single-turn architecture -- each prompt is independent with selected context from previous rounds -- which maps directly to GRPO/SFT training without multi-turn credit assignment.
 
 ```
 Training data flow:
 
-  Godot game ──WebSocket──> Daemon ──> PolicyAdapter ��─> LLM
+  Godot game ──WebSocket──> Daemon ──> PolicyAdapter ──> LLM
        ▲                                    │
-       └────── ActionDecision ◄───────���─────┘
+       └────── ActionDecision ◄─────────────┘
                     │
                     ▼
               decisions.jsonl ──> Trajectory ──> Training examples
                                                       │
                                                       ▼
-                                                 Tinker GRPO
+                                                 Tinker SFT/GRPO
 ```
 
 Key modules:
 - `daemon/src/yomi_daemon/rl/` -- reward functions, trajectory collection, Tinker env wrapper
 - `daemon/config/rl_*.json` -- experiment configs
 - `scripts/rl_*.sh` -- data collection and evaluation scripts
+- `scripts/rl_train_sft.py` -- SFT training on Tinker
+- `scripts/rl_prepare_sft.py` -- convert match data to training examples
 
 ## Decisions
 
 - **Character:** Cowboy mirror matches for all experiments
-- **Starting model:** Qwen 2.5 7B (pending Tinker availability)
-- **Reward shape:** Sparse (win/loss only) through Phase 2. Add HP delta shaping only if needed in Phase 3.
+- **Model:** Qwen3-8B (dense, `Qwen/Qwen3-8B` on Tinker, $0.40/M train tokens)
 - **Training platform:** Tinker (cloud LoRA training, no local GPUs needed)
+- **SFT data:** Both sides of GPT-5.4 mirror matches (not just winners), since all decisions are from a strong model
+- **Reward shape:** Sparse (win/loss only) for RL phases. SFT uses cross-entropy on expert play.
 
 ---
 
-## Phase 0: Collect SFT Training Data
+## Phase 0: Collect SFT Training Data [COMPLETED]
 
-Collect GPT-5.4 vs GPT-5.4 Cowboy mirror matches. Both sides produce strong play; we keep all winning trajectories.
+Collected 20 GPT-5.4 vs GPT-5.4 Cowboy mirror matches. Used both sides (not just winners) since all decisions are from a strong model.
 
-**Estimated cost:** ~$30 for 20 matches (~500 training examples from winning trajectories).
-
-### Run data collection
+### What we ran
 
 ```bash
-# Collect 20 matches (default)
-scripts/rl_collect_sft.sh
-
-# Collect a custom number
-scripts/rl_collect_sft.sh 40
-
-# Skip mod push if already installed in VM
-scripts/rl_collect_sft.sh 20 --skip-mod-push
+scripts/rl_collect_sft.sh 20
 ```
 
-**Output:** `runs/rl_sft_cowboy/<timestamp>_<match_id>/` per match, each containing `decisions.jsonl`, `result.json`, `prompts.jsonl`, etc.
+### Results
+
+- **20 matches completed, 0 failures**
+- 11 P1 wins, 9 P2 wins (roughly 50/50 as expected for mirror)
+- 84 avg turns/match
+- **1,672 total training examples** (836 per side)
+- 0 fallbacks from GPT-5.4 (perfect format compliance)
+- Avg prompt: ~20K chars, avg completion: ~275 chars
+
+### Data preparation
+
+```bash
+uv run python scripts/rl_prepare_sft.py
+```
+
+Output: `runs/rl_sft_cowboy/sft_training_data.jsonl` -- 1,672 (prompt, completion) pairs.
 
 **Config:** `daemon/config/rl_sft_cowboy_mirror.json`
 - GPT-5.4 vs GPT-5.4, Cowboy assigned, 750 starting HP, training_room stage
 
-### Verify data quality
-
-After collection, check for failed matches and fallback rates:
-
-```bash
-# Count completed vs failed matches
-find runs/rl_sft_cowboy -name "result.json" -exec python3 -c "
-import json,sys
-r = json.load(open(sys.argv[1]))
-print(f'{r.get(\"status\",\"?\")}: winner={r.get(\"winner\",\"?\")}, turns={r.get(\"total_turns\",\"?\")}')
-" {} \;
-
-# Check fallback rate (should be low for GPT-5.4)
-find runs/rl_sft_cowboy -name "decisions.jsonl" -exec grep -c "fallback_reason" {} \; | \
-  awk '{s+=$1} END {print "Total fallbacks:", s}'
-```
+**Cost:** ~$30 in OpenRouter API calls for 20 matches.
 
 ---
 
-## Phase 1: Supervised Fine-Tuning (SFT)
+## Baseline Eval: Qwen3-8B (No Training) [COMPLETED]
 
-Fine-tune the base model on winning trajectories from Phase 0. **No game time required** -- this is pure supervised learning on collected data.
+Before any training, we evaluated the off-the-shelf Qwen3-8B against Gemini and GPT-5.4 using the old (pre-hitbox-change) prompts.
 
-### Prepare training data
-
-Use the RL module to convert match artifacts into Tinker training examples:
-
-```python
-from pathlib import Path
-from yomi_daemon.rl.serialization import load_trajectory_records
-from yomi_daemon.rl.collector import TrajectoryCollector
-from yomi_daemon.rl.rewards import RewardConfig
-from yomi_daemon.rl.tinker_env import build_training_example
-
-# Load and filter to winning trajectories, then build training examples
-# (Full training data preparation script TBD -- will live in scripts/rl_prepare_sft.py)
-```
-
-### Training on Tinker
-
-The training loop uses Tinker's `TrainingClient` with cross-entropy loss on (prompt, completion) pairs from winning games:
-
-```python
-import tinker
-
-service = tinker.ServiceClient()
-tc = await service.create_lora_training_client(
-    base_model="qwen/qwen-2.5-7b",  # check Tinker availability
-    rank=32,
-    train_mlp=True,
-    train_attn=True,
-)
-
-for epoch in range(num_epochs):
-    for batch in training_data:
-        data = [
-            tinker.types.Datum(
-                model_input=tinker.types.ModelInput.from_ints(
-                    tokenizer.encode(example["prompt"] + example["completion"])
-                ),
-                loss_fn_inputs={
-                    "target_tokens": target_tokens,
-                    "weights": weights,  # mask prompt tokens, train on completion only
-                },
-            )
-            for example in batch
-        ]
-        await tc.forward_backward_async(data, loss_fn="cross_entropy")
-        await tc.optim_step_async(tinker.types.AdamParams(learning_rate=1e-4))
-
-# Save weights
-await tc.save_state("sft_cowboy_v1")
-```
-
-### Evaluate SFT model
+### What we ran
 
 ```bash
-# Evaluate against GPT-5.4 (10 matches)
-scripts/rl_eval.sh --model "tinker://path/to/sft_cowboy_v1" \
-    --opponent gpt54 --num-matches 10 --tag "sft_v1_vs_gpt54"
-
-# Evaluate against Gemini 3.1 Pro (10 matches)
-scripts/rl_eval.sh --model "tinker://path/to/sft_cowboy_v1" \
-    --opponent gemini --num-matches 10 --tag "sft_v1_vs_gemini"
+scripts/rl_eval.sh --model "qwen/qwen3-8b" --num-matches 3 --tag "baseline_old_prompts"
 ```
 
-**Success criteria:**
-- Beats `baseline/random` >90%
-- Beats `baseline/scripted_safe` >60%
-- Produces valid JSON actions with <10% fallback rate
+### Results
+
+| Opponent | Record | Avg HP Diff | Fallback Rate |
+|---|---|---|---|
+| Gemini 3.1 Pro | **0W-3L** | -377 | 46% |
+| GPT-5.4 | **0W-3L** | -244 | 38% |
+
+Per-game vs Gemini: 89-310, 2-459, 1-455 (destroyed every time).
+Per-game vs GPT-5.4: 185-246, 103-640, 49-183 (consistently lost).
+
+**Fallback analysis:** 79% of fallbacks were the model picking a move name not legal in the current game state (e.g., choosing "Stinger" when mid-animation with only "Continue" available). 21% were payload validation failures. The model produces valid JSON but doesn't understand state-dependent legality.
+
+Results saved: `runs/rl_eval_baseline_old_prompts/eval_results.json`
 
 ---
 
-## Phase 2: Rejection Sampling / Expert Iteration
+## Phase 1: Supervised Fine-Tuning (SFT) [COMPLETED]
 
-Iteratively improve the model by collecting matches with the current policy, keeping only winning trajectories, and SFT-ing again. This is simple, proven, and much cheaper than full RL.
+### What we ran
+
+```bash
+# Prepare training data (both sides of all 20 matches)
+uv run python scripts/rl_prepare_sft.py
+
+# Train (requires TINKER_API_KEY in .env)
+set -a && source .env && set +a
+PYTHONUNBUFFERED=1 uv run --project daemon python scripts/rl_save_checkpoint.py
+```
+
+### Training details
+
+- **Model:** `Qwen/Qwen3-8B` on Tinker
+- **Method:** LoRA rank 16, cross-entropy loss
+- **Data:** 1,622 train + 50 eval examples (from 1,672 total)
+- **Hyperparameters:** lr=0.0002, batch_size=4, 3 epochs
+- **Tokenization:** `tinker_cookbook.renderers.get_renderer("qwen3")` with `TrainOnWhat.LAST_ASSISTANT_MESSAGE` (masks prompt tokens, trains only on completion)
+- **Avg tokens/example:** 5,851
+- **Total tokens/epoch:** ~9.5M
+
+### Training curve
+
+| Epoch | Train Loss | Eval Loss | Time |
+|---|---|---|---|
+| 1 | 0.978 | 0.758 | 19 min |
+| 2 | 0.644 | 0.573 | 19 min |
+| 3 | 0.475 | 0.458 | 19 min |
+
+No overfitting (eval loss tracks train loss). Total training time: ~57 min. **Cost: ~$11.**
+
+### Checkpoint
+
+```
+Weights: tinker://d3d1239e-cb3f-5cf5-b675-3cbb2cd928c2:train:0/weights/yomi-sft-cowboy-v1
+Sampler: tinker://d3d1239e-cb3f-5cf5-b675-3cbb2cd928c2:train:0/sampler_weights/yomi-sft-cowboy-v1
+```
+
+The checkpoint is served via Tinker's OpenAI-compatible API:
+- Base URL: `https://tinker.thinkingmachines.dev/services/tinker-prod/oai/api/v1`
+- Model ID: the sampler path above
+- Auth: `TINKER_API_KEY`
+
+**Config:** `daemon/config/rl_eval_sft_v1.json` -- uses `provider: "openrouter"` with `base_url` option pointing at Tinker's API.
+
+### SFT v1 Eval Results
+
+```bash
+# Ran 3 matches each vs Gemini and GPT-5.4 with daemon/config/rl_eval_sft_v1.json
+```
+
+| Opponent | Record | Avg HP Diff | Fallback Rate |
+|---|---|---|---|
+| Gemini 3.1 Pro | **2W-1L** | **+232** | 0% |
+| GPT-5.4 | **2W-1L** | **-12** | 0% |
+
+Per-game vs Gemini:
+- [L] HP: 55 vs 215 (diff -160, 108 turns)
+- [W] HP: 506 vs 99 (diff +407, 66 turns)
+- [W] HP: 490 vs 42 (diff +448, 46 turns)
+
+Per-game vs GPT-5.4:
+- [W] HP: 205 vs 93 (diff +112, 100 turns)
+- [W] HP: 155 vs 12 (diff +143, 70 turns)
+- [L] HP: 75 vs 365 (diff -290, 138 turns)
+
+Results saved: `runs/rl_eval_sft_v1/eval_results.json`
+
+### Key observations
+
+1. **Format compliance fixed:** 0% fallback rate vs 42% baseline. The SFT completely eliminated malformed/illegal output.
+2. **Competitive with frontier models:** 67% win rate against both Gemini 3.1 Pro and GPT-5.4, up from 0%.
+3. **Wins are decisive:** When the SFT model wins, it wins big (+407, +448, +112, +143 HP diff). The losses are closer.
+4. **Only 20 matches of training data needed:** 1,672 examples from GPT-5.4 self-play was sufficient.
+5. **Cheap:** ~$30 for data collection + ~$11 for training = **~$41 total**.
+
+---
+
+## Phase 2: Rejection Sampling / Expert Iteration [NOT STARTED]
+
+Iteratively improve the model by collecting matches with the current SFT policy, keeping only winning trajectories, and SFT-ing again.
+
+Given the strong SFT v1 results (67% win rate), this phase may not be necessary. Consider going directly to GRPO if the goal is to push win rate above 80%.
 
 ### Loop
 
 ```
 for each iteration:
-    1. Run 200 matches with current model vs scripted baselines
+    1. Run matches with current model vs Gemini/GPT-5.4
     2. Filter to winning trajectories
     3. SFT on original expert data + new winning trajectories
-    4. Evaluate against Gemini/GPT-5.4
+    4. Evaluate
     5. If win rate improves, keep; otherwise stop
 ```
 
-### Run matches with current model
-
-```bash
-# Create a config that uses the current model vs baselines
-# (will need a config variant or --p1-policy/--p2-policy overrides)
-
-scripts/rl_collect_sft.sh 200 --daemon-config daemon/config/rl_rejection_sampling.json
-```
-
-### Evaluate
-
-```bash
-scripts/rl_eval.sh --model "tinker://path/to/iter_N" \
-    --opponent both --num-matches 10 --tag "iter_N"
-```
-
-**Success criteria:** Win rate against Gemini 3.1 Pro improves with each iteration.
-
 ---
 
-## Phase 3: GRPO (Only If Phase 2 Plateaus)
+## Phase 3: GRPO [NOT STARTED]
 
 Full reinforcement learning with Group Relative Policy Optimization. Each match is a rollout; the match outcome scores all steps in that match.
 
@@ -220,30 +246,23 @@ for iteration in range(num_iterations):
     sc = await tc.save_weights_and_get_sampling_client(f"grpo_iter_{iteration}")
 
     # 2. Collect rollouts (run matches with current policy)
-    #    Each match produces a trajectory scored by outcome
     trajectories = await collect_rollouts(sc, num_matches=50)
 
     # 3. Group by match, compute advantages
-    #    All steps in a winning match get positive advantage,
-    #    all steps in a losing match get negative advantage
     groups = group_by_match(trajectories)
     advantages = compute_group_relative_advantages(groups)
 
-    # 4. Build training data
+    # 4. Build training data and train
     data = assemble_training_data(groups, advantages)
-
-    # 5. Train
     await tc.forward_backward_async(data, loss_fn="ppo")
     await tc.optim_step_async(AdamParams(learning_rate=5e-5))
 
-    # 6. Evaluate every N iterations
+    # 5. Evaluate every N iterations
     if iteration % 10 == 0:
         evaluate(sc)
 ```
 
 ### Self-play (optional extension)
-
-If the model beats scripted baselines but not Gemini:
 
 1. Freeze current best model as opponent
 2. Train against frozen opponent
@@ -257,15 +276,19 @@ If the model beats scripted baselines but not Gemini:
 ### Quick eval (during development)
 
 ```bash
-# vs GPT-5.4 only (cheaper, faster)
-scripts/rl_eval.sh --model MODEL_ID --opponent gpt54 --num-matches 10 --tag "quick"
+# Use the SFT config directly with run_match.sh
+scripts/run_match.sh --daemon-config daemon/config/rl_eval_sft_v1.json \
+    --runs-root runs/rl_eval_sft_v1 --no-replay --skip-mod-push
 ```
 
-### Full eval (milestone checkpoints)
+### Batch eval
 
 ```bash
-# vs both Gemini and GPT-5.4
-scripts/rl_eval.sh --model MODEL_ID --opponent both --num-matches 20 --tag "milestone_v1"
+# For models served via OpenRouter (baseline, off-the-shelf models)
+scripts/rl_eval.sh --model "qwen/qwen3-8b" --num-matches 3 --tag "baseline"
+
+# For Tinker-hosted models, use the dedicated config
+# (daemon/config/rl_eval_sft_v1.json already configured)
 ```
 
 ### Reading results
@@ -274,45 +297,65 @@ Results are serialized to `runs/rl_eval_<tag>/eval_results.json`:
 
 ```json
 {
-  "model": "tinker://path/to/model",
-  "timestamp": "2026-04-05T...",
-  "total_games": 20,
+  "model": "tinker/yomi-sft-cowboy-v1",
   "opponents": {
     "google/gemini-3.1-pro-preview": {
-      "games": 10, "wins": 3, "losses": 7, "draws": 0,
-      "win_rate": 0.3, "avg_hp_diff": -120.0, "avg_turns": 42.0
+      "games": 3, "wins": 2, "losses": 1,
+      "avg_hp_diff": 232.0, "p1_fallback_rate": 0.0
     }
   },
   "games": [...]
 }
 ```
 
-Key metrics to track across experiments:
+Key metrics:
 - **Win rate** vs each opponent
 - **Avg HP differential** (positive = our model ahead at match end)
-- **Fallback rate** (should decrease with training)
-- **Avg turns** (very short or very long matches may indicate degenerate play)
+- **Fallback rate** (malformed/illegal output rate -- should be 0% after SFT)
+- **Avg turns** (very short = decisive wins; very long = passive stalls)
+
+---
+
+## Whiff Rate Analysis
+
+All models whiff 55-67% of attacks regardless of prompt version. This is inherent to the simultaneous-move game (both players move at once, so position predictions are uncertain).
+
+| Model | Old Prompts Whiff% | New Prompts Whiff% |
+|---|---|---|
+| Gemini 3.1 Pro | 63.7% | 55.3% |
+| GPT-5.4 | 67.1% | N/A (small sample) |
+| Qwen3-8B | 61.4% | 56.9% |
+
+**Note on the hitbox data update:** We expanded hitbox coverage significantly (projectile parsing, state-level data, programmatic overrides) but the updated `v_range` data made the range guidance too strict for airborne situations, causing models to play passively. The prompt code was reverted to `ca04967` for now. The extraction improvements are preserved in `scripts/extract_hitbox_data.py` for future use once the range guidance handles vertical distances better.
+
+---
+
+## Known Issues
+
+1. **Range guidance vertical check too strict:** The `_range_guidance` function says "NO attacks would hit" 36% of turns (almost all when someone is airborne). This makes models overly passive. Needs fixing before re-enabling the expanded hitbox data.
+
+2. **Long matches:** At 750 HP, matches average 84-135 turns. With ~30s per turn, a single match takes 5-15 minutes. Serial eval of 6 matches takes 1-2 hours.
+
+3. **Game stability:** The Godot game occasionally disconnects mid-match ("Connection lost: no close frame received"). Matches must be retried. The eval scripts handle this gracefully.
 
 ---
 
 ## Clock Time Budget
 
-The binding constraint is match execution time (~30s per match). Budget accordingly:
+Actual measured times from our experiments:
 
-| Phase | Matches needed | Time (serial) | Time (8 parallel) |
+| Task | Matches | Time (serial) | Cost |
 |---|---|---|---|
-| Phase 0: SFT data | 20 | ~10 min | ~2 min |
-| Phase 1: SFT training | 0 (offline) | 0 | 0 |
-| Phase 1: Eval | 20 | ~10 min | ~2 min |
-| Phase 2: Per iteration | 200 | ~100 min | ~13 min |
-| Phase 2: Eval | 20 | ~10 min | ~2 min |
-| Phase 3: Per iteration | 50 | ~25 min | ~4 min |
+| Phase 0: SFT data collection | 20 | ~2.5 hours | ~$30 |
+| Phase 1: SFT training | -- | ~57 min | ~$11 |
+| Baseline eval (3+3 matches) | 6 | ~2 hours | ~$5 |
+| SFT eval (3+3 matches) | 6 | ~1.5 hours | ~$5 |
 
 Mitigations for slow clock time:
-1. **Parallel Godot instances** (each on a different port)
-2. **`Engine.time_scale`** acceleration in Godot (untested -- may break game logic)
-3. **Headless rendering** (`--no-replay` already skips video recording)
-4. **750 HP** instead of 1500 (already configured, halves match length)
+1. **Parallel Godot instances** (each on a different port) -- not yet implemented
+2. **`Engine.time_scale`** acceleration in Godot (untested)
+3. **`--no-replay` and `--skip-mod-push`** flags (already used, saves ~30s per match)
+4. **750 HP** instead of 1500 (already configured)
 
 ---
 
@@ -320,16 +363,24 @@ Mitigations for slow clock time:
 
 | File | Purpose |
 |---|---|
+| `scripts/rl_collect_sft.sh` | Run N SFT data collection matches |
+| `scripts/rl_prepare_sft.py` | Convert match decisions to training JSONL |
+| `scripts/rl_train_sft.py` | SFT training on Tinker (with eval and sanity check) |
+| `scripts/rl_save_checkpoint.py` | Train and save persistent Tinker checkpoint |
+| `scripts/rl_eval.sh` | Evaluate model via OpenRouter, serialize results |
+| `scripts/extract_hitbox_data.py` | Extract hitbox data from decompiled .tscn files |
+| `daemon/config/rl_sft_cowboy_mirror.json` | GPT-5.4 mirror config for SFT data |
+| `daemon/config/rl_eval_vs_gemini.json` | Generic eval config (patches model ID) |
+| `daemon/config/rl_eval_sft_v1.json` | Eval config for SFT v1 via Tinker API |
 | `daemon/src/yomi_daemon/rl/rewards.py` | Composable reward functions |
 | `daemon/src/yomi_daemon/rl/trajectory.py` | Step, Trajectory, MatchOutcome types |
 | `daemon/src/yomi_daemon/rl/collector.py` | TrajectoryCollector for live matches |
 | `daemon/src/yomi_daemon/rl/tinker_env.py` | Prompt/completion formatting for Tinker |
 | `daemon/src/yomi_daemon/rl/serialization.py` | JSONL read/write for trajectories |
 | `daemon/src/yomi_daemon/rl/features.py` | Numeric feature extraction from observations |
-| `daemon/config/rl_sft_cowboy_mirror.json` | GPT-5.4 mirror config for SFT data |
-| `daemon/config/rl_eval_vs_gemini.json` | Eval config (model vs Gemini/GPT-5.4) |
-| `scripts/rl_collect_sft.sh` | Run N SFT data collection matches |
-| `scripts/rl_eval.sh` | Evaluate model, serialize HP differential results |
 | `docs/rl_brainstorming.md` | Extended brainstorming and analysis |
 | `docs/rl_libraries_infra.md` | Tinker and OpenReward research |
 | `docs/rl_decisions.md` | Key experiment decisions and rationale |
+| `runs/rl_sft_cowboy/` | SFT training data (20 matches) |
+| `runs/rl_eval_baseline_old_prompts/` | Baseline eval results (6 matches) |
+| `runs/rl_eval_sft_v1/` | SFT v1 eval results (6 matches) |
