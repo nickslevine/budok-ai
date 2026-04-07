@@ -202,9 +202,20 @@ Results saved: `runs/rl_eval_sft_v1/eval_results.json`
 
 ### Why does the 8B beat GPT-5.4? (verification)
 
-A surprising result deserves verification. See **[Verification: Why does the SFT 8B beat GPT-5.4?](rl_sft_vs_gpt54_verification.md)** for a detailed prompts.jsonl comparison from a SFT-vs-GPT-5.4 match.
+A surprising result deserves verification. See:
+- **[Verification: Why does the SFT 8B beat GPT-5.4?](rl_sft_vs_gpt54_verification.md)** -- initial prompts.jsonl comparison from a single match
+- **[Bug Investigation](rl_bug_investigation.md)** -- 6-hypothesis investigation after the n=40 result
 
-**Conclusion:** Not a bug. Both models received identical prompts and played similar games (28 vs 29 attacks, 44% vs 42% passive). The SFT model is essentially "GPT-5.4's Cowboy strategy executed consistently" -- distillation working as designed. The 4-2 result is from small-sample variance plus the SFT model dropping GPT-5.4's occasional suboptimal turns. Run 20+ matches for a stronger statistical claim.
+**Conclusion: Not a bug.** All the obvious hypotheses were ruled out:
+1. Prompt asymmetry: rejected (prompts differ only by 4 chars in `policy_id`)
+2. Decision count asymmetry: rejected (38/40 matches symmetric)
+3. **P1 positional advantage: rejected** (SFT vs SFT mirror is 5W-5L)
+4. Decision timeout: rejected (0 GPT-5.4 fallbacks)
+5. Latency artifacts: rejected (max 33s vs 120s timeout)
+
+**The real explanation:** The SFT model has a static, memorized Cowboy gameplan (95% open with HSlash2, 88% follow up with Lasso) that it executes consistently. The opponents (Gemini, GPT-5.4) reason from scratch each match and pick varied responses. In a 30-100 turn match, consistency compounds. Additionally, training on GPT-5.4 mirror data biased the SFT toward winning patterns, so it's effectively distilling "best-case GPT-5.4" rather than average GPT-5.4. This explains why a student model can exceed its teacher.
+
+**Important caveat:** the SFT's static strategy is *exploitable* by a smart adversary who learns to counter HSlash2 → Lasso. None of our current eval opponents do this. A dedicated yomi-playing opponent would expose this weakness.
 
 ### Generalization test
 
