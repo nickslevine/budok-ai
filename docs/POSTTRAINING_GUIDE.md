@@ -193,9 +193,21 @@ Results saved: `runs/rl_eval_sft_v1/eval_results.json`
 4. **Only 20 matches of training data needed:** 1,672 examples from GPT-5.4 self-play was sufficient.
 5. **Cheap:** ~$30 for data collection + ~$11 for training = **~$41 total**.
 
+### Generalization test
+
+The SFT gains do **not** generalize across characters. See **[Generalization Test: SFT v1 on Ninja and Wizard](rl_generalization_test.md)** for the full results.
+
+| Character | SFT v1 Record | Notes |
+|---|---|---|
+| Cowboy (in-distribution) | **4-2** | Wins majority |
+| Ninja | 0-6 | Worse than baseline on HP diff |
+| Wizard | 0-6 | Better HP diff than baseline but still loses every game |
+
+The model learned Cowboy-specific tactics (GunThrow, LightningSlice, Lasso) that don't transfer. Format compliance improved across all characters (40-59% -> 4-9% fallback rate), so the prompt parsing did transfer, but strategy did not. To get cross-character competence we need either per-character SFTs or multi-character training data.
+
 ### Tactical analysis
 
-The SFT didn't just fix format compliance -- it fundamentally changed how the model plays. See **[Tactical Analysis: Baseline vs SFT v1](rl_tactical_analysis.md)** for the full breakdown. Key shifts:
+The SFT didn't just fix format compliance -- it fundamentally changed how the model plays Cowboy. See **[Tactical Analysis: Baseline vs SFT v1](rl_tactical_analysis.md)** for the full breakdown. Key shifts:
 
 - **Learned to defend:** Baseline never intentionally blocked (<3% defensive). SFT uses ParryHigh (8.3%) and Roll (4.9%) as deliberate choices.
 - **Learned range-specific tools:** GunThrow at long range (30% of long-range decisions), LightningSlice at mid (15%), Grab at close (10%). Baseline spammed Lasso at every range (19%).
