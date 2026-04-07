@@ -193,6 +193,12 @@ Results saved: `runs/rl_eval_sft_v1/eval_results.json`
 4. **Only 20 matches of training data needed:** 1,672 examples from GPT-5.4 self-play was sufficient.
 5. **Cheap:** ~$30 for data collection + ~$11 for training = **~$41 total**.
 
+### Why does the 8B beat GPT-5.4? (verification)
+
+A surprising result deserves verification. See **[Verification: Why does the SFT 8B beat GPT-5.4?](rl_sft_vs_gpt54_verification.md)** for a detailed prompts.jsonl comparison from a SFT-vs-GPT-5.4 match.
+
+**Conclusion:** Not a bug. Both models received identical prompts and played similar games (28 vs 29 attacks, 44% vs 42% passive). The SFT model is essentially "GPT-5.4's Cowboy strategy executed consistently" -- distillation working as designed. The 4-2 result is from small-sample variance plus the SFT model dropping GPT-5.4's occasional suboptimal turns. Run 20+ matches for a stronger statistical claim.
+
 ### Generalization test
 
 The SFT gains do **not** generalize across characters. See **[Generalization Test: SFT v1 on Ninja and Wizard](rl_generalization_test.md)** for the full results.
