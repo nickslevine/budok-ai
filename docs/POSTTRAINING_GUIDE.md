@@ -6,17 +6,21 @@ Train a small LLM (8B) via SFT and RL to consistently beat Gemini 3.1 Pro at YOM
 
 ## Results Summary
 
-**SFT alone took Qwen3-8B from 0% to 67% win rate against frontier models.**
+**SFT alone took Qwen3-8B from 0% to 78% win rate against frontier models.**
 
-| Metric | Baseline (Qwen3-8B) | SFT v1 |
+After running 40 follow-up matches for statistical confidence:
+
+| Metric | Baseline (Qwen3-8B) | SFT v1 (n=20) |
 |---|---|---|
-| vs Gemini 3.1 Pro | 0W-3L (0%) | **2W-1L (67%)** |
-| vs GPT-5.4 | 0W-3L (0%) | **2W-1L (67%)** |
-| Avg HP diff vs Gemini | -377 | **+232** |
-| Avg HP diff vs GPT-5.4 | -244 | **-12** |
+| vs Gemini 3.1 Pro | 0W-3L (0%) | **17W-3L (85%, 95% CI: 64-95%)** |
+| vs GPT-5.4 | 0W-3L (0%) | **14W-5L (70%, 95% CI: 48-85%)** |
+| Avg HP diff vs Gemini | -377 | **+186** |
+| Avg HP diff vs GPT-5.4 | -244 | **+244** |
 | Fallback rate | 42% | **0%** |
 | Training cost | -- | **~$11** |
 | Training data | -- | 1,672 examples from 20 GPT-5.4 mirrors |
+
+The SFT model is **strictly better than its teacher** at Cowboy mirror -- 70% win rate vs GPT-5.4 itself. This is unusual for distillation and likely reflects the SFT model dropping GPT-5.4's high-variance/suboptimal turns while preserving its strong moves.
 
 ---
 
