@@ -260,60 +260,30 @@ for each iteration:
 
 ---
 
-## Phase 3: GRPO [NOT STARTED]
+## Phase 3: RL Self-Play [READY TO RUN]
 
-Full reinforcement learning with Group Relative Policy Optimization. Each match is a rollout; the match outcome scores all steps in that match.
+Self-play with REINFORCE (cross_entropy + advantage-scaled token weights) starting from the SFT v1 checkpoint. Implementation in `scripts/rl_self_play.py`, config template in `daemon/config/rl_self_play_template.json`.
 
-### Reward configuration
+**See [RL Self-Play Plan](rl_selfplay.md) for the full plan**, including:
 
-Start sparse, add density only if needed:
+- **Run 1 (feasibility check):** 5 iterations × 4 matches = 20 self-play matches, ~$10, ~3 hours. Sanity-check the loop end-to-end. Pass criteria, fail criteria, and post-run eval methodology.
+- **Run 2 (real training):** 15-20 iterations × 8 matches = 120-160 matches, ~$85, ~20 hours. The actual results run.
+- **Run 3 (HP delta shaping):** Only if run 2 stalls. Adds dense reward at low weight with explicit reward-hacking monitoring.
+- **Run 4 (tournament):** Round-robin between RL checkpoints + frozen SFT v1 to verify monotonic improvement.
 
-```python
-from yomi_daemon.rl.rewards import RewardConfig, hp_delta, fallback_penalty
+The doc also covers:
+- Why REINFORCE instead of GRPO/PPO (each game state is seen exactly once, so group-relative advantages don't fit)
+- Why sparse rewards instead of dense (SFT prior is strong enough; reward hacking risk)
+- Tactical comparisons to run after each checkpoint
+- Open questions (Nash convergence, exploitability, parallelism)
 
-# Start here
-config = RewardConfig.sparse()  # win/loss only
+### Quick start (Run 1)
 
-# If convergence is too slow, try this
-config = RewardConfig(
-    components={
-        "hp_delta": (hp_delta, 0.1),       # low weight to avoid reward hacking
-        "fallback": (fallback_penalty, 0.1),
-    },
-    terminal_weight=1.0,
-)
+```bash
+set -a && source .env && set +a
+PYTHONUNBUFFERED=1 uv run --project daemon python scripts/rl_self_play.py \
+    --num-iterations 5 --matches-per-iter 4
 ```
-
-### GRPO training loop (sketch)
-
-```python
-for iteration in range(num_iterations):
-    # 1. Save current weights for sampling
-    sc = await tc.save_weights_and_get_sampling_client(f"grpo_iter_{iteration}")
-
-    # 2. Collect rollouts (run matches with current policy)
-    trajectories = await collect_rollouts(sc, num_matches=50)
-
-    # 3. Group by match, compute advantages
-    groups = group_by_match(trajectories)
-    advantages = compute_group_relative_advantages(groups)
-
-    # 4. Build training data and train
-    data = assemble_training_data(groups, advantages)
-    await tc.forward_backward_async(data, loss_fn="ppo")
-    await tc.optim_step_async(AdamParams(learning_rate=5e-5))
-
-    # 5. Evaluate every N iterations
-    if iteration % 10 == 0:
-        evaluate(sc)
-```
-
-### Self-play (optional extension)
-
-1. Freeze current best model as opponent
-2. Train against frozen opponent
-3. Periodically update frozen opponent with latest weights
-4. Maintain a league of past checkpoints to avoid strategy cycling
 
 ---
 
@@ -413,11 +383,14 @@ Mitigations for slow clock time:
 | `scripts/rl_prepare_sft.py` | Convert match decisions to training JSONL |
 | `scripts/rl_train_sft.py` | SFT training on Tinker (with eval and sanity check) |
 | `scripts/rl_save_checkpoint.py` | Train and save persistent Tinker checkpoint |
+| `scripts/rl_self_play.py` | RL self-play training (REINFORCE on Tinker) |
 | `scripts/rl_eval.sh` | Evaluate model via OpenRouter, serialize results |
 | `scripts/extract_hitbox_data.py` | Extract hitbox data from decompiled .tscn files |
 | `daemon/config/rl_sft_cowboy_mirror.json` | GPT-5.4 mirror config for SFT data |
 | `daemon/config/rl_eval_vs_gemini.json` | Generic eval config (patches model ID) |
 | `daemon/config/rl_eval_sft_v1.json` | Eval config for SFT v1 via Tinker API |
+| `daemon/config/rl_eval_sft_mirror.json` | SFT vs SFT mirror config (P1/P2 bias test) |
+| `daemon/config/rl_self_play_template.json` | Self-play template (placeholder for sampler path) |
 | `daemon/src/yomi_daemon/rl/rewards.py` | Composable reward functions |
 | `daemon/src/yomi_daemon/rl/trajectory.py` | Step, Trajectory, MatchOutcome types |
 | `daemon/src/yomi_daemon/rl/collector.py` | TrajectoryCollector for live matches |
@@ -427,6 +400,15 @@ Mitigations for slow clock time:
 | `docs/rl_brainstorming.md` | Extended brainstorming and analysis |
 | `docs/rl_libraries_infra.md` | Tinker and OpenReward research |
 | `docs/rl_decisions.md` | Key experiment decisions and rationale |
+| `docs/rl_tactical_analysis.md` | Baseline vs SFT v1 tactical breakdown |
+| `docs/rl_generalization_test.md` | SFT v1 on Ninja and Wizard (out-of-distribution) |
+| `docs/rl_sft_v1_full_eval.md` | SFT v1 full eval results (n=40) with HP analysis |
+| `docs/rl_sft_vs_gpt54_verification.md` | Initial single-match prompt comparison |
+| `docs/rl_bug_investigation.md` | 6-hypothesis bug check (SFT vs SFT mirror) |
+| `docs/rl_selfplay.md` | RL self-play plan: runs 1-4 with eval criteria |
 | `runs/rl_sft_cowboy/` | SFT training data (20 matches) |
 | `runs/rl_eval_baseline_old_prompts/` | Baseline eval results (6 matches) |
 | `runs/rl_eval_sft_v1/` | SFT v1 eval results (6 matches) |
+| `runs/rl_eval_sft_v1_full/` | SFT v1 full eval (40 matches) |
+| `runs/rl_eval_sft_mirror/` | SFT vs SFT mirror eval (10 matches, P1 bias test) |
+| `runs/rl_self_play/` | Self-play training rollouts (per iteration) |
