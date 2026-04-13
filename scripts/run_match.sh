@@ -13,7 +13,7 @@
 # Options (override config file values):
 #   --daemon-config PATH     Daemon runtime config JSON
 #   --log-level LVL          Log verbosity
-#   --no-replay              Disable replay recording
+#   --no-replay              Disable replay video recording (still saves match.replay)
 #   --skip-mod-push          Skip mod packaging and push (use existing mod in VM)
 #   --dry-run                Print what would be done, don't execute
 #   -h, --help               Show this help
@@ -374,20 +374,37 @@ while true; do
     if [ -n "$LATEST_RUN" ] && [ -f "${LATEST_RUN}result.json" ] && \
        python3 -c "import json,sys; r=json.load(open(sys.argv[1])); sys.exit(0 if r.get('status') in ('completed','failed') else 1)" "${LATEST_RUN}result.json" 2>/dev/null; then
         RESULT_FILE="${LATEST_RUN}result.json"
-        # Result found — wait for replay video (up to 3 min for recording + pull)
-        log "Match result found, waiting for replay recording..."
-        for i in $(seq 1 180); do
-            if [ -f "${LATEST_RUN}replay.mp4" ]; then
-                log "Replay video ready"
-                break
-            fi
-            if ! kill -0 "$DAEMON_PID" 2>/dev/null; then
-                break
-            fi
+        if [ "$RECORD_REPLAY" = "true" ]; then
+            # Result found — wait for replay video (up to 3 min for recording + pull)
+            log "Match result found, waiting for replay video recording..."
+            for i in $(seq 1 180); do
+                if [ -f "${LATEST_RUN}replay.mp4" ]; then
+                    log "Replay video ready"
+                    break
+                fi
+                if ! kill -0 "$DAEMON_PID" 2>/dev/null; then
+                    break
+                fi
+                sleep 1
+            done
+            # Give daemon a few seconds to finish cleanup, then kill it
+            sleep 3
+        else
+            # Still wait briefly for the saved .replay file to be pulled, but do
+            # not wait for replay playback / ffmpeg recording.
+            log "Match result found, waiting briefly for replay file..."
+            for i in $(seq 1 15); do
+                if [ -f "${LATEST_RUN}match.replay" ]; then
+                    log "Replay file ready"
+                    break
+                fi
+                if ! kill -0 "$DAEMON_PID" 2>/dev/null; then
+                    break
+                fi
+                sleep 1
+            done
             sleep 1
-        done
-        # Give daemon a few seconds to finish cleanup, then kill it
-        sleep 3
+        fi
         break
     fi
     sleep 2
@@ -425,6 +442,9 @@ print(f'║  Reason:  {r.get(\"end_reason\", \"unknown\"):<21s} ║')
 print(f'║  Turns:   {str(r.get(\"total_turns\", \"unknown\")):<21s} ║')
 " "$RESULT_FILE" 2>/dev/null || true
     printf '╚══════════════════════════════════╝\n'
+    if [ -f "${LATEST_RUN}match.replay" ]; then
+        log "Replay file: ${LATEST_RUN}match.replay"
+    fi
     if [ -f "${LATEST_RUN}replay.mp4" ]; then
         log "Replay video: ${LATEST_RUN}replay.mp4"
     fi

@@ -1,0 +1,62 @@
+{
+  "version": "v1",
+  "transport": {
+    "host": "0.0.0.0",
+    "port": 8765
+  },
+  "decision_timeout_ms": 120000,
+  "fallback_mode": "safe_continue",
+  "logging": {
+    "events": true,
+    "prompts": true,
+    "raw_provider_payloads": true
+  },
+  "policy_mapping": {
+    "p1": "rl/run2-iter15",
+    "p2": "tinker/sft-v1"
+  },
+  "policies": {
+    "rl/run2-iter15": {
+      "provider": "openrouter",
+      "model": "tinker://1ee9ac15-5d82-5944-a80b-74aaee8e9228:train:2/sampler_weights/rl-selfplay-run2-iter15-eval",
+      "prompt_version": "strategic_v1",
+      "credential_env_var": "TINKER_API_KEY",
+      "temperature": 0.7,
+      "max_tokens": 4096,
+      "options": {
+        "base_url": "https://tinker.thinkingmachines.dev/services/tinker-prod/oai/api/v1",
+        "response_parser": {
+          "enable_correction_retry": true,
+          "max_correction_retries": 1
+        }
+      }
+    },
+    "tinker/sft-v1": {
+      "provider": "openrouter",
+      "model": "tinker://d3d1239e-cb3f-5cf5-b675-3cbb2cd928c2:train:0/sampler_weights/yomi-sft-cowboy-v1",
+      "prompt_version": "strategic_v1",
+      "credential_env_var": "TINKER_API_KEY",
+      "temperature": 0.7,
+      "max_tokens": 4096,
+      "options": {
+        "base_url": "https://tinker.thinkingmachines.dev/services/tinker-prod/oai/api/v1",
+        "response_parser": {
+          "enable_correction_retry": true,
+          "max_correction_retries": 1
+        }
+      }
+    }
+  },
+  "character_selection": {
+    "mode": "assigned",
+    "assignments": {
+      "p1": "Cowboy",
+      "p2": "Cowboy"
+    }
+  },
+  "trace_seed": 0,
+  "stage_id": "training_room",
+  "match_options": {
+    "starting_hp": 750
+  }
+}

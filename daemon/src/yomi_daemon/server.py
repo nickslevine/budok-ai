@@ -404,8 +404,10 @@ class DaemonServer:
                 writer.result_path,
             )
 
-            # Handle post-match replay recording if enabled
-            if match_ended_payload is not None and self._replay_capture_config.enabled:
+            # Always try to pull the saved .replay file. When replay capture is
+            # enabled we also wait for ReplayStarted/ReplayEnded and record an
+            # MP4; when disabled we only wait briefly for ReplaySaved.
+            if match_ended_payload is not None:
                 await self._handle_replay_capture(
                     session=session,
                     connection=connection,
@@ -569,7 +571,7 @@ class DaemonServer:
         writer: MatchArtifactWriter,
         replay_path: str | None,
     ) -> None:
-        """Wait for replay lifecycle events and record replay video."""
+        """Pull match.replay for every match and optionally record replay video."""
 
         capture = ReplayCaptureSession(
             config=self._replay_capture_config,
@@ -577,23 +579,31 @@ class DaemonServer:
             run_dir=writer.run_dir,
             logger=self.logger,
         )
+        record_video = self._replay_capture_config.enabled
+        timeout_seconds = 120 if record_video else 15
 
         effective_replay_path = replay_path
         pulled_replay_path: str | None = None
 
-        # Pull the .replay file if available
+        # Pull the .replay file immediately when the path is already known.
         if replay_path:
             writer.update_replay_path(replay_path)
             await capture.pull_replay_file(replay_path)
             pulled_replay_path = replay_path
+            if not record_video:
+                await capture.cleanup()
+                return
 
+        wait_target = "replay events" if record_video else "ReplaySaved"
         self.logger.info(
-            "Session %s: waiting for replay events (timeout 120s)...",
+            "Session %s: waiting for %s (timeout %ss)...",
             session.session_id,
+            wait_target,
+            timeout_seconds,
         )
 
         try:
-            async with asyncio.timeout(120):
+            async with asyncio.timeout(timeout_seconds):
                 async for raw_message in connection:
                     if not isinstance(raw_message, str):
                         continue
@@ -622,6 +632,8 @@ class DaemonServer:
                             if pulled_replay_path != replay_path_raw:
                                 await capture.pull_replay_file(replay_path_raw)
                                 pulled_replay_path = replay_path_raw
+                            if not record_video:
+                                break
                         else:
                             self.logger.warning(
                                 "Session %s: ReplaySaved missing replay_path",
@@ -629,6 +641,8 @@ class DaemonServer:
                             )
 
                     elif event.event is EventName.REPLAY_STARTED:
+                        if not record_video:
+                            continue
                         display = str(
                             event.details.get("display", self._replay_capture_config.display)
                         )
@@ -656,6 +670,8 @@ class DaemonServer:
                         )
 
                     elif event.event is EventName.REPLAY_ENDED:
+                        if not record_video:
+                            continue
                         self.logger.info(
                             "Session %s: replay ended, stopping recording",
                             session.session_id,
@@ -665,21 +681,18 @@ class DaemonServer:
                         video_path = await capture.stop_recording()
                         if video_path:
                             self.logger.info("Replay video saved to %s", video_path)
-                        if effective_replay_path and pulled_replay_path != effective_replay_path:
-                            writer.update_replay_path(effective_replay_path)
-                            await capture.pull_replay_file(effective_replay_path)
-                            pulled_replay_path = effective_replay_path
-                        await capture.cleanup()
                         break
 
         except (TimeoutError, ConnectionClosed):
+            phase = "replay capture" if record_video else "replay file wait"
             self.logger.info(
-                "Session %s: replay capture phase ended (timeout or disconnect)",
+                "Session %s: %s phase ended (timeout or disconnect)",
                 session.session_id,
+                phase,
             )
             # Pull the video even if ffmpeg already exited (was_started covers
             # the case where -t duration expired before ReplayEnded arrived).
-            if capture.is_recording or capture.was_started:
+            if record_video and (capture.is_recording or capture.was_started):
                 video_path = await capture.stop_recording()
                 if video_path:
                     self.logger.info("Replay video saved to %s (after timeout)", video_path)
@@ -687,6 +700,16 @@ class DaemonServer:
                 writer.update_replay_path(effective_replay_path)
                 await capture.pull_replay_file(effective_replay_path)
             await capture.cleanup()
+            return
+
+        if record_video and (capture.is_recording or capture.was_started):
+            video_path = await capture.stop_recording()
+            if video_path:
+                self.logger.info("Replay video saved to %s", video_path)
+        if effective_replay_path and pulled_replay_path != effective_replay_path:
+            writer.update_replay_path(effective_replay_path)
+            await capture.pull_replay_file(effective_replay_path)
+        await capture.cleanup()
 
     async def _perform_handshake(
         self,

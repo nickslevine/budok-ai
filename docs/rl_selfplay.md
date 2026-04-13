@@ -79,73 +79,108 @@ This run is a sanity check, not a results run. Watch for:
 - ❌ Model starts producing the same action 90%+ of the time (mode collapse)
 - ❌ Training loss diverges (NaN, exploding)
 
-### Evaluation after run 1
+### Run 1 results (2026-04-08 to 2026-04-10)
 
-Run the RL iter 5 checkpoint through the same eval used for SFT v1:
-- 20 matches vs Gemini 3.1 Pro
-- 20 matches vs GPT-5.4
-- **10 matches vs frozen SFT v1 (most important comparison)**
+We ran multiple iterations of run 1 to debug and stabilize the training loop.
 
-**Cost:** ~50 matches × 7 min ≈ 5-6 hours, ~$25 in API calls.
+**Run 1a (original config: sparse, lr=5e-5, no anchor):**
+- FAILED. Model collapsed by iter 4 — all matches timing out at 900s, fallback rate >20%.
+- Root cause: unbounded advantage scaling (±1.0 after z-norm) with lr=5e-5 pushed log-probs of losing actions toward -∞. No KL anchor meant drift compounded across iterations.
+- Loss spiked to 9.28 in a single batch at iter 3. By iter 4, model couldn't produce valid JSON.
 
-The critical comparison is **RL iter 5 vs frozen SFT v1**:
+**Fixes applied (run 1c):**
+- `lr`: 5e-5 → 5e-6 (10x reduction)
+- `adv-clip`: unbounded → 0.2 (caps gradient magnitude)
+- `save-every`: 5 → 1 (checkpoint every iter for inspection)
+- Match timeout: 900s → 600s
+- Fallback-rate guard: abort if >20% in any iter
+- Namespaced run dirs to prevent stale-data contamination
 
-| Outcome | Interpretation |
-|---|---|
-| RL > SFT (60%+ win rate) | Self-play discovered better strategy. Loop works. |
-| RL ≈ SFT (45-55% win rate) | No change. Either too little training signal or already at ceiling. |
-| RL < SFT (35-45%) | Self-play introduced noise or regressed. Bad lr, bad reward, or bug. |
-| RL << SFT (<30%) | Policy degraded badly. Reduce lr or abort. |
+**Run 1c (conservative sparse):**
+- All 5 iters completed. Loss bounded, fallback ≤0.6%.
+- Mirror: aggregate P1 14-6 (P1 bias emerging).
+- Eval vs SFT v1: **RL 4-6 (40% win rate)**. No improvement over SFT.
 
-### Tactical analysis on RL iter 5 matches
+**Run 2a (added SFT replay anchor at 0.5 ratio):**
+- All 5 iters completed. P1 bias eliminated: aggregate P1 10-10.
+- SFT anchor loss decreased monotonically (0.3416 → 0.2478), confirming policy stayed near SFT.
+- Eval vs SFT v1: **RL 4-6 (40% win rate)**. Anchor fixed stability but still no signal.
 
-After eval, run the same tactical breakdown we did for SFT v1:
-- Did the opening move distribution change?
-- Is it using moves the SFT never used (3Combo, SpotDodge, VSlash)?
-- Did DI usage evolve?
-- Did action diversity increase or decrease?
+**Run 3b (added HP-delta shaping at weight 0.05):**
+- All 5 iters completed. Fallback ≤0.6%, loss bounded.
+- Mirror: aggregate P1 12-8 (mild P1 lean, within noise).
+- Eval vs SFT v1 (RL as P1): **RL 6-4 (60%)**
+- Eval vs SFT v1 (RL as P2): **RL 7-3 (70%)**
+- **Combined: RL 13-7 (65% win rate) across 20 matches.** First positive result.
+- HP margins on RL wins averaged +338, vs -186 on losses — RL wins are more decisive.
 
-If there are tactical shifts even without win-rate improvement, that's still informative -- it tells us whether self-play is exploring or just adding noise.
+**Key takeaways:**
+1. Sparse reward with N=4 matches is below the noise floor for self-play. HP-delta shaping was essential.
+2. SFT replay anchor prevents drift and P1 bias but doesn't add learning signal alone.
+3. Conservative lr (5e-6) + advantage clipping (0.2) prevents the catastrophic collapse seen in 1a.
+4. The working hyperparameter combination: `lr=5e-6, adv-clip=0.2, hp-delta-weight=0.05, sft-replay-ratio=0.5`.
 
 ---
 
-## Run 2: Real training run (if run 1 passes)
+## Run 2: Real training run (run 1 passed)
 
-Assuming run 1 satisfies the pass criteria, run 2 is the actual training run.
+Run 1 confirmed that HP-delta shaping + SFT anchor + conservative lr produces genuine improvement (65% vs SFT v1). Run 2 scales up to get a stronger checkpoint and test whether improvement is monotonic.
 
 ### Config
 
-- **15-20 iterations**
-- **8 matches per iteration** = 120-160 total matches
-- Same lr, batch size, reward shape as run 1
-- Eval every 5 iterations against frozen SFT v1 (small 5-match eval, cheap)
-- Final eval: 20 matches vs each of Gemini, GPT-5.4, SFT v1
+- Starting point: SFT v1 checkpoint (fresh start, not resuming from run 1)
+- **15 iterations**
+- **8 matches per iteration** = 120 total matches
+- `lr = 5e-6`
+- `adv-clip = 0.2`
+- `hp-delta-weight = 0.05`
+- `sft-replay-ratio = 0.5` (KL-style anchor)
+- `batch_size = 4`
+- Temperature 0.9 in rollouts
+- Persistent checkpoint saved every iteration
+
+### Command
+
+```bash
+set -a && source .env && set +a
+PYTHONUNBUFFERED=1 uv run --project daemon python scripts/rl_self_play.py \
+    --num-iterations 15 --matches-per-iter 8 \
+    --lr 5e-6 --adv-clip 0.2 --hp-delta-weight 0.05 --sft-replay-ratio 0.5
+```
 
 ### Estimated cost and time
 
 | Item | Value |
 |---|---|
-| Rollout matches | ~150 × ~7 min ≈ 17 hours |
-| Training cost | ~$30 |
-| Sampling cost | ~$30 |
-| Eval cost | ~$25 |
-| **Total** | **~$85, ~20 hours clock time** |
+| Rollout matches | 120 × ~5 min ≈ 10 hours |
+| Training (RL + SFT replay) | ~$40 |
+| Sampling cost | ~$40 |
+| **Total** | **~$80, ~12-15 hours clock time** |
 
-This is the run we'd expect to actually produce a stronger model, if self-play is going to work at all. By iter 20, the model will have seen ~160 matches of self-play data on top of the original 1672 SFT examples.
+### Pass criteria
+
+- RL iter 15 beats SFT v1 >65% (across both P1 and P2 sides)
+- RL iter 15 competitive with GPT-5.4 (>40% win rate)
+- Monotonic improvement: iter 15 > iter 10 > iter 5 > SFT v1
+- No fallback rate spike or mirror collapse at any point
+
+### Evaluation plan
+
+After training, round-robin eval:
+- Checkpoints iter 5, 10, 15 each vs frozen SFT v1 (10 matches, both sides)
+- Iter 15 vs GPT-5.4 (10 matches, both sides)
+- Build win-rate curve to confirm monotonic improvement
 
 ---
 
-## Run 3: HP delta shaping (only if run 2 stalls)
+## Run 3: HP delta weight tuning (only if run 2 plateaus)
 
-If sparse self-play converges but plateaus before beating SFT v1, try adding dense rewards:
+Run 1 showed that HP-delta weight 0.05 is sufficient to produce signal at N=4. At N=8 (run 2), we may find that 0.05 is either too weak (plateau early) or too strong (reward hacking). If run 2 plateaus:
 
-- Same config as run 2
-- `--hp-delta-weight 0.05` (small shaping term)
+- Try `--hp-delta-weight 0.10` or `0.02`
 - Watch for reward hacking: avg HP margin rising faster than win rate
-
-If HP delta shaping helps, push the weight up. If it causes ultra-defensive drift (avg turns per match increases, attack rate drops), back off.
-
-**Why we don't start with dense rewards:** the SFT model already learned HP-efficient play from GPT-5.4 traces (avg 429 HP remaining in wins). We don't need dense signal for early progress, and we want clean differentiation between sparse RL and SFT for the first comparison. Dense rewards introduce reward hacking risk that's harder to detect than slow convergence.
+- Watch for ultra-defensive drift: avg turns per match increases, attack rate drops
+- Compare iter-by-iter win rate curves across different weights
 
 ---
 
@@ -198,7 +233,7 @@ If REINFORCE proves insufficient, the upgrade path is:
 - Magnitude calibration is fiddly (terminal vs dense balance)
 - Hard to detect when shaping has gone wrong
 
-**Decision:** start sparse for run 1 and run 2. The SFT starting point is strong enough that we don't need the variance reduction. If sparse stalls, run 3 adds shaping at low weight with explicit reward-hacking monitoring.
+**Decision (updated after run 1 results):** HP-delta shaping at weight 0.05 is now the default. Run 1 showed that sparse-only reward produces no learning signal at N=4 matches/iter (40% vs SFT after 5 iters). Adding HP-delta at 0.05 moved the needle to 65%. The SFT replay anchor (ratio 0.5) mitigates reward hacking risk by keeping the policy close to SFT v1's data distribution.
 
 ---
 

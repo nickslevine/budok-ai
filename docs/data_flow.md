@@ -239,7 +239,7 @@ After the match ends, the game automatically replays the match ~120 ticks later 
 5. When the replay game's `game_finished` becomes `true`, the mod sends `ReplayEnded`.
 6. The daemon stops ffmpeg, pulls the video and replay file from the VM into the run directory.
 
-Replay recording is enabled by default. It can be controlled via `replay_capture.enabled` in the daemon config file, or overridden with `--record-replay` / `--no-record-replay` CLI flags. The mod-side replay saving always occurs regardless of this setting.
+Replay video recording is enabled by default. It can be controlled via `replay_capture.enabled` in the daemon config file, or overridden with `--record-replay` / `--no-record-replay` CLI flags. The mod-side replay saving always occurs regardless of this setting, and the daemon now still attempts to pull `match.replay` even when video capture is disabled.
 
 ## Artifact Layout After A Complete Match
 
@@ -254,5 +254,5 @@ runs/<timestamp>_<match_id>/
   replay_index.json   ← per-turn pointers into decisions and prompts
   stderr.log          ← error output
   replay.mp4          ← replay video (when replay_capture.enabled, default on)
-  match.replay        ← game replay file (when replay_capture.enabled, default on)
+  match.replay        ← game replay file (always attempted; normally present even when replay video is disabled)
 ```

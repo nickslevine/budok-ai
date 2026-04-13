@@ -37,7 +37,7 @@ import numpy as np
 sys.stdout.reconfigure(line_buffering=True)  # type: ignore[attr-defined]
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-RUNS_ROOT = REPO_ROOT / "runs" / "rl_self_play"
+RUNS_BASE = REPO_ROOT / "runs" / "rl_self_play"
 CONFIG_TEMPLATE = REPO_ROOT / "daemon" / "config" / "rl_self_play_template.json"
 TINKER_OAI_BASE_URL = "https://tinker.thinkingmachines.dev/services/tinker-prod/oai/api/v1"
 DEFAULT_SFT_CHECKPOINT = (
@@ -233,7 +233,7 @@ def write_self_play_config(sampler_path: str) -> Path:
 
 
 def run_match_subprocess(
-    config_path: Path, runs_dir: Path, trace_seed: int, timeout_s: int = 900
+    config_path: Path, runs_dir: Path, trace_seed: int, timeout_s: int = 600
 ) -> bool:
     """Shell out to scripts/run_match.sh for one match. Returns True on success."""
     cmd = [
@@ -330,7 +330,30 @@ async def train(args: argparse.Namespace) -> None:
     print("Training client ready")
     print()
 
-    RUNS_ROOT.mkdir(parents=True, exist_ok=True)
+    run_id = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
+    runs_root = RUNS_BASE / f"run_{run_id}"
+    runs_root.mkdir(parents=True, exist_ok=True)
+    print(f"Run dir: {runs_root}")
+    print()
+
+    # Load SFT replay data for KL-style anchor (keeps policy close to SFT v1).
+    sft_examples: list[tuple[str, str]] = []
+    if args.sft_replay_ratio > 0 and args.sft_replay_data:
+        sft_path = Path(args.sft_replay_data)
+        if sft_path.exists():
+            with open(sft_path) as f:
+                for line in f:
+                    obj = json.loads(line)
+                    p = obj.get("prompt")
+                    c = obj.get("completion")
+                    if isinstance(p, str) and isinstance(c, str):
+                        sft_examples.append((p, c))
+            print(f"Loaded {len(sft_examples)} SFT replay examples from {sft_path}")
+            print()
+        else:
+            print(f"WARNING: SFT replay data not found at {sft_path}; disabling anchor")
+            args.sft_replay_ratio = 0.0
+    rng = np.random.default_rng(42)
 
     for iteration in range(args.num_iterations):
         iter_start = time.time()
@@ -350,7 +373,7 @@ async def train(args: argparse.Namespace) -> None:
         # 2. Run self-play matches
         print(f"\n[2/5] Running {args.matches_per_iter} self-play matches...")
         config_path = write_self_play_config(sampler_path)
-        iter_runs_dir = RUNS_ROOT / f"iter_{iteration:03d}"
+        iter_runs_dir = runs_root / f"iter_{iteration:03d}"
         iter_runs_dir.mkdir(parents=True, exist_ok=True)
 
         completed, failed = 0, 0
@@ -388,7 +411,21 @@ async def train(args: argparse.Namespace) -> None:
         p1_wins = sum(1 for m in matches if m.winner == "p1")
         p2_wins = sum(1 for m in matches if m.winner == "p2")
         draws = len(matches) - p1_wins - p2_wins
-        print(f"  P1: {p1_wins}W, P2: {p2_wins}W, draws: {draws}")
+        total_steps = sum(len(m.steps) for m in matches)
+        fallback_steps = sum(
+            sum(1 for s in m.steps if s.was_fallback) for m in matches
+        )
+        fb_rate = fallback_steps / max(total_steps, 1)
+        print(
+            f"  P1: {p1_wins}W, P2: {p2_wins}W, draws: {draws} | "
+            f"fallback rate: {fb_rate:.1%}"
+        )
+        if fb_rate > 0.20:
+            print(
+                f"  ABORT: fallback rate {fb_rate:.1%} > 20% — model is degrading. "
+                "Stopping before more damage."
+            )
+            break
 
         # Per-step rewards
         all_steps: list[tuple[RolloutStep, float]] = []
@@ -412,11 +449,17 @@ async def train(args: argparse.Namespace) -> None:
         std = float(advantages.std())
         if std > 1e-8:
             advantages = advantages / std
+        # Clip to prevent unbounded log-prob suppression (poor man's PPO clip).
+        advantages = np.clip(advantages, -args.adv_clip, args.adv_clip)
         print(
             f"  Steps: {len(all_steps)} | mean_r: {rewards_arr.mean():.3f} | "
-            f"std: {rewards_arr.std():.3f} | adv: "
+            f"std: {rewards_arr.std():.3f} | adv (clipped): "
             f"[{advantages.min():.2f}, {advantages.max():.2f}]"
         )
+        # Skip iters where the signal is empty (all advantages zero after clip)
+        if float(np.abs(advantages).max()) < 1e-6:
+            print("  All advantages zero; skipping training for this iter")
+            continue
 
         # 4. Tokenize
         print("\n[4/5] Tokenizing with advantage-scaled weights...")
@@ -480,6 +523,62 @@ async def train(args: argparse.Namespace) -> None:
             if (bi + 1) % 10 == 0 or bi == 0:
                 print(f"  batch {bi + 1}/{num_batches} loss={loss:.4f}")
 
+        # SFT replay anchor: interleave SFT batches as KL-style regularizer.
+        # Trains on SFT (prompt, completion) with unit weights (no advantage),
+        # pulling the policy back toward the SFT data distribution.
+        if args.sft_replay_ratio > 0 and sft_examples:
+            num_sft_batches = max(1, int(round(num_batches * args.sft_replay_ratio)))
+            n_needed = num_sft_batches * batch_size
+            idxs = rng.choice(len(sft_examples), size=n_needed, replace=False)
+            sft_data = []
+            for idx in idxs:
+                prompt, completion = sft_examples[int(idx)]
+                conv = [
+                    {"role": "user", "content": prompt},
+                    {"role": "assistant", "content": completion},
+                ]
+                try:
+                    datum = conversation_to_datum(
+                        conv,
+                        renderer,
+                        max_length=args.max_length,
+                        train_on_what=TrainOnWhat.LAST_ASSISTANT_MESSAGE,
+                    )
+                    sft_data.append(datum)
+                except Exception:
+                    pass
+            print(f"\n[5b] SFT replay anchor: {len(sft_data)} examples "
+                  f"({num_sft_batches} batches)")
+            sft_losses = []
+            for bi in range(0, len(sft_data), batch_size):
+                batch = sft_data[bi : bi + batch_size]
+                if not batch:
+                    continue
+                fwd = await tc.forward_backward_async(batch, "cross_entropy")
+                opt = await tc.optim_step_async(
+                    tinker.AdamParams(learning_rate=args.lr)
+                )
+                result = await fwd.result_async()
+                await opt.result_async()
+                lp = np.concatenate(
+                    [out["logprobs"].tolist() for out in result.loss_fn_outputs]
+                )
+                w = np.concatenate(
+                    [
+                        d.loss_fn_inputs["weights"].tolist()
+                        if hasattr(d.loss_fn_inputs["weights"], "tolist")
+                        else d.loss_fn_inputs["weights"]
+                        for d in batch
+                    ]
+                )
+                denom = max(np.abs(w).sum(), 1e-8)
+                sft_losses.append(-float(np.dot(lp, w)) / denom)
+            if sft_losses:
+                print(
+                    f"  SFT replay avg_loss={float(np.mean(sft_losses)):.4f} "
+                    f"(unit weights; lower = higher log-prob on SFT actions)"
+                )
+
         iter_time = time.time() - iter_start
         avg_loss = float(np.mean(losses)) if losses else 0.0
         print()
@@ -515,8 +614,14 @@ def main() -> None:
     )
     parser.add_argument("--num-iterations", type=int, default=5)
     parser.add_argument("--matches-per-iter", type=int, default=4)
-    parser.add_argument("--lr", type=float, default=5e-5)
+    parser.add_argument("--lr", type=float, default=5e-6)
     parser.add_argument("--batch-size", type=int, default=4)
+    parser.add_argument(
+        "--adv-clip",
+        type=float,
+        default=0.2,
+        help="Clip |advantage| to this value (prevents log-prob blowup)",
+    )
     parser.add_argument("--max-length", type=int, default=8192)
     parser.add_argument(
         "--hp-delta-weight",
@@ -527,8 +632,20 @@ def main() -> None:
     parser.add_argument(
         "--save-every",
         type=int,
-        default=5,
+        default=1,
         help="Save a persistent checkpoint every N iterations",
+    )
+    parser.add_argument(
+        "--sft-replay-data",
+        default="runs/rl_sft_cowboy/sft_training_data.jsonl",
+        help="Path to SFT training jsonl with 'prompt'/'completion' fields",
+    )
+    parser.add_argument(
+        "--sft-replay-ratio",
+        type=float,
+        default=0.5,
+        help="Ratio of SFT replay batches per RL batch per iter (0 = off). "
+             "Acts as a KL-style anchor keeping the policy near SFT v1.",
     )
     args = parser.parse_args()
 
