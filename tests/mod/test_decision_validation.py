@@ -479,6 +479,29 @@ class TestActionApplication:
         assert result["applied"] is True
         assert result["queued_data"] == {"target": "enemy"}
 
+    def test_apply_normalizes_nested_float_payload_values_to_ints(self) -> None:
+        payload = {
+            "action": "Lasso",
+            "data": {"Aim": {"x": 70.0, "y": 0.0}, "choices": [1.0, 2.5, 3.0]},
+            "extra": {"di": None, "feint": False, "reverse": False, "prediction": None},
+        }
+        result = apply_decision(payload)
+        assert result["applied"] is True
+        assert result["queued_data"] == {
+            "Aim": {"x": 70, "y": 0},
+            "choices": [1, 2.5, 3],
+        }
+
+    def test_apply_unwraps_single_child_payload_maps(self) -> None:
+        payload = {
+            "action": "Lasso",
+            "data": {"Aim": {"x": 70.0, "y": -10.0}},
+            "extra": {"di": None, "feint": False, "reverse": False, "prediction": None},
+        }
+        result = apply_decision(payload)
+        assert result["applied"] is True
+        assert result["queued_data"] == {"x": 70, "y": -10}
+
     def test_apply_empty_action_fails(self) -> None:
         payload = {"action": "", "data": None, "extra": {}}
         result = apply_decision(payload)

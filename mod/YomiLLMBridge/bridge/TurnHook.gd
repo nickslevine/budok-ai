@@ -209,9 +209,27 @@ func _apply_valid_decision(
 
 	var apply_result = _action_applier.apply_decision(payload, fighter)
 	if not bool(apply_result.get("applied", false)):
+		printerr(
+			"YomiLLMBridge APPLY FAIL action=%s turn=%s player=%s error=%s"
+			% [
+				str(payload.get("action", "")),
+				int(request.get("turn_id", 0)),
+				player_id,
+				str(apply_result.get("error", "unknown")),
+			]
+		)
 		# Application failed, use fallback
 		_apply_fallback(request, player_id, "malformed_output", latency_ms)
 		return
+	printerr(
+		"YomiLLMBridge APPLY OK action=%s turn=%s player=%s path=%s"
+		% [
+			str(payload.get("action", "")),
+			int(request.get("turn_id", 0)),
+			player_id,
+			str(apply_result.get("apply_path", "unknown")),
+		]
+	)
 
 	var action_name = str(payload.get("action", ""))
 	var policy_id = str(payload.get("policy_id", ""))
@@ -250,6 +268,26 @@ func _apply_fallback(
 	var apply_result = _action_applier.apply_decision(fallback_decision, fighter)
 
 	var fallback_action = str(fallback_decision.get("action", ""))
+	if not bool(apply_result.get("applied", false)):
+		printerr(
+			"YomiLLMBridge FALLBACK APPLY FAIL action=%s turn=%s player=%s error=%s"
+			% [
+				fallback_action,
+				int(request.get("turn_id", 0)),
+				player_id,
+				str(apply_result.get("error", "unknown")),
+			]
+		)
+	else:
+		printerr(
+			"YomiLLMBridge FALLBACK APPLY OK action=%s turn=%s player=%s path=%s"
+			% [
+				fallback_action,
+				int(request.get("turn_id", 0)),
+				player_id,
+				str(apply_result.get("apply_path", "unknown")),
+			]
+		)
 	var strategy = str(fallback_decision.get("policy_id", "fallback/safe_continue"))
 	# Strip "fallback/" prefix for the strategy name
 	if strategy.begins_with("fallback/"):

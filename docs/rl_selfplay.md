@@ -2,6 +2,8 @@
 
 After SFT v1 reached 85%/70% win rates vs Gemini/GPT-5.4, the next step is RL self-play to push beyond what distillation can achieve. This doc covers the planned runs, evaluation methodology, and pass/fail criteria.
 
+> **Status note:** This document records the original/self-play-v1 plan and historical run results. For the current diagnosis of why RL has struggled to beat SFT reliably, plus the proposed fix set for the next iteration of training, see [RL v2 Plan](rl_v2.md).
+
 ## Background
 
 The self-play loop is implemented in `scripts/rl_self_play.py`. It uses REINFORCE with a batch baseline (mathematically equivalent to Tinker's `cross_entropy` loss with advantage-scaled token weights). Per iteration:
@@ -170,6 +172,39 @@ After training, round-robin eval:
 - Checkpoints iter 5, 10, 15 each vs frozen SFT v1 (10 matches, both sides)
 - Iter 15 vs GPT-5.4 (10 matches, both sides)
 - Build win-rate curve to confirm monotonic improvement
+
+### Run 2b results (2026-04-13 to 2026-04-14)
+
+We ran a variant of Run 2 with **lower HP-delta shaping**:
+- `hp-delta-weight = 0.01` (vs 0.05 in run 3b)
+- Other hyperparameters unchanged: `lr=5e-6, adv-clip=0.2, sft-replay-ratio=0.5`
+
+Because the run was resumed across multiple shells after crashes, the final artifact naming is a little messy: the final persistent checkpoint is `tinker://61069a9a-8c75-557d-97ee-29d530f5bdb6:train:0/weights/rl-selfplay-iter11`, but it corresponds to **overall run2b iter 15**.
+
+**Training run summary:**
+- Effective training iterations completed: **15/15**
+- Planned matches: **120**
+- Matches successfully parsed into training: **114**
+- Dropped matches: **6** total
+  - **5 disconnects** (`Connection lost during match: no close frame received or sent`)
+  - **1 timeout race** where `run_match.sh` marked the match failed at 600s, but the daemon finalized it moments later, after trajectory parsing had already begun
+- Mirror aggregate across parsed matches: **P1 56W / P2 58W** (balanced overall)
+- Iteration fallback rates stayed low: **0.0% to 0.5%**
+
+**Eval vs frozen SFT v1 (20 matches total, both sides):**
+- RL as **P1**: **5-5**, avg HP diff **-10**
+- RL as **P2**: **7-3**, avg HP diff **+263**
+- **Combined: RL 12-8 (60% win rate)**
+- Combined avg HP diff: **+127**
+- Avg turns per game: **79.4**
+- RL fallback rate: **2 / 794 decisions = 0.25%**
+- SFT fallback rate: **1 / 794 decisions = 0.13%**
+
+**Interpretation:**
+1. Lowering HP-delta shaping from **0.05 → 0.01** still produced a model that beats SFT v1, but it **underperformed** the earlier run 3b result (**60% vs 65%**).
+2. The lower shaping weight did **not** buy meaningfully better format stability; fallback rates were already low at 0.05 and remained low here.
+3. The run does **not** meet the original Run 2 pass criterion of **>65% vs SFT v1**.
+4. Current evidence favors keeping **`hp-delta-weight = 0.05`** as the better default. If we continue scaling Run 2-style training, the next serious long run should use **0.05**, not **0.01**.
 
 ---
 

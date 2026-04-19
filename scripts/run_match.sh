@@ -283,8 +283,20 @@ fi
 DAEMON_ARGS+=("--replay-vm" "$VM_NAME" "--replay-display" "$VM_DISPLAY")
 DAEMON_ARGS+=("${EXTRA_DAEMON_ARGS[@]+"${EXTRA_DAEMON_ARGS[@]}"}")
 
+LISTEN_PORT="${DAEMON_PORT:-8765}"
+STALE_DAEMON_PIDS=$(lsof -tiTCP:"$LISTEN_PORT" -sTCP:LISTEN 2>/dev/null || true)
+if [ -n "$STALE_DAEMON_PIDS" ]; then
+    log "Killing stale daemon listener(s) on port $LISTEN_PORT: $STALE_DAEMON_PIDS"
+    printf '%s\n' "$STALE_DAEMON_PIDS" | xargs -r kill -9 2>/dev/null || true
+    sleep 1
+fi
+
+# Record start time so we only look for run dirs created after this point
+MATCH_START_EPOCH=$(date +%s)
+
 DAEMON_PID=""
 GAME_PID_FILE=$(mktemp)
+VM_GAME_LOG="/tmp/yomi_match_${MATCH_START_EPOCH}_$$.log"
 
 cleanup() {
     if [ -n "$DAEMON_PID" ] && kill -0 "$DAEMON_PID" 2>/dev/null; then
@@ -296,18 +308,15 @@ cleanup() {
     fi
     # Kill game process in VM
     run_vm "ps aux | grep YourOnly | grep -v grep | awk '{print \$2}' | xargs -r kill -9" 2>/dev/null || true
+    run_vm "rm -f '$VM_GAME_LOG'" 2>/dev/null || true
     rm -f "$GAME_PID_FILE"
 }
 trap cleanup EXIT
-
-# Record start time so we only look for run dirs created after this point
-MATCH_START_EPOCH=$(date +%s)
 
 uv run --project daemon yomi-daemon "${DAEMON_ARGS[@]}" &
 DAEMON_PID=$!
 
 # Wait for daemon to start listening
-LISTEN_PORT="${DAEMON_PORT:-8765}"
 log "Waiting for daemon to listen on port $LISTEN_PORT..."
 for i in $(seq 1 15); do
     if ! kill -0 "$DAEMON_PID" 2>/dev/null; then
@@ -338,9 +347,10 @@ log "Daemon listening on ws://0.0.0.0:$LISTEN_PORT"
 log "Launching game in VM..."
 
 run_vm "
+rm -f '$VM_GAME_LOG'
 export LIBGL_ALWAYS_SOFTWARE=1
 export LD_LIBRARY_PATH=$VM_GAME_DIR:\$LD_LIBRARY_PATH
-DISPLAY=$VM_DISPLAY $VM_GAME_DIR/YourOnlyMoveIsHUSTLE.x86_64 &>/dev/null &
+DISPLAY=$VM_DISPLAY $VM_GAME_DIR/YourOnlyMoveIsHUSTLE.x86_64 >'$VM_GAME_LOG' 2>&1 &
 echo \$!
 " > "$GAME_PID_FILE" 2>/dev/null || true
 
@@ -419,6 +429,14 @@ if kill -0 "$DAEMON_PID" 2>/dev/null; then
 fi
 wait "$DAEMON_PID" 2>/dev/null || true
 DAEMON_PID=""
+
+GAME_LOG_DEST=""
+if [ -n "${LATEST_RUN:-}" ]; then
+    GAME_LOG_DEST="${LATEST_RUN}game.log"
+    if orb pull -m "$VM_NAME" "$VM_GAME_LOG" "$GAME_LOG_DEST" >/dev/null 2>&1; then
+        log "Game log: $GAME_LOG_DEST"
+    fi
+fi
 
 # Report results
 if [ -n "$RESULT_FILE" ]; then

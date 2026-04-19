@@ -46,6 +46,10 @@ func _resolve_queued_data(data):
 	# (e.g. {"Aim": {"x": 70, "y": -70}}).  The game's state code accesses
 	# data.x / data.y directly, so we must unwrap single-key dicts where the
 	# value is itself a dict (or the FixedMath library panics on null access).
+	#
+	# Also normalize whole-number TYPE_REAL values back to TYPE_INT. Godot 3.5.1
+	# JSON.parse() turns all numbers into floats, but the game's action/state code
+	# often expects integer payloads (counts, slider values, XY percentages).
 	if data == null:
 		return null
 	if data is Dictionary:
@@ -54,9 +58,25 @@ func _resolve_queued_data(data):
 			var only_key = result.keys()[0]
 			var only_value = result[only_key]
 			if only_value is Dictionary:
-				return only_value
-		return result
+				return _normalize_game_value(only_value)
+		return _normalize_game_value(result)
 	return null
+
+
+func _normalize_game_value(value):
+	if value is Dictionary:
+		var normalized = {}
+		for key in value.keys():
+			normalized[key] = _normalize_game_value(value[key])
+		return normalized
+	if value is Array:
+		var normalized_array = []
+		for item in value:
+			normalized_array.append(_normalize_game_value(item))
+		return normalized_array
+	if typeof(value) == TYPE_REAL and value == floor(value):
+		return int(value)
+	return value
 
 
 func _resolve_queued_extra(extra):

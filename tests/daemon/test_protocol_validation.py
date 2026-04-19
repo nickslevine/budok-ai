@@ -306,6 +306,17 @@ def test_typed_models_round_trip_through_schema(
     validate_payload(message_type, wire_payload)
 
 
+def test_decision_request_schema_allows_negative_one_observation_frame() -> None:
+    payload = build_decision_request().to_dict()
+    observation_raw = payload["observation"]
+    assert isinstance(observation_raw, dict)
+    observation = dict(observation_raw)
+    observation["frame"] = -1
+    payload["observation"] = observation
+
+    validate_payload(MessageType.DECISION_REQUEST, payload)
+
+
 @pytest.mark.parametrize(
     ("message_type", "payload"),
     [

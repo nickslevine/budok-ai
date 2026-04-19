@@ -65,7 +65,7 @@ def test_render_prompt_is_deterministic_for_same_request() -> None:
     assert first.variant is PromptTemplateVariant.STRATEGIC
     assert "## Observation" in first.prompt_text
     assert '"policy_id": "provider/openai-main"' in first.prompt_text
-    assert '"minimum": -100' in first.prompt_text
+    assert "`di: {x,y}` integers -100..100" in first.prompt_text
     assert '"prediction_spec"' in first.prompt_text
 
 
@@ -86,11 +86,30 @@ def test_render_prompt_prefers_request_prompt_version_over_policy_default() -> N
     assert "Follow these examples" in rendered.prompt_text
 
 
+def test_action_only_rl_prompt_omits_reasoning_and_policy_metadata() -> None:
+    request = build_request((build_action("guard"),))
+
+    rendered = render_prompt(
+        request,
+        configured_prompt_version="strategic_rl_v1",
+        policy_id="provider/openai-main",
+    )
+
+    assert rendered.prompt_version == "strategic_rl_v1"
+    assert rendered.variant is PromptTemplateVariant.STRATEGIC
+    assert '"policy_id": "provider/openai-main"' not in rendered.prompt_text
+    assert '"trace_seed": 7' not in rendered.prompt_text
+    assert "`reasoning`" not in rendered.prompt_text
+    assert "`notes`" not in rendered.prompt_text
+    assert 'Example: `{"action": "HSlash2"}`' in rendered.prompt_text
+
+
 def test_available_prompt_versions_lists_current_template_inventory() -> None:
     assert available_prompt_versions() == (
         "few_shot_v1",
         "minimal_v1",
         "reasoning_v1",
+        "strategic_rl_v1",
         "strategic_v1",
     )
 
@@ -184,9 +203,7 @@ def test_rendered_prompt_di_range_appears_in_output_contract() -> None:
     request = build_request((build_action("guard", di=True),))
     rendered = render_prompt(request, configured_prompt_version="minimal_v1")
 
-    # Parse the schema JSON from the output contract section
-    assert '"minimum": -100' in rendered.prompt_text
-    assert '"maximum": 100' in rendered.prompt_text
+    assert "`di: {x,y}` integers -100..100" in rendered.prompt_text
 
 
 def test_rendered_prompt_includes_supports_flags() -> None:

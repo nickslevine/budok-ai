@@ -657,8 +657,22 @@ def _resolve_queued_data(data: Any) -> Any:
     if data is None:
         return None
     if isinstance(data, dict):
-        return dict(data)
+        if len(data) == 1:
+            only_value = next(iter(data.values()))
+            if isinstance(only_value, dict):
+                return _normalize_game_value(only_value)
+        return _normalize_game_value(data)
     return None
+
+
+def _normalize_game_value(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {key: _normalize_game_value(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_normalize_game_value(item) for item in value]
+    if isinstance(value, float) and value.is_integer():
+        return int(value)
+    return value
 
 
 def _resolve_queued_extra(extra: Any) -> dict[str, Any] | None:

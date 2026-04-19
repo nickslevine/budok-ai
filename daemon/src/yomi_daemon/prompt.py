@@ -69,12 +69,13 @@ def render_prompt(
         )
 
     variant = _variant_for_prompt_version(prompt_version)
+    action_only_output = _is_action_only_prompt_version(prompt_version)
     cheat_sheet = _tactical_cheat_sheet(request)
     char_guide = _character_guide(request)
     sections = [
         template_path.read_text(encoding="utf-8").strip(),
-        _compact_output_contract(),
-        f"## Turn Context\n```json\n{_json_dump(_turn_context(request, policy_id=policy_id))}\n```",
+        _compact_output_contract(include_reasoning=not action_only_output),
+        f"## Turn Context\n```json\n{_json_dump(_turn_context(request, policy_id=policy_id, include_policy_metadata=not action_only_output))}\n```",
         _situation_summary(request),
         *([cheat_sheet] if cheat_sheet else []),
         *([char_guide] if char_guide else []),
@@ -90,16 +91,26 @@ def render_prompt(
     )
 
 
-def _compact_output_contract() -> str:
+def _compact_output_contract(*, include_reasoning: bool = True) -> str:
     """Concise output contract replacing the full JSON schema to save ~1200 tokens."""
+    if include_reasoning:
+        return (
+            "## Output Contract\n"
+            "Return exactly one JSON object (no Markdown fences). Required field: `action` (string "
+            "from the legal actions list). Optional fields: `data` (object, only when action has "
+            "payload_spec), `extra` (object with `di: {x,y}` integers -100..100, `feint`: bool, "
+            "`reverse`: bool — only include if the action supports them), `reasoning` (string), "
+            "`notes` (string).\n"
+            'Example: `{"action": "HSlash2", "reasoning": "opponent is blocking, switching to grab next"}`\n'
+            'Example with payload: `{"action": "ParryHigh", "data": {"Melee Parry Timing": 10}}`'
+        )
     return (
         "## Output Contract\n"
         "Return exactly one JSON object (no Markdown fences). Required field: `action` (string "
         "from the legal actions list). Optional fields: `data` (object, only when action has "
         "payload_spec), `extra` (object with `di: {x,y}` integers -100..100, `feint`: bool, "
-        "`reverse`: bool — only include if the action supports them), `reasoning` (string), "
-        "`notes` (string).\n"
-        'Example: `{"action": "HSlash2", "reasoning": "opponent is blocking, switching to grab next"}`\n'
+        "`reverse`: bool — only include if the action supports them).\n"
+        'Example: `{"action": "HSlash2"}`\n'
         'Example with payload: `{"action": "ParryHigh", "data": {"Melee Parry Timing": 10}}`'
     )
 
@@ -239,7 +250,16 @@ def _variant_for_prompt_version(prompt_version: str) -> PromptTemplateVariant:
     raise PromptTemplateError(f"prompt version {prompt_version!r} does not map to a known variant")
 
 
-def _turn_context(request: DecisionRequest, *, policy_id: str | None) -> JsonObject:
+def _is_action_only_prompt_version(prompt_version: str) -> bool:
+    return prompt_version.endswith("_rl_v1")
+
+
+def _turn_context(
+    request: DecisionRequest,
+    *,
+    policy_id: str | None,
+    include_policy_metadata: bool = True,
+) -> JsonObject:
     ctx: JsonObject = {
         "match_id": request.match_id,
         "turn_id": request.turn_id,
@@ -247,10 +267,12 @@ def _turn_context(request: DecisionRequest, *, policy_id: str | None) -> JsonObj
         "deadline_ms": request.deadline_ms,
         "decision_type": request.decision_type.value,
     }
-    # Only include non-null optional fields to reduce prompt size
-    if request.trace_seed is not None:
+    # Only include non-null optional fields to reduce prompt size.
+    # RL action-only prompts omit policy metadata to avoid unnecessary
+    # distribution shift across checkpoints and eval configurations.
+    if include_policy_metadata and request.trace_seed is not None:
         ctx["trace_seed"] = request.trace_seed
-    if policy_id is not None:
+    if include_policy_metadata and policy_id is not None:
         ctx["policy_id"] = policy_id
     return ctx
 
@@ -607,21 +629,27 @@ def _compact_observation(request: DecisionRequest) -> JsonObject:
     obs = request.observation.to_dict()
 
     # Add pre-computed distances so the model doesn't have to do coordinate math
-    fighters = obs.get("fighters", [])
-    if len(fighters) >= 2:
-        f0 = fighters[0]
-        f1 = fighters[1]
-        p0 = f0.get("position", {})
-        p1 = f1.get("position", {})
-        h_dist = abs(p0.get("x", 0) - p1.get("x", 0))
-        v_diff = p0.get("y", 0) - p1.get("y", 0)  # positive = f0 above f1
-        obs["_distances"] = {
-            "horizontal": int(h_dist),
-            "vertical_diff": int(v_diff),
-            "note": "horizontal = abs(x difference). "
-            "vertical_diff = your_y - opponent_y (negative means opponent is higher). "
-            "Compare horizontal to h_reach to know if an attack can connect.",
-        }
+    fighters_raw = obs.get("fighters")
+    if (
+        isinstance(fighters_raw, list)
+        and len(fighters_raw) >= 2
+        and isinstance(fighters_raw[0], dict)
+        and isinstance(fighters_raw[1], dict)
+    ):
+        f0 = cast(JsonObject, fighters_raw[0])
+        f1 = cast(JsonObject, fighters_raw[1])
+        p0 = f0.get("position")
+        p1 = f1.get("position")
+        if isinstance(p0, dict) and isinstance(p1, dict):
+            h_dist = abs(p0.get("x", 0) - p1.get("x", 0))
+            v_diff = p0.get("y", 0) - p1.get("y", 0)  # positive = f0 above f1
+            obs["_distances"] = {
+                "horizontal": int(h_dist),
+                "vertical_diff": int(v_diff),
+                "note": "horizontal = abs(x difference). "
+                "vertical_diff = your_y - opponent_y (negative means opponent is higher). "
+                "Compare horizontal to h_reach to know if an attack can connect.",
+            }
 
     # Strip history from observation — it's already summarized in Situation/Cheat Sheet
     # and the full entries are verbose. Keep last 5 entries with compact format.

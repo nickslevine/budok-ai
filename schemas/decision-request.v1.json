@@ -63,7 +63,7 @@
         },
         "frame": {
           "type": "integer",
-          "minimum": 0
+          "minimum": -1
         },
         "active_player": {
           "type": "string",
